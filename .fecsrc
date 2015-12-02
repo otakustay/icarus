@@ -1,0 +1,19 @@
+{
+    "eslint": {
+        "rules": {
+            "fecs-valid-jsdoc": false,
+            "semi": false
+        }
+    },
+    "htmlcs": {
+        "ie-edge": false,
+        "viewport": false,
+        "style-disabled": false,
+        "img-alt": false,
+        "img-width-height": false
+    },
+    "csshint": {
+        "shorthand": false,
+        "require-number": false
+    }
+}

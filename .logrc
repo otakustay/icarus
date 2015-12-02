@@ -1,0 +1,20 @@
+{
+    "appenders": [
+        {
+            "type": "console"
+        },
+        {
+            "type": "logLevelFilter",
+            "level": "INFO",
+            "appender": {
+                "type": "file",
+                "filename": "trace.log",
+                "maxLogSize": 20971520,
+                "backups": 3
+            }
+        }
+    ],
+    "levels": {
+        "[all]": "ALL"
+    }
+}

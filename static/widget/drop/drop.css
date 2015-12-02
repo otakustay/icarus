@@ -1,0 +1,21 @@
+.drop-indicator {
+    width: 300px;
+    height: 300px;
+    border: 4px dashed #999;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -150px;
+
+    font-size: 20px;
+    color: #999;
+    font-weight: bold;
+    text-align: center;
+    line-height: 300px;
+}
+
+.drop-indicator.accepting {
+    border-color: #fff;
+    color: #fff;
+}

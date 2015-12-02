@@ -1,6 +1,7 @@
 {
   "name": "icarus",
   "version": "0.0.1",
+  "productName": "Icarus Comic Reader",
   "description": "小薄本 - 单手看漫画",
   "main": "main.js",
   "scripts": {
@@ -11,9 +12,16 @@
   "dependencies": {
     "babel-core": "^6.2.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
+    "babel-polyfill": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
+    "babel-register": "^6.2.0",
+    "datauri": "^0.8.0",
     "denodeify": "^1.2.1",
+    "etpl": "^3.0.1",
     "glob": "^6.0.1",
+    "log4js": "^0.6.29",
+    "mkdirp": "^0.5.1",
     "node-zip": "^1.1.1"
   }
 }
