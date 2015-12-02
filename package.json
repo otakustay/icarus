@@ -1,0 +1,19 @@
+{
+  "name": "icarus",
+  "version": "0.0.1",
+  "description": "小薄本 - 单手看漫画",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "otakustay",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "babel-core": "^6.2.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
+    "babel-preset-stage-0": "^6.1.18",
+    "denodeify": "^1.2.1",
+    "glob": "^6.0.1",
+    "node-zip": "^1.1.1"
+  }
+}
