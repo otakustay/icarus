@@ -15,22 +15,7 @@ module.exports = class BrowsingContext {
         this.ipc = ipc;
         this.surface = surface;
         this.surface.browsingContext = this;
-        this.isLocked = false;
         this.steps = null;
-    }
-
-    /**
-     * 锁定应用，此时应用不响应任何快捷键
-     */
-    lock() {
-        this.isLocked = true;
-    }
-
-    /**
-     * 解除锁定状态
-     */
-    unlock() {
-        this.isLocked = false;
     }
 
     /**

@@ -155,29 +155,20 @@ module.exports = class Surface {
      *
      * @param {string} shortcut 快捷键字符，长度只能为1
      * @param {string} description 功能说明，用于显示在帮助功能中
-     * @param {Function} task 对应的功能函数
-     * @param {Object} [options] 其它配置
-     * @param {boolean} options.exclusive = false 是否排它，排它的任务在上下文锁定时不会被执行
+     * @param {Function} task 对应的功能函数\
      * @return {boolean} 如果快捷键已经被注册了，会返回`false`
      */
-    registerKeyboardShortcut(shortcut, description, task, options) {
+    registerKeyboardShortcut(shortcut, description, task) {
         if (this.isKeyboardShortcutRegistered(shortcut)) {
             return false;
         }
 
-        options = options || {exclusive: false};
-
         this.keyboardShortcuts[shortcut] = {description};
 
         let keyCode = shortcut.charCodeAt(0);
-        let exclusive = options.exclusive;
         document.addEventListener(
             'keyup',
             e => {
-                if (exclusive && this.browsingContext.isLocked) {
-                    return;
-                }
-
                 if (e.keyCode === keyCode) {
                     task(this.browsingContext);
                 }
