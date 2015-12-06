@@ -17,5 +17,5 @@ let path = require('path');
  */
 module.exports = async (directory) => {
     let list = await glob(`${directory}/*.zip`);
-    return list.map(file => path.basename(file)).sort((x, y) => x.toLowerCase().localeCompare(y.toLowerCase()));
+    return list.sort((x, y) => path.basename(x).toLowerCase().localeCompare(path.basename(y).toLowerCase()));
 };

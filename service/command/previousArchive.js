@@ -5,7 +5,6 @@
 
 'use strict';
 
-let path = require('path');
 let unpack = require('../util/unpack');
 let logger = require('log4js').getLogger('previousArchive');
 
@@ -26,15 +25,13 @@ module.exports = async (context, sender, options) => {
 
     options = options || DEFAULT_OPTIONS;
 
-    let filename = context.archiveList.previous();
+    let file = context.archiveList.previous();
 
-    if (!filename) {
+    if (!file) {
         logger.info('Already at the first archive, send no-more command to renderer');
         sender.send('no-more', {direction: 'backward'});
         return;
     }
-
-    let file = path.join(context.browsingDirectory, filename);
 
     logger.info(`Unpacking ${file}`);
 

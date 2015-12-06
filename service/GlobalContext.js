@@ -18,17 +18,6 @@ module.exports = class GlobalContext {
     }
 
     /**
-     * 设置当前浏览的目录
-     *
-     * @param {string} browsingDirectory 目录完整路径
-     */
-    setBrowsingDirectory(browsingDirectory) {
-        this.browsingDirectory = browsingDirectory;
-
-        logger.info(`Browsing directory is set to ${this.browsingDirectory}`);
-    }
-
-    /**
      * 设置当前浏览的压缩文件列表
      *
      * @param {string[]} archiveList 压缩文件名称（不包含目录）数组
@@ -70,10 +59,11 @@ module.exports = class GlobalContext {
     async persist() {
         logger.trace('Try to save state');
 
+        let archiveList = this.archiveList && this.archiveList.toArray();
         let archive = this.archiveList && this.archiveList.current();
         let image = this.imageList && this.imageList.current();
         let dump = {
-            directory: this.browsingDirectory,
+            archiveList: archiveList,
             archive: archive,
             image: image && image.name
         };

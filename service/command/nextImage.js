@@ -34,9 +34,8 @@ module.exports = async (context, sender) => {
     logger.trace(`Image is ${image.name} (${imageSize}KB)`);
 
     let uri = datauri(image.name, buffer);
-    let archive = require('path').join(context.browsingDirectory, context.archiveList.current());
 
     logger.info('Send image command to renderer');
 
-    sender.send('image', {archive: archive, uri: uri, name: image.name});
+    sender.send('image', {archive: context.archiveList.current(), uri: uri, name: image.name});
 };

@@ -31,25 +31,29 @@ module.exports = async (context, sender, file) => {
         logger.trace(`This is a directory`);
     }
 
-    let filename = extension ? path.basename(file) : '';
-    context.setBrowsingDirectory(extension ? path.dirname(file) : file);
+    let directory = extension ? path.dirname(file) : file;
 
-    logger.info(`Listing ${context.browsingDirectory}`);
+    logger.info(`Listing ${directory}`);
 
-    let archiveList = await list(context.browsingDirectory);
+    let archiveList = await list(directory);
 
     if (!archiveList) {
-        logger.warn(`There is no valid archive in ${context.browsingDirectory}`);
+        logger.warn(`There is no valid archive in ${directory}`);
         return;
     }
 
-    context.setArchiveList(archiveList, filename);
+    if (extension) {
+        context.setArchiveList(archiveList, file);
+    }
+    else {
+        context.setArchiveList(archiveList);
+    }
 
     logger.info('Send directory command to renderer');
 
-    sender.send('directory', {directory: context.browsingDirectory, archiveList: context.archiveList.toArray()});
+    sender.send('list', {archiveList: context.archiveList.toArray()});
 
-    logger.trace('Open ' + extension ? file : 'the first archive');
+    logger.trace('Open ' + (extension ? file : 'the first archive'));
 
     await require('./nextArchive')(context, sender);
 };

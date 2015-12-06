@@ -5,8 +5,6 @@
 
 'use strict';
 
-let path = require('path');
-let list = require('../util/list');
 let unpack = require('../util/unpack');
 let logger = require('log4js').getLogger('restore');
 
@@ -26,17 +24,12 @@ module.exports = async (context, sender) => {
         return;
     }
 
-    context.setBrowsingDirectory(persistData.directory);
-
-    logger.trace('Directory restored');
-
-    let archiveList = await list(context.browsingDirectory);
-    context.setArchiveList(archiveList, persistData.archive);
+    context.setArchiveList(persistData.archiveList, persistData.archive);
 
     logger.trace('Archive list restored');
 
     let archive = context.archiveList.next();
-    let imageList = await unpack(path.join(context.browsingDirectory, archive));
+    let imageList = await unpack(archive);
     let browsingImage = imageList.filter(image => image.name === persistData.image)[0];
     context.setImageList(imageList, browsingImage);
 
