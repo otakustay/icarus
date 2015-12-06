@@ -1,4 +1,9 @@
 {
+    "files": [
+        "service/**",
+        "static/**",
+        "common/**"
+    ],
     "htmlcs": {
         "ie-edge": false,
         "viewport": false,
