@@ -1,21 +1,26 @@
-'use strict'
+/**
+ * @file 信息持久化存储类
+ * @author otakustay
+ */
 
-let denodeify = require('denodeify')
-let fs = require('fs')
-let mkdir = denodeify(require('mkdirp'))
-let readFile = denodeify(fs.readFile)
-let writeFile = denodeify(fs.writeFile)
-let logger = require('log4js').getLogger('storage')
+'use strict';
 
-const ENCODING = 'utf-8'
+let denodeify = require('denodeify');
+let fs = require('fs');
+let mkdir = denodeify(require('mkdirp'));
+let readFile = denodeify(fs.readFile);
+let writeFile = denodeify(fs.writeFile);
+let logger = require('log4js').getLogger('storage');
+
+const ENCODING = 'utf-8';
 
 /**
  * 存储封装类
  */
 module.exports = class Storage {
     constructor(directory) {
-        this.directory = directory
-        this.stateFile = require('path').join(directory, 'state.json')
+        this.directory = directory;
+        this.stateFile = require('path').join(directory, 'state.json');
     }
 
     /**
@@ -24,10 +29,10 @@ module.exports = class Storage {
      * @param {Object} state 状态对象
      */
     async saveState(state) {
-        logger.info('Save state', JSON.stringify(state), 'to', this.stateFile)
+        logger.info('Save state', JSON.stringify(state), 'to', this.stateFile);
 
-        await mkdir(this.directory)
-        await writeFile(this.stateFile, JSON.stringify(state), ENCODING)
+        await mkdir(this.directory);
+        await writeFile(this.stateFile, JSON.stringify(state), ENCODING);
     }
 
     /**
@@ -37,16 +42,16 @@ module.exports = class Storage {
      */
     async restoreState() {
         try {
-            let content = await readFile(this.stateFile, ENCODING)
+            let content = await readFile(this.stateFile, ENCODING);
 
-            logger.info(`Previously saved state is: ${content}`)
+            logger.info(`Previously saved state is: ${content}`);
 
-            return JSON.parse(content)
+            return JSON.parse(content);
         }
         catch (ex) {
-            logger.info('No saved state')
+            logger.info('No saved state');
 
-            return null
+            return null;
         }
     }
-}
+};

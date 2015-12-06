@@ -1,9 +1,15 @@
-'use strict'
+/**
+ * @file 图片变换信息
+ * @author otakustay
+ */
+
+'use strict';
 
 /**
  * 图片变换对象
  */
 module.exports = class Transform {
+
     /**
      * 缩放比例
      *
@@ -27,4 +33,4 @@ module.exports = class Transform {
      */
     get translateY() {
     }
-}
+};

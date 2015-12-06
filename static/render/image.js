@@ -1,4 +1,9 @@
-'use strict'
+/**
+ * @file 渲染图片
+ * @author otakustay
+ */
+
+'use strict';
 
 /**
  * 渲染图片
@@ -8,14 +13,14 @@
  * @param {string} result.uri 图片的DataURI字符串
  */
 module.exports = (browsingContext, result) => {
-    let surface = browsingContext.surface
-    surface.invokeWidget('loading', 'stop')
-    surface.createNewImage(result)
+    let surface = browsingContext.surface;
+    surface.invokeWidget('loading', 'stop');
+    surface.createNewImage(result);
     let steps = browsingContext.layout(
         {width: surface.imageContainer.offsetWidth, height: surface.imageContainer.offsetHeight},
         {width: surface.imageElement.naturalWidth, height: surface.imageElement.naturalHeight}
-    )
-    browsingContext.setSteps(steps)
+    );
+    browsingContext.setSteps(steps);
 
-    require('../command/nextStep')(browsingContext, surface)
-}
+    require('../command/nextStep')(browsingContext, surface);
+};

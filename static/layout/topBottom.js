@@ -1,8 +1,13 @@
-'use strict'
+/**
+ * @file 上下两段式布局
+ * @author otakustay
+ */
+
+'use strict';
 
 let calculateCenteredTranslate = (scale, containerValue, imageValue) => {
-    return (containerValue - imageValue * scale) / 2 / scale
-}
+    return (containerValue - imageValue * scale) / 2 / scale;
+};
 
 let calculateOneStepTransform = (scale, containerSize, imageSize) => {
     return [
@@ -11,8 +16,8 @@ let calculateOneStepTransform = (scale, containerSize, imageSize) => {
             translateX: calculateCenteredTranslate(scale, containerSize.width, imageSize.width),
             translateY: calculateCenteredTranslate(scale, containerSize.height, imageSize.height)
         }
-    ]
-}
+    ];
+};
 
 /**
  * 智能上下两步式布局
@@ -34,26 +39,26 @@ module.exports = (containerSize, imageSize) => {
         let scale = Math.min(
             containerSize.height / imageSize.height,
             containerSize.width / imageSize.width
-        )
-        return calculateOneStepTransform(scale, containerSize, imageSize)
+        );
+        return calculateOneStepTransform(scale, containerSize, imageSize);
     }
 
-    let scale = Math.min(containerSize.height * 2 / imageSize.height, 1)
+    let scale = Math.min(containerSize.height * 2 / imageSize.height, 1);
 
     // 高度调整后宽度超出容器了，需要继续缩小
     if (imageSize.width * scale > containerSize.width) {
-        scale = containerSize.width / imageSize.width
+        scale = containerSize.width / imageSize.width;
     }
 
     // 图片特别宽，宽度调整到容器一样时高度小于一屏
     if (imageSize.height * scale < containerSize.height) {
-        return calculateOneStepTransform(scale, containerSize, imageSize)
+        return calculateOneStepTransform(scale, containerSize, imageSize);
     }
 
-    let left = calculateCenteredTranslate(scale, containerSize.width, imageSize.width)
+    let left = calculateCenteredTranslate(scale, containerSize.width, imageSize.width);
     // 第一步图片顶端贴住容器顶端，第二步图片底端贴住容器底端
     return [
         {scale: scale, translateX: left, translateY: 0},
         {scale: scale, translateX: left, translateY: (containerSize.height - imageSize.height * scale) / scale}
-    ]
-}
+    ];
+};

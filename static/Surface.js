@@ -1,31 +1,36 @@
-'use strict'
+/**
+ * @file 界面逻辑封装类
+ * @author otakustay
+ */
 
-let WidgetUtil = require('./widget/Util')
+'use strict';
+
+let WidgetUtil = require('./widget/Util');
 
 const WARN_ANIMATION_STYLE = [
     {opacity: 1},
     {opacity: 0}
-]
+];
 
 const WARN_ANIMATION_OPTIONS = {
     duration: 1000,
     iterations: 1,
     delay: 2000
-}
+};
 
 const SHORTCUT_DISPLAY_MAPPING = {
     '¿': '/',
     ' ': 'SPACE'
-}
+};
 
 /**
  * 界面相关方法封装类
  */
 module.exports = class Surface {
     constructor() {
-        this.keyboardShortcuts = {}
-        this.widgets = {}
-        this.warnAnimation = null
+        this.keyboardShortcuts = {};
+        this.widgets = {};
+        this.warnAnimation = null;
     }
 
     /**
@@ -34,7 +39,7 @@ module.exports = class Surface {
      * @type {HTMLElement}
      */
     get imageContainer() {
-        return document.getElementById('main')
+        return document.getElementById('main');
     }
 
     /**
@@ -43,7 +48,7 @@ module.exports = class Surface {
      * @type {HTMLElement}
      */
     get imageElement() {
-        return document.getElementById('image')
+        return document.getElementById('image');
     }
 
     /**
@@ -52,7 +57,7 @@ module.exports = class Surface {
      * @type {HTMLElement}
      */
     get warnLabel() {
-        return document.getElementById('warn')
+        return document.getElementById('warn');
     }
 
     /**
@@ -64,15 +69,15 @@ module.exports = class Surface {
      */
     createNewImage(imageInfo) {
         if (this.imageElement) {
-            this.imageElement.remove()
+            this.imageElement.remove();
         }
 
-        let img = document.createElement('img')
-        img.id = 'image'
-        img.src = imageInfo.uri
-        this.imageContainer.appendChild(img)
+        let img = document.createElement('img');
+        img.id = 'image';
+        img.src = imageInfo.uri;
+        this.imageContainer.appendChild(img);
 
-        this.invokeWidget('info', 'update', imageInfo)
+        this.invokeWidget('info', 'update', imageInfo);
     }
 
     /**
@@ -81,13 +86,13 @@ module.exports = class Surface {
      * @param {meta.Transform} step 当前的阅读步骤
      */
     transformImage(step) {
-        let image = this.imageElement
+        let image = this.imageElement;
 
         if (image.style.transform) {
-            image.style.transition = 'transform 1s linear'
+            image.style.transition = 'transform 1s linear';
         }
 
-        image.style.transform = `scale(${step.scale}) translate3d(${step.translateX}px, ${step.translateY}px, 0)`
+        image.style.transform = `scale(${step.scale}) translate3d(${step.translateX}px, ${step.translateY}px, 0)`;
     }
 
     /**
@@ -95,12 +100,12 @@ module.exports = class Surface {
      */
     toggleFullscreen() {
         if (document.webkitIsFullScreen) {
-            document.webkitCancelFullScreen()
-            document.body.classList.remove('fullscreen')
+            document.webkitCancelFullScreen();
+            document.body.classList.remove('fullscreen');
         }
         else {
-            document.documentElement.webkitRequestFullScreen()
-            document.body.classList.add('fullscreen')
+            document.documentElement.webkitRequestFullScreen();
+            document.body.classList.add('fullscreen');
         }
     }
 
@@ -112,7 +117,7 @@ module.exports = class Surface {
      * @return {boolean}
      */
     isKeyboardShortcutRegistered(shortcut) {
-        return !!this.keyboardShortcuts[shortcut]
+        return !!this.keyboardShortcuts[shortcut];
     }
 
     /**
@@ -121,65 +126,64 @@ module.exports = class Surface {
      * @return {Object[]} 包含`shortcut`和`description`的对象数组
      */
     getRegisteredKeyboardShorts() {
-        let keyboardShortcuts = this.keyboardShortcuts
+        let keyboardShortcuts = this.keyboardShortcuts;
         let groupByDescription = Object.keys(keyboardShortcuts).reduce(
             (result, shortcut) => {
-                let description = keyboardShortcuts[shortcut].description
-                let displayShortcut = SHORTCUT_DISPLAY_MAPPING[shortcut] || shortcut
+                let description = keyboardShortcuts[shortcut].description;
+                let displayShortcut = SHORTCUT_DISPLAY_MAPPING[shortcut] || shortcut;
                 if (result[description]) {
-                    result[description].push(displayShortcut)
+                    result[description].push(displayShortcut);
                 }
                 else {
-                    result[description] = [displayShortcut]
+                    result[description] = [displayShortcut];
                 }
-                return result
+                return result;
             },
             {}
-        )
+        );
         return Object.keys(groupByDescription).reduce(
             (result, description) => {
-                result.push({keys: groupByDescription[description], description: description})
-                return result
+                result.push({keys: groupByDescription[description], description: description});
+                return result;
             },
             []
-        )
+        );
     }
 
     /**
      * 注册键盘快捷键
      *
-     * @protected
      * @param {string} shortcut 快捷键字符，长度只能为1
      * @param {string} description 功能说明，用于显示在帮助功能中
-     * @param {Function(event: meta.ShortcutKeyEvent)} task 对应的功能函数
+     * @param {Function} task 对应的功能函数
      * @param {Object} [options] 其它配置
      * @param {boolean} options.exclusive = false 是否排它，排它的任务在上下文锁定时不会被执行
      * @return {boolean} 如果快捷键已经被注册了，会返回`false`
      */
     registerKeyboardShortcut(shortcut, description, task, options) {
         if (this.isKeyboardShortcutRegistered(shortcut)) {
-            return false
+            return false;
         }
 
-        options = options || {exclusive: false}
+        options = options || {exclusive: false};
 
-        this.keyboardShortcuts[shortcut] = {description}
+        this.keyboardShortcuts[shortcut] = {description};
 
-        let keyCode = shortcut.charCodeAt(0)
-        let exclusive = options.exclusive
+        let keyCode = shortcut.charCodeAt(0);
+        let exclusive = options.exclusive;
         document.addEventListener(
             'keyup',
             e => {
                 if (exclusive && this.browsingContext.isLocked) {
-                    return
+                    return;
                 }
 
                 if (e.keyCode === keyCode) {
-                    task(this.browsingContext)
+                    task(this.browsingContext);
                 }
             },
             false
-        )
+        );
     }
 
     /**
@@ -188,16 +192,16 @@ module.exports = class Surface {
      * @param {string} message 显示的信息
      */
     warn(message) {
-        let label = this.warnLabel
-        label.innerText = message
-        label.style.display = 'block'
+        let label = this.warnLabel;
+        label.innerText = message;
+        label.style.display = 'block';
 
         if (this.warnAnimation) {
-            this.warnAnimation.cancel()
+            this.warnAnimation.cancel();
         }
 
-        this.warnAnimation = label.animate(WARN_ANIMATION_STYLE, WARN_ANIMATION_OPTIONS)
-        this.warnAnimation.onfinish = () => label.style.display = ''
+        this.warnAnimation = label.animate(WARN_ANIMATION_STYLE, WARN_ANIMATION_OPTIONS);
+        this.warnAnimation.onfinish = () => label.style.display = '';
     }
 
     /**
@@ -207,10 +211,10 @@ module.exports = class Surface {
      * @param {Object} widget 小组件模块，必须有`render`方法
      */
     registerWidget(name, widget) {
-        let util = new WidgetUtil(name)
-        widget.render(this.browsingContext, util)
+        let util = new WidgetUtil(name);
+        widget.render(this.browsingContext, util);
 
-        this.widgets[name] = {widget, util}
+        this.widgets[name] = {widget, util};
     }
 
     /**
@@ -219,20 +223,21 @@ module.exports = class Surface {
      * @param {string} name 小组件名称
      * @param {string} command 使用的命令
      * @param {*} arg 给定的参数
+     * @return {boolean} 调用是否成功
      */
     invokeWidget(name, command, arg) {
-        let registry = this.widgets[name]
+        let registry = this.widgets[name];
 
         if (!registry) {
-            return false
+            return false;
         }
 
-        let task = registry.widget[command]
+        let task = registry.widget[command];
 
         if (!task) {
-            return false
+            return false;
         }
 
-        task(this.browsingContext, registry.util, arg)
+        task(this.browsingContext, registry.util, arg);
     }
-}
+};

@@ -1,10 +1,4 @@
 {
-    "eslint": {
-        "rules": {
-            "fecs-valid-jsdoc": false,
-            "semi": false
-        }
-    },
     "htmlcs": {
         "ie-edge": false,
         "viewport": false,

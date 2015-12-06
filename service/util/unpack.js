@@ -1,10 +1,15 @@
-'use strict'
+/**
+ * @file 解压工具函数
+ * @author otakustay
+ */
 
-let denodeify = require('denodeify')
-let readFile = denodeify(require('fs').readFile)
-let path = require('path')
+'use strict';
 
-const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.bmp'])
+let denodeify = require('denodeify');
+let readFile = denodeify(require('fs').readFile);
+let path = require('path');
+
+const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.bmp']);
 
 /**
  * 解压压缩文件
@@ -13,12 +18,12 @@ const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.bmp'])
  * @return {meta.ImageFile[]} 压缩文件中的图片文件
  */
 module.exports = async (file) => {
-    let fileData = await readFile(file)
-    let archiveContent = require('node-zip')(fileData)
+    let fileData = await readFile(file);
+    let archiveContent = require('node-zip')(fileData);
     let imageList = Object.keys(archiveContent.files)
         .filter(file => IMAGE_EXTENSIONS.has(path.extname(file)))
         .sort((x, y) => x.toLowerCase().localeCompare(y.toLowerCase()))
-        .map(name => archiveContent.files[name])
+        .map(name => archiveContent.files[name]);
 
-    return imageList
-}
+    return imageList;
+};

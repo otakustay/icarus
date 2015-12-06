@@ -1,9 +1,14 @@
-'use strict'
+/**
+ * @file 恢复先前状态指令
+ * @author otakustay
+ */
 
-let path = require('path')
-let list = require('../util/list')
-let unpack = require('../util/unpack')
-let logger = require('log4js').getLogger('restore')
+'use strict';
+
+let path = require('path');
+let list = require('../util/list');
+let unpack = require('../util/unpack');
+let logger = require('log4js').getLogger('restore');
 
 /**
  * 恢复之前保存的阅读进度
@@ -13,31 +18,31 @@ let logger = require('log4js').getLogger('restore')
  * @param {meta.BrowserWindow} sender 发送者
  */
 module.exports = async (context, sender) => {
-    logger.info('Start process')
+    logger.info('Start process');
 
-    let persistData = await context.storage.restoreState()
+    let persistData = await context.storage.restoreState();
 
     if (!persistData) {
-        return
+        return;
     }
 
-    context.setBrowsingDirectory(persistData.directory)
+    context.setBrowsingDirectory(persistData.directory);
 
-    logger.trace('Directory restored')
+    logger.trace('Directory restored');
 
-    let archiveList = await list(context.browsingDirectory)
-    context.setArchiveList(archiveList, persistData.archive)
+    let archiveList = await list(context.browsingDirectory);
+    context.setArchiveList(archiveList, persistData.archive);
 
-    logger.trace('Archive list restored')
+    logger.trace('Archive list restored');
 
-    let archive = context.archiveList.next()
-    let imageList = await unpack(path.join(context.browsingDirectory, archive))
-    let browsingImage = imageList.filter(image => image.name === persistData.image)[0]
-    context.setImageList(imageList, browsingImage)
+    let archive = context.archiveList.next();
+    let imageList = await unpack(path.join(context.browsingDirectory, archive));
+    let browsingImage = imageList.filter(image => image.name === persistData.image)[0];
+    context.setImageList(imageList, browsingImage);
 
-    logger.trace('Image list restored')
+    logger.trace('Image list restored');
 
-    logger.info(`Move to open image`)
+    logger.info(`Move to open image`);
 
-    await require('./nextImage')(context, sender)
-}
+    await require('./nextImage')(context, sender);
+};

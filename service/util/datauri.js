@@ -1,7 +1,12 @@
-'use strict'
+/**
+ * @file 转换图片为DataURI函数
+ * @author otakustay
+ */
 
-let path = require('path')
-let Datauri = require('datauri')
+'use strict';
+
+let path = require('path');
+let Datauri = require('datauri');
 
 /**
  * 将图片转换为DataURI
@@ -11,9 +16,9 @@ let Datauri = require('datauri')
  * @return {string} 产生的DataURI字符串
  */
 module.exports = (name, buffer) => {
-    let extension = path.extname(name)
-    let uri = new Datauri()
-    uri.format(extension, buffer)
+    let extension = path.extname(name);
+    let uri = new Datauri();
+    uri.format(extension, buffer);
 
-    return uri.content
-}
+    return uri.content;
+};

@@ -1,6 +1,11 @@
-'use strict'
+/**
+ * @file 指令路由
+ * @author otakustay
+ */
 
-let logger = require('log4js').getLogger('router')
+'use strict';
+
+let logger = require('log4js').getLogger('router');
 let routes = {
     'open': require('./command/open'),
     'next-archive': require('./command/nextArchive'),
@@ -8,7 +13,7 @@ let routes = {
     'next-image': require('./command/nextImage'),
     'previous-image': require('./command/previousImage'),
     'restore': require('./command/restore')
-}
+};
 
 /**
  * 启动路由
@@ -18,9 +23,9 @@ let routes = {
 exports.start = (context) => {
     for (let [channel, command] of Object.entries(routes)) {
         /* eslint-disable no-loop-func */
-        context.ipc.on(channel, ({sender}, arg) => command(context, sender, arg))
+        context.ipc.on(channel, ({sender}, arg) => command(context, sender, arg));
         /* eslint-enable no-loop-func */
     }
 
-    logger.info(`Register ${Object.keys(routes).length} routes`)
-}
+    logger.info(`Register ${Object.keys(routes).length} routes`);
+};

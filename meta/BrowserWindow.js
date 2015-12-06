@@ -1,6 +1,15 @@
-'use strict'
+/**
+ * @file 窗口类
+ * @author otakustay
+ */
 
+'use strict';
+
+/**
+ * 窗口类
+ */
 module.exports = class BrowserWindow {
+
     /**
      * 发送指令
      *
@@ -9,4 +18,4 @@ module.exports = class BrowserWindow {
      */
     send(channel, arg) {
     }
-}
+};
