@@ -30,9 +30,25 @@ exports.render = (context, util) => {
                 e.stopPropagation();
                 e.preventDefault();
 
-                let file = e.dataTransfer.files[0];
-                if (!file.type || file.type.includes('zip')) {
-                    context.ipc.send('open', file.path);
+                if (!e.dataTransfer.files.length) {
+                    return;
+                }
+
+                // 只拖动一个目录或压缩文件，则浏览该目录下的所有压缩文件
+                if (e.dataTransfer.files.length === 1) {
+                    let file = e.dataTransfer.files[0];
+                    if (!file.type || file.type.includes('zip')) {
+                        context.ipc.send('open', file.path);
+                    }
+                }
+                // 如果是多个压缩文件，则只浏览选中的这些。不支持多个目录
+                else {
+                    let files = Array.from(e.dataTransfer.files)
+                        .filter(file => file.type.includes('zip'))
+                        .map(file => file.path);
+                    if (files.length) {
+                        context.ipc.send('open-multiple', files);
+                    }
                 }
             },
             false

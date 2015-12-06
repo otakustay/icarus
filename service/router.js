@@ -8,6 +8,7 @@
 let logger = require('log4js').getLogger('router');
 let routes = {
     'open': require('./command/open'),
+    'open-multiple': require('./command/openMultiple'),
     'next-archive': require('./command/nextArchive'),
     'previous-archive': require('./command/previousArchive'),
     'next-image': require('./command/nextImage'),
