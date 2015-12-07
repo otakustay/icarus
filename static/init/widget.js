@@ -16,9 +16,10 @@ module.exports = surface => {
         surface.registerWidget(widgetName, module);
     };
 
-    render('drop');
-    render('loading');
     render('info');
+    render('loading');
+    render('drop');
     render('help');
     render('disturb');
+    render('clock');
 };

@@ -13,6 +13,7 @@
     },
     "csshint": {
         "shorthand": false,
-        "require-number": false
+        "require-number": false,
+        "disallow-quotes-in-url": false
     }
 }

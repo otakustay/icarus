@@ -1,0 +1,13 @@
+@font-face {
+    font-family: Digital;
+    src: url("Let's go Digital.ttf");
+}
+
+#clock {
+    font-family: Digital;
+    font-size: 48px;
+    opacity: .8;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
