@@ -8,15 +8,15 @@
 /**
  * 帮助面板
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  * @return {Promise}
  */
-exports.render = (context, util) => {
+exports.render = (surface, util) => {
     util.initStyle();
 
     let render = () => {
-        let data = {keyboardShortcuts: context.surface.getRegisteredKeyboardShorts()};
+        let data = {keyboardShortcuts: surface.getRegisteredKeyboardShorts()};
         let html = util.renderTemplate('main', data);
         let panel = util.createElementFromHTML(html);
         document.body.appendChild(panel);

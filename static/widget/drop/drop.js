@@ -8,11 +8,11 @@
 /**
  * 拖拽目录/文件并打开的组件
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  * @return {Promise}
  */
-exports.render = (context, util) => {
+exports.render = (surface, util) => {
     util.initStyle();
 
     let render = () => {
@@ -38,7 +38,7 @@ exports.render = (context, util) => {
                 if (e.dataTransfer.files.length === 1) {
                     let file = e.dataTransfer.files[0];
                     if (!file.type || file.type.includes('zip')) {
-                        context.ipc.send('open', file.path);
+                        surface.ipc.send('open', file.path);
                     }
                 }
                 // 如果是多个压缩文件，则只浏览选中的这些。不支持多个目录
@@ -47,7 +47,7 @@ exports.render = (context, util) => {
                         .filter(file => file.type.includes('zip'))
                         .map(file => file.path);
                     if (files.length) {
-                        context.ipc.send('open-multiple', files);
+                        surface.ipc.send('open-multiple', files);
                     }
                 }
             },

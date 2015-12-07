@@ -8,10 +8,10 @@
 /**
  * 打扰模式，启动后加载一个网页覆盖正在浏览的内容
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  */
-exports.render = (context, util) => {
+exports.render = (surface, util) => {
     util.initStyle();
 };
 

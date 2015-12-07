@@ -8,9 +8,9 @@
 /**
  * 移动到上一张图片
  *
- * @param {static.BrowsingContext} browsingContext 前端上下文
+ * @param {static.Surface} surface 前端界面
  */
-module.exports = browsingContext => {
-    browsingContext.ipc.send('previous-image');
-    browsingContext.surface.invokeWidget('loading', 'start');
+module.exports = surface => {
+    surface.ipc.send('previous-image');
+    surface.invokeWidget('loading', 'start');
 };

@@ -8,11 +8,11 @@
 /**
  * 当前浏览的图片信息显示
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  * @return {Promise}
  */
-exports.render = (context, util) => {
+exports.render = (surface, util) => {
     util.initStyle();
 
     let render = () => {
@@ -27,12 +27,11 @@ exports.render = (context, util) => {
 /**
  * 更新信息
  *
- *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  * @param {Object} data 图片信息数据
  */
-exports.update = (context, util, data) => {
+exports.update = (surface, util, data) => {
     let content = util.renderTemplate('content', data);
     let label = document.getElementById('info');
     label.innerHTML = content;

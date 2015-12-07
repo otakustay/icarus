@@ -8,11 +8,9 @@
 /**
  * 初始化快捷键
  *
- * @param {static.BrowsingContext} browsingContext 前端上下文
+ * @param {static.Surface} surface 前端界面
  */
-module.exports = browsingContext => {
-    let surface = browsingContext.surface;
-
+module.exports = surface => {
     surface.registerKeyboardShortcut('F', '全屏/退出全屏', require('../command/fullscreen'));
 
     surface.registerKeyboardShortcut(' ', '打开/关闭打扰模式', () => surface.invokeWidget('disturb', 'toggle'));
@@ -35,7 +33,7 @@ module.exports = browsingContext => {
     surface.registerKeyboardShortcut('P', '上一部漫画', require('../command/previousArchive'));
     surface.registerKeyboardShortcut('Q', '上一部漫画', require('../command/previousArchive'));
 
-    surface.registerKeyboardShortcut('R', '恢复上次阅读图片', () => browsingContext.restore());
+    surface.registerKeyboardShortcut('R', '恢复上次阅读图片', () => surface.restore());
 
     surface.registerKeyboardShortcut('I', '显示/隐藏文件名（全屏状态有效）', () => surface.invokeWidget('info', 'toggle'));
 

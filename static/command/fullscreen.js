@@ -8,8 +8,8 @@
 /**
  * 进入/退出全屏
  *
- * @param {static.BrowsingContext} browsingContext 前端上下文
+ * @param {static.Surface} surface 前端界面
  */
-module.exports = browsingContext => {
-    browsingContext.surface.toggleFullscreen();
+module.exports = surface => {
+    surface.toggleFullscreen();
 };

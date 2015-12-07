@@ -8,12 +8,12 @@
 /**
  * 初始化渲染器
  *
- * @param {static.BrowsingContext} browsingContext 前端上下文
+ * @param {static.Surface} surface 前端界面
  */
-module.exports = browsingContext => {
+module.exports = surface => {
     let connect = (channel, module) => {
         let render = require(`../render/${module}`);
-        browsingContext.ipc.on(channel, (e, result) => render(browsingContext, result));
+        surface.ipc.on(channel, (e, result) => render(surface, result));
     };
 
     connect('image', 'image');

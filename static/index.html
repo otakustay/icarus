@@ -73,15 +73,13 @@
     <script>
     'use strict';
 
-    let BrowsingContext = require('./BrowsingContext');
     let Surface = require('./Surface');
-    let surface = new Surface();
-    let browsingContext = new BrowsingContext(require('electron').ipcRenderer, surface);
-    browsingContext.layout = require('./layout/topBottom');
+    let surface = new Surface(require('electron').ipcRenderer);
+    surface.setLayout(require('./layout/topBottom'));
 
-    require('./init/render')(browsingContext);
-    require('./init/shortcut')(browsingContext);
-    require('./init/widget')(browsingContext);
+    require('./init/render')(surface);
+    require('./init/shortcut')(surface);
+    require('./init/widget')(surface);
     </script>
 </body>
 </html>

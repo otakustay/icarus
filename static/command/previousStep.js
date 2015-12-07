@@ -8,15 +8,15 @@
 /**
  * 移动到上一步（图片位置）
  *
- * @param {static.BrowsingContext} browsingContext 前端上下文
+ * @param {static.Surface} surface 前端界面
  */
-module.exports = (browsingContext) => {
-    let step = browsingContext.steps.previous();
+module.exports = surface => {
+    let step = surface.steps.previous();
 
     if (!step) {
-        require('./previousImage')(browsingContext);
+        require('./previousImage')(surface);
         return;
     }
 
-    browsingContext.surface.transformImage(step);
+    surface.transformImage(step);
 };

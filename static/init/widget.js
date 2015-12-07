@@ -8,11 +8,9 @@
 /**
  * 初始化小组件
  *
- * @param {static.BrowsingContext} browsingContext 前端上下文
+ * @param {static.Surface} surface 前端界面
  */
-module.exports = browsingContext => {
-    let surface = browsingContext.surface;
-
+module.exports = surface => {
     let render = widgetName => {
         let module = require(`../widget/${widgetName}/${widgetName}`);
         surface.registerWidget(widgetName, module);

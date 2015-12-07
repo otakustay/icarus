@@ -8,11 +8,11 @@
 /**
  * 进度条
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  * @return {Promise}
  */
-exports.render = (context, util) => {
+exports.render = (surface, util) => {
     util.initStyle();
     return util.initTemplate();
 };
@@ -20,10 +20,10 @@ exports.render = (context, util) => {
 /**
  * 启动进度条
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  */
-exports.start = (context, util) => {
+exports.start = (surface, util) => {
     let bar = document.getElementById('loading');
 
     if (bar) {
@@ -38,7 +38,7 @@ exports.start = (context, util) => {
 /**
  * 停止并隐藏进度条
  *
- * @param {static.BrowsingContext} context 前端上下文
+ * @param {static.Surface} surface 前端界面
  * @param {static.widget.Uril} util 工具对象
  */
 exports.stop = () => {

@@ -5,6 +5,7 @@
 
 'use strict';
 
+let LinkedList = require('../common/LinkedList');
 let WidgetUtil = require('./widget/Util');
 
 const WARN_ANIMATION_STYLE = [
@@ -27,10 +28,13 @@ const SHORTCUT_DISPLAY_MAPPING = {
  * 界面相关方法封装类
  */
 module.exports = class Surface {
-    constructor() {
+    constructor(ipc) {
+        this.ipc = ipc;
         this.keyboardShortcuts = {};
         this.widgets = {};
         this.warnAnimation = null;
+        this.steps = null;
+        this.layout = null;
     }
 
     /**
@@ -58,6 +62,39 @@ module.exports = class Surface {
      */
     get warnLabel() {
         return document.getElementById('warn');
+    }
+
+    /**
+     * 设置当前使用的布局，换新布局后当前的图片会被重新计算
+     *
+     * @param {Function} layout 布局函数
+     */
+    setLayout(layout) {
+        this.layout = layout;
+        if (this.steps) {
+            let newSteps = this.layout(
+                {width: this.imageContainer.offsetWidth, height: this.imageContainer.offsetHeight},
+                {width: this.imageElement.naturalWidth, height: this.imageElement.naturalHeight}
+            );
+            this.setSteps(newSteps);
+        }
+    }
+
+    /**
+     * 设置图片的阅读步骤
+     *
+     * @param {meta.Transform[] | null} steps 阅读步骤
+     */
+    setSteps(steps) {
+        this.steps = steps ? new LinkedList(steps) : null;
+    }
+
+    /**
+     * 恢复状态
+     */
+    restore() {
+        this.invokeWidget('loading', 'start');
+        this.ipc.send('restore');
     }
 
     /**
@@ -170,7 +207,7 @@ module.exports = class Surface {
             'keyup',
             e => {
                 if (e.keyCode === keyCode) {
-                    task(this.browsingContext);
+                    task(this);
                 }
             },
             false
@@ -203,7 +240,7 @@ module.exports = class Surface {
      */
     registerWidget(name, widget) {
         let util = new WidgetUtil(name);
-        widget.render(this.browsingContext, util);
+        widget.render(this, util);
 
         this.widgets[name] = {widget, util};
     }
@@ -229,6 +266,6 @@ module.exports = class Surface {
             return false;
         }
 
-        task(this.browsingContext, registry.util, arg);
+        task(this, registry.util, arg);
     }
 };
