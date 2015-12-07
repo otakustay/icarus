@@ -35,6 +35,8 @@ module.exports = surface => {
 
     surface.registerKeyboardShortcut('R', '恢复上次阅读图片', () => surface.restore());
 
+    surface.registerKeyboardShortcut('C', '开启/关闭计时', () => surface.invokeWidget('clock', 'toggleStopwatch'));
+
     let changeLayout = require('../command/changeLayout');
     let topBottom = require('../layout/topBottom');
     let oneStep = require('../layout/oneStep');

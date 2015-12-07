@@ -4,10 +4,19 @@
 }
 
 #clock {
-    font-family: Digital;
-    font-size: 48px;
     opacity: .8;
     position: absolute;
     top: 30px;
     right: 30px;
+}
+
+.stopwatch-indicator {
+    display: none;
+    vertical-align: top;
+    font-size: 30px;
+}
+
+.clock-time {
+    font-family: Digital;
+    font-size: 48px;
 }
