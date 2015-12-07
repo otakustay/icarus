@@ -35,6 +35,12 @@ module.exports = surface => {
 
     surface.registerKeyboardShortcut('R', '恢复上次阅读图片', () => surface.restore());
 
+    let changeLayout = require('../command/changeLayout');
+    let topBottom = require('../layout/topBottom');
+    let oneStep = require('../layout/oneStep');
+    surface.registerKeyboardShortcut('1', '切换至两步布局', surface => changeLayout(surface, topBottom));
+    surface.registerKeyboardShortcut('2', '切换至单页布局', surface => changeLayout(surface, oneStep));
+
     surface.registerKeyboardShortcut('I', '显示/隐藏文件名（全屏状态有效）', () => surface.invokeWidget('info', 'toggle'));
 
     surface.registerKeyboardShortcut('¿', '显示/隐藏帮助', () => surface.invokeWidget('help', 'toggle'));
