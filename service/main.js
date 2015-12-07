@@ -14,12 +14,13 @@ let logger = require('log4js').getLogger('main');
 
 const INITIAL_WINDOW_SIZE = {width: 800, height: 600};
 const STORAGE_DIRECTORY = electron.app.getPath('userData');
+const VERSION = electron.app.getVersion();
 
 /**
  * 启动应用后端
  */
 exports.start = () => {
-    logger.info('Start app');
+    logger.info(`Start app version ${VERSION}`);
     logger.trace(`All data will be saved at ${STORAGE_DIRECTORY}`);
 
     let BrowserWindow = electron.BrowserWindow;
@@ -31,7 +32,7 @@ exports.start = () => {
 
     let ipc = new IPCQueue(electron.ipcMain);
     let storage = new Storage(STORAGE_DIRECTORY);
-    let globalContext = new GlobalContext(ipc, storage);
+    let globalContext = new GlobalContext(ipc, storage, VERSION);
     require('./router').start(globalContext);
 };
 

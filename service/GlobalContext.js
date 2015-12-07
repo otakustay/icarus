@@ -12,9 +12,10 @@ let logger = require('log4js').getLogger('context');
  * 应用后端全局上下文
  */
 module.exports = class GlobalContext {
-    constructor(ipc, storage) {
+    constructor(ipc, storage, version) {
         this.ipc = ipc;
         this.storage = storage;
+        this.version = version;
     }
 
     /**
@@ -65,7 +66,8 @@ module.exports = class GlobalContext {
         let dump = {
             archiveList: archiveList,
             archive: archive,
-            image: image && image.name
+            image: image && image.name,
+            version: this.version
         };
         let persistData = Object.entries(dump).reduce(
             (result, [key, value]) => {
