@@ -5,6 +5,8 @@
 
 'use strict';
 
+let moment = require('moment');
+
 /**
  * 时间小组件
  *
@@ -20,20 +22,11 @@ exports.render = (surface, util) => {
     document.body.appendChild(clock);
 
     let update = () => {
-        let now = new Date();
+        let now = moment();
 
-        let hour = now.getHours().toString();
-        if (hour.length === 1) {
-            hour = '0' + hour;
-        }
-        let minute = now.getMinutes().toString();
-        if (minute.length === 1) {
-            minute = '0' + minute;
-        }
+        document.getElementById('clock').innerText = now.format('HH:mm');
 
-        document.getElementById('clock').innerText = `${hour}:${minute}`;
-
-        setTimeout(update, (60 - now.getSeconds()) * 1000);
+        setTimeout(update, (60 - now.second()) * 1000);
     };
 
     update();
