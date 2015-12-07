@@ -40,28 +40,16 @@
 
 ### 简单运行
 
-首先安装 [electron](https://www.npmjs.com/package/electron-packager) 相关的包：
-
 ```shell
-npm i -g electron-prebuilt
-```
-
-随后在项目目录下简单执行命令即可运行应用：
-
-```shell
-electron .
+npm i
+npm run start
 ```
 
 ### 编译
 
-Icarus的编译依赖 [electron-packager](https://www.npmjs.com/package/electron-packager) 包，请事先进行安装：
-
 ```shell
-npm i -g electron-packager
+npm i
+npm run build
 ```
 
-在项目目录下，使用以下命令可生成OS X应用：
-
-```
-electron-packager . Icarus --platform=darwin --arch=x64 --version=0.35.1 --out=releases --overwrite
-```
+由于需要在OS X下编译Windows二进制需要的环境较为复杂，因此当前仅支持OS X的编译。Icarus的编译依赖 [electron-packager](https://www.npmjs.com/package/electron-packager) 包，如果你对其有了解，可以自行编译Windows版本

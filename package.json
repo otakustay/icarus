@@ -5,7 +5,9 @@
   "description": "小薄本 - 单手看漫画",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "build": "npm run build:osx",
+    "build:osx": "electron-packager . Icarus --platform=darwin --arch=x64 --version=0.35.4 --out=releases --overwrite"
   },
   "author": "otakustay",
   "license": "LGPL-3.0",
@@ -23,5 +25,9 @@
     "log4js": "^0.6.29",
     "mkdirp": "^0.5.1",
     "node-zip": "^1.1.1"
+  },
+  "devDependencies": {
+    "electron-packager": "^5.1.1",
+    "electron-prebuilt": "^0.35.4"
   }
 }
