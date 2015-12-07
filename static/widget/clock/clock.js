@@ -48,8 +48,9 @@ exports.toggleStopwatch = (surface) => {
         element.style.display = '';
 
         let now = moment();
-        let minutes = now.diff(stopwatchStartTime, 'minutes');
-        let seconds = now.diff(stopwatchStartTime, 'seconds');
+        let totalSeconds = now.diff(stopwatchStartTime, 'seconds');
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = Math.floor(totalSeconds % 60);
         surface.warn('计时：' + (minutes ? `${minutes}分${seconds}秒` : `${seconds}秒`));
 
         stopwatchStartTime = null;
