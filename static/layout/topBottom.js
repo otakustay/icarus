@@ -5,19 +5,7 @@
 
 'use strict';
 
-let calculateCenteredTranslate = (scale, containerValue, imageValue) => {
-    return (containerValue - imageValue * scale) / 2 / scale;
-};
-
-let calculateOneStepTransform = (scale, containerSize, imageSize) => {
-    return [
-        {
-            scale: scale,
-            translateX: calculateCenteredTranslate(scale, containerSize.width, imageSize.width),
-            translateY: calculateCenteredTranslate(scale, containerSize.height, imageSize.height)
-        }
-    ];
-};
+let util = require('./util');
 
 /**
  * 智能上下两步式布局
@@ -40,7 +28,7 @@ module.exports = (containerSize, imageSize) => {
             containerSize.height / imageSize.height,
             containerSize.width / imageSize.width
         );
-        return calculateOneStepTransform(scale, containerSize, imageSize);
+        return util.calculateOneStepTransform(scale, containerSize, imageSize);
     }
 
     let scale = Math.min(containerSize.height * 2 / imageSize.height, 1);
@@ -52,10 +40,10 @@ module.exports = (containerSize, imageSize) => {
 
     // 图片特别宽，宽度调整到容器一样时高度小于一屏
     if (imageSize.height * scale < containerSize.height) {
-        return calculateOneStepTransform(scale, containerSize, imageSize);
+        return util.calculateOneStepTransform(scale, containerSize, imageSize);
     }
 
-    let left = calculateCenteredTranslate(scale, containerSize.width, imageSize.width);
+    let left = util.calculateCenteredTranslate(scale, containerSize.width, imageSize.width);
     // 第一步图片顶端贴住容器顶端，第二步图片底端贴住容器底端
     return [
         {scale: scale, translateX: left, translateY: 0},
