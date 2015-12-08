@@ -30,7 +30,7 @@ module.exports = async (context, sender) => {
 
     let archive = context.archiveList.next();
     let imageList = await unpack(archive);
-    let browsingImage = imageList.filter(image => image.name === persistData.image)[0];
+    let browsingImage = imageList.filter(image => image.entryName === persistData.image)[0];
     context.setImageList(imageList, browsingImage);
 
     logger.trace('Image list restored');

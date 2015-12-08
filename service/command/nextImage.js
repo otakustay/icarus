@@ -28,14 +28,14 @@ module.exports = async (context, sender) => {
     }
 
     await context.persist();
-    let buffer = image.asNodeBuffer();
+    let buffer = await image.getData();
     let imageSize = (buffer.byteLength / 1024).toFixed(2);
 
-    logger.trace(`Image is ${image.name} (${imageSize}KB)`);
+    logger.trace(`Image is ${image.entryName} (${imageSize}KB)`);
 
-    let uri = datauri(image.name, buffer);
+    let uri = datauri(image.entryName, buffer);
 
     logger.info('Send image command to renderer');
 
-    sender.send('image', {archive: context.archiveList.current(), uri: uri, name: image.name});
+    sender.send('image', {archive: context.archiveList.current(), uri: uri, name: image.entryName});
 };

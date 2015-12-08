@@ -13,9 +13,9 @@ module.exports = class ImageFile {
     /**
      * 获取图片数据
      *
-     * @type {Buffer}
+     * @return {Promise.<Buffer>}
      */
-    asNodeBuffer() {
+    getData() {
     }
 
     /**
@@ -24,5 +24,13 @@ module.exports = class ImageFile {
      * @type {string}
      */
     get name() {
+    }
+
+    /**
+     * 文件路径
+     *
+     * @type {string}
+     */
+    get entryName() {
     }
 };

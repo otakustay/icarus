@@ -50,7 +50,7 @@ module.exports = class GlobalContext {
         if (browsingImage) {
             this.imageList.readyFor(browsingImage);
 
-            logger.debug(`Move to image ${browsingImage}`);
+            logger.debug(`Move to image ${browsingImage.entryName}`);
         }
     }
 
@@ -66,7 +66,7 @@ module.exports = class GlobalContext {
         let dump = {
             archiveList: archiveList,
             archive: archive,
-            image: image && image.name,
+            image: image && image.entryName,
             version: this.version
         };
         let persistData = Object.entries(dump).reduce(
