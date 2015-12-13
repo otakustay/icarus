@@ -38,9 +38,12 @@ module.exports = class LinkedList {
      * @return {*} 下一个节点，如果已经在末尾则返回`null`
      */
     next() {
-        let list = this[LIST];
-        this[CURSOR] = Math.min(list.length, this[CURSOR] + 1);
-        return list[this[CURSOR]] || null;
+        if (this[CURSOR] >= this[LIST].length - 1) {
+            return null;
+        }
+
+        this[CURSOR]++;
+        return this.current();
     }
 
     /**
@@ -49,9 +52,12 @@ module.exports = class LinkedList {
      * @return {*} 上一个节点，如果已经在头部则返回`null`
      */
     previous() {
-        let list = this[LIST];
-        this[CURSOR] = Math.max(-1, this[CURSOR] - 1);
-        return list[this[CURSOR]] || null;
+        if (this[CURSOR] <= 0) {
+            return null;
+        }
+
+        this[CURSOR]--;
+        return this.current();
     }
 
     /**
