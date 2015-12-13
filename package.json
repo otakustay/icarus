@@ -6,6 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "debug": "electron . --debug",
     "build": "npm run build:osx",
     "build:osx": "electron-packager . Icarus --platform=darwin --arch=x64 --version=0.35.4 --out=releases --overwrite"
   },
