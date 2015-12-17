@@ -6,6 +6,7 @@
 'use strict';
 
 let ZipArchive = require('./ZipArchive');
+let RarArchive = require('./RarArchive');
 let path = require('path');
 
 /**
@@ -18,6 +19,8 @@ module.exports = async (file) => {
     switch (path.extname(file)) {
         case '.zip':
             return ZipArchive.create(file);
+        case '.rar':
+            return RarArchive.create(file);
         default:
             throw new Error('Not supported');
     }
