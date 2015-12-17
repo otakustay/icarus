@@ -55,6 +55,33 @@ module.exports = class GlobalContext {
     }
 
     /**
+     * 设置当前浏览的压缩文件
+     *
+     * @param {service.util.Archive} archive 压缩文件对象
+     * @param {Object} [options] 额外配置项
+     * @param {boolean} options.moveToLast = false 是否要移动到最后一张图片，由`previousImage`指令产生的移动要恢复到最后一张
+     * @param {boolean} options.moveToImage 设置要恢复的图片
+     */
+    setBrowsingArchive(archive, options = {}) {
+        this.browsingArchive = archive;
+        let imageList = archive.entries;
+
+        if (options.moveToLast) {
+            this.setImageList(imageList, imageList[imageList.length - 1]);
+        }
+        else {
+            this.setImageList(imageList);
+
+            if (options.moveToImage) {
+                let entry = imageList.filter(image => image.entryName === options.moveToImage)[0];
+                if (entry) {
+                    this.imageList.readyFor(entry);
+                }
+            }
+        }
+    }
+
+    /**
      * 保存状态
      */
     async persist() {

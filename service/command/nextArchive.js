@@ -28,15 +28,15 @@ module.exports = async (context, sender) => {
 
     logger.info(`Unpacking ${file}`);
 
-    let imageList = await unpack(file);
+    let archive = await unpack(file);
 
-    if (!imageList.length) {
+    if (!archive.entries.length) {
         logger.warn(`There is no image file in ${file}, move to next archive`);
         await module.exports(context, sender);
         return;
     }
 
-    context.setImageList(imageList);
+    context.setBrowsingArchive(archive);
 
     logger.info('Send archive command to renderer');
     sender.send('archive', {imageList: context.imageList.toArray().map(file => file.name)});

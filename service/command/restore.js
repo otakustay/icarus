@@ -28,10 +28,8 @@ module.exports = async (context, sender) => {
 
     logger.trace('Archive list restored');
 
-    let archive = context.archiveList.next();
-    let imageList = await unpack(archive);
-    let browsingImage = imageList.filter(image => image.entryName === persistData.image)[0];
-    context.setImageList(imageList, browsingImage);
+    let archive = await unpack(context.archiveList.next());
+    context.setBrowsingArchive(archive, {moveToImage: persistData.image});
 
     logger.trace('Image list restored');
 

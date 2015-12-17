@@ -28,7 +28,8 @@ module.exports = async (context, sender) => {
     }
 
     await context.persist();
-    let buffer = await image.getData();
+
+    let buffer = await context.browsingArchive.readEntry(image);
     let imageSize = (buffer.byteLength / 1024).toFixed(2);
 
     logger.trace(`Image is ${image.entryName} (${imageSize}KB)`);
