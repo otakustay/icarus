@@ -14,6 +14,12 @@ let logger = require('log4js').getLogger('storage');
 
 const ENCODING = 'utf-8';
 
+let stateToLog = state => {
+    let log = Object.assign({}, state);
+    log.archiveList = `(...${state.archiveList.length} files)`;
+    return log;
+};
+
 /**
  * 存储封装类
  */
@@ -29,7 +35,7 @@ module.exports = class Storage {
      * @param {Object} state 状态对象
      */
     async saveState(state) {
-        logger.info('Save state', JSON.stringify(state), 'to', this.stateFile);
+        logger.info('Save state', JSON.stringify(stateToLog(state)), 'to', this.stateFile);
 
         await mkdir(this.directory);
         await writeFile(this.stateFile, JSON.stringify(state), ENCODING);
