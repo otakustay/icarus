@@ -36,7 +36,7 @@ module.exports = class RarArchive extends Archive {
         let stream = this.rarFile.readStream(entryName);
 
         let content = await consume(stream);
-        return new Buffer(content, 'ascii');
+        return new Buffer(content, 'binary');
     }
 
     /**
