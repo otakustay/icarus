@@ -26,7 +26,7 @@ module.exports = class RarArchive extends Archive {
     constructor(rarFile) {
         super();
         this.rarFile = rarFile;
-        this.entries = rarFile.names.map(n => ({entryName: path.basename(n), name: n}));
+        this.entries = rarFile.names.map(n => ({entryName: n, name: path.basename(n)}));
     }
 
     /**
