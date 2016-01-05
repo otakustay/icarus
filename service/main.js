@@ -13,7 +13,7 @@ let logger = require('log4js').getLogger('main');
 
 const DEBUG = process.argv.includes('--debug');
 const INITIAL_WINDOW_SIZE = {width: 800, height: 600};
-const STORAGE_DIRECTORY = DEBUG ? require('path').join(__dirname, 'storage') : electron.app.getPath('userData');
+const STORAGE_DIRECTORY = DEBUG ? require('path').join(__dirname, '..', 'storage') : electron.app.getPath('userData');
 const VERSION = electron.app.getVersion();
 
 /**
