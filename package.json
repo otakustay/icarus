@@ -14,7 +14,6 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "adm-zip": "^0.4.7",
-    "all-stream": "^0.1.0",
     "babel-core": "^6.2.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
     "babel-polyfill": "^6.2.0",
@@ -27,8 +26,7 @@
     "glob": "^6.0.1",
     "log4js": "^0.6.29",
     "mkdirp": "^0.5.1",
-    "moment": "^2.10.6",
-    "rarfile": "^0.1.13"
+    "moment": "^2.10.6"
   },
   "devDependencies": {
     "electron-packager": "^5.1.1",
