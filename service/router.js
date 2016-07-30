@@ -21,7 +21,7 @@ let routes = {
  *
  * @param {service.GlobalContext} context 全局上下文
  */
-exports.start = (context) => {
+exports.start = context => {
     for (let [channel, command] of Object.entries(routes)) {
         /* eslint-disable no-loop-func */
         context.ipc.on(channel, ({sender}, arg) => command(context, sender, arg));

@@ -14,7 +14,8 @@
  * @return {number} 为居中需要而产生的偏移量
  */
 exports.calculateCenteredTranslate = (scale, containerValue, imageValue) => {
-    return (containerValue - imageValue * scale) / 2 / scale;
+    let gap = containerValue - imageValue * scale;
+    return gap / 2 / scale;
 };
 
 /**
@@ -25,12 +26,10 @@ exports.calculateCenteredTranslate = (scale, containerValue, imageValue) => {
  * @param {meta.Size} imageSize 图片尺寸
  * @return {meta.Transform[]} 变换对象，长度始终为1
  */
-exports.calculateOneStepTransform = (scale, containerSize, imageSize) => {
-    return [
-        {
-            scale: scale,
-            translateX: exports.calculateCenteredTranslate(scale, containerSize.width, imageSize.width),
-            translateY: exports.calculateCenteredTranslate(scale, containerSize.height, imageSize.height)
-        }
-    ];
-};
+exports.calculateOneStepTransform = (scale, containerSize, imageSize) => [
+    {
+        scale: scale,
+        translateX: exports.calculateCenteredTranslate(scale, containerSize.width, imageSize.width),
+        translateY: exports.calculateCenteredTranslate(scale, containerSize.height, imageSize.height)
+    }
+];

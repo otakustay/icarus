@@ -42,7 +42,7 @@ exports.render = (surface, util) => {
  *
  * @param {static.Surface} surface 前端界面
  */
-exports.toggleStopwatch = (surface) => {
+exports.toggleStopwatch = surface => {
     let element = document.querySelector('.stopwatch-indicator');
     if (stopwatchStartTime) {
         element.style.display = '';

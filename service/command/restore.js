@@ -33,7 +33,7 @@ module.exports = async (context, sender) => {
 
     logger.trace('Image list restored');
 
-    logger.info(`Move to open image`);
+    logger.info('Move to open image');
 
     await require('./nextImage')(context, sender);
 };

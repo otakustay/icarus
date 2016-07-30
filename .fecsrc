@@ -1,8 +1,8 @@
 {
     "files": [
-        "service/**",
-        "static/**",
-        "common/**"
+        "service/**/*.js",
+        "static/**/*.js",
+        "common/**/*.js"
     ],
     "htmlcs": {
         "ie-edge": false,
@@ -15,5 +15,12 @@
         "shorthand": false,
         "require-number": false,
         "disallow-quotes-in-url": false
+    },
+    "eslint": {
+        "rules": {
+            "fecs-valid-class-jsdoc": false,
+            "fecs-valid-dom-style": false,
+            "fecs-arrow-body-style": false
+        }
     }
 }

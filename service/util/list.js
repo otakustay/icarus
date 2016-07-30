@@ -15,7 +15,7 @@ let path = require('path');
  * @param {string} directory 目录
  * @return {string[]} 所有压缩文件的文件名（不含目录）
  */
-module.exports = async (directory) => {
+module.exports = async directory => {
     let list = await glob(`${directory}/*.{zip,rar}`);
     return list.sort((x, y) => path.basename(x).toLowerCase().localeCompare(path.basename(y).toLowerCase()));
 };

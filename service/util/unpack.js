@@ -15,7 +15,7 @@ let path = require('path');
  * @param {string} file 文件完整路径
  * @return {service.util.Archive} 压缩包对象
  */
-module.exports = async (file) => {
+module.exports = async file => {
     switch (path.extname(file)) {
         case '.zip':
             return ZipArchive.create(file);

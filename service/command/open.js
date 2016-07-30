@@ -28,7 +28,7 @@ module.exports = async (context, sender, file) => {
     let extension = path.extname(file);
 
     if (!extension) {
-        logger.trace(`This is a directory`);
+        logger.trace('This is a directory');
     }
 
     let directory = extension ? path.dirname(file) : file;
