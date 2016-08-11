@@ -13,7 +13,8 @@ let routes = {
     'previous-archive': require('./command/previousArchive'),
     'next-image': require('./command/nextImage'),
     'previous-image': require('./command/previousImage'),
-    'restore': require('./command/restore')
+    'restore': require('./command/restore'),
+    'add-tag': require('./command/addTag')
 };
 
 /**

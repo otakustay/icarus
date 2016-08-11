@@ -44,6 +44,7 @@ module.exports = surface => {
     surface.registerKeyboardShortcut('2', '切换至单页布局', surface => changeLayout(surface, oneStep));
 
     surface.registerKeyboardShortcut('I', '显示/隐藏文件名（全屏状态有效）', () => surface.invokeWidget('info', 'toggle'));
+    surface.registerKeyboardShortcut('T', '显示/隐藏漫画信息', () => surface.invokeWidget('tag', 'toggle'));
 
     surface.registerKeyboardShortcut('¿', '显示/隐藏帮助', () => surface.invokeWidget('help', 'toggle'));
 };

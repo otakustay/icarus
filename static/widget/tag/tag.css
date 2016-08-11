@@ -1,0 +1,37 @@
+#tag {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    z-index: 1000;
+    background-color: #272822;
+}
+
+#tag input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 3em;
+    display: block;
+    margin: 10px 0;
+    padding: 0 1em;
+    border: 4px solid #272822;
+}
+
+#tag li {
+    list-style: none;
+    display: block;
+    margin: 4px 0;
+    padding: 5px 20px;
+    cursor: pointer;
+    color: #5f6a74;
+}
+
+#tag li:hover {
+    color: #a1f2c6;
+    background-color: #44474f;
+}
+
+#tag .tag-selected {
+    color: #a1f2c6;
+}

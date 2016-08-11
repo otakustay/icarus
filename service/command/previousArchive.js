@@ -47,7 +47,11 @@ module.exports = async (context, sender, options) => {
 
     logger.info('Send archive command to renderer');
 
-    sender.send('archive', {imageList: context.imageList.toArray().map(file => file.name)});
+    let info = {
+        ...(await context.storage.getArchiveInfo(file)),
+        allTags: await context.storage.allTags()
+    };
+    sender.send('archive', info);
 
     logger.trace('Open the ' + options.moveToLast ? 'last' : 'first' + ' image in archive');
 

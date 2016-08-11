@@ -1,0 +1,14 @@
+<!-- target: main -->
+<div id="tag" style="display: none;"></div>
+
+<!-- target: content -->
+<input placeholder="输入标签" />
+<input type="hidden" value="${archive}" />
+<ul>
+    <!-- for: ${selected} as ${tag} -->
+    <li class="tag-selected">${tag}</li>
+    <!-- /for -->
+    <!-- for: ${unselected} as ${tag} -->
+    <li>${tag}</li>
+    <!-- /for -->
+</ul>

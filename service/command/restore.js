@@ -29,8 +29,17 @@ module.exports = async (context, sender) => {
 
     logger.trace('Archive list restored');
 
-    let archive = await unpack(context.archiveList.next());
+    let file = context.archiveList.next();
+    let archive = await unpack(file);
     context.setBrowsingArchive(archive, {moveToImage: persistData.image});
+
+    logger.info('Send archive command to renderer');
+
+    let info = {
+        ...(await context.storage.getArchiveInfo(file)),
+        allTags: await context.storage.allTags()
+    };
+    sender.send('archive', info);
 
     logger.trace('Image list restored');
 

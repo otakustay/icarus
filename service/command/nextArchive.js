@@ -39,7 +39,12 @@ module.exports = async (context, sender) => {
     context.setBrowsingArchive(archive);
 
     logger.info('Send archive command to renderer');
-    sender.send('archive', {imageList: context.imageList.toArray().map(file => file.name)});
+
+    let info = {
+        ...(await context.storage.getArchiveInfo(file)),
+        allTags: await context.storage.allTags()
+    };
+    sender.send('archive', info);
 
     logger.trace('Open the first image in archive');
 

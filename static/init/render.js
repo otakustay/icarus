@@ -19,4 +19,5 @@ module.exports = surface => {
     connect('image', 'image');
     connect('no-more', 'noMore');
     connect('no-state', 'noState');
+    connect('archive', 'archive');
 };

@@ -22,4 +22,5 @@ module.exports = surface => {
     render('help');
     render('disturb');
     render('clock');
+    render('tag');
 };
