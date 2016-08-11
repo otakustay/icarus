@@ -21,6 +21,7 @@ module.exports = async (context, sender) => {
     let persistData = await context.storage.restoreState();
 
     if (!persistData) {
+        sender.send('no-state');
         return;
     }
 
