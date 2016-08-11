@@ -5,14 +5,8 @@
 
 'use strict';
 
-let denodeify = require('denodeify');
-let fs = require('fs');
-let mkdir = denodeify(require('mkdirp'));
-let readFile = denodeify(fs.readFile);
-let writeFile = denodeify(fs.writeFile);
 let logger = require('log4js').getLogger('storage');
-
-const ENCODING = 'utf-8';
+let datastore = require('nedb-promise');
 
 let stateToLog = state => {
     let log = Object.assign({}, state);
@@ -25,8 +19,8 @@ let stateToLog = state => {
  */
 module.exports = class Storage {
     constructor(directory) {
-        this.directory = directory;
-        this.stateFile = require('path').join(directory, 'state.json');
+        let filename = require('path').join(directory, 'state.db');
+        this.state = datastore({filename: filename, autoload: true});
     }
 
     /**
@@ -35,10 +29,15 @@ module.exports = class Storage {
      * @param {Object} state 状态对象
      */
     async saveState(state) {
-        logger.info('Save state', JSON.stringify(stateToLog(state)), 'to', this.stateFile);
+        logger.info('Save state', JSON.stringify(stateToLog(state)));
 
-        await mkdir(this.directory);
-        await writeFile(this.stateFile, JSON.stringify(state), ENCODING);
+        try {
+            await this.state.remove({}, {multiple: true});
+            await this.state.insert(state);
+        }
+        catch (ex) {
+            logger.error(ex);
+        }
     }
 
     /**
@@ -47,17 +46,14 @@ module.exports = class Storage {
      * @return {Object} 上一次保存的应用状态对象，如果没有保存的状态或者恢复失败，则返回`null`
      */
     async restoreState() {
-        try {
-            let content = await readFile(this.stateFile, ENCODING);
+        let state = await this.state.findOne({});
 
-            logger.info(`Previously saved state is: ${content}`);
-
-            return JSON.parse(content);
+        if (state) {
+            logger.info(`Previously saved state is: ${stateToLog(state)}`);
+            return state;
         }
-        catch (ex) {
-            logger.info('No saved state');
 
-            return null;
-        }
+        logger.info('No saved state');
+        return null;
     }
 };
