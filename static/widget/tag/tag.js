@@ -3,6 +3,8 @@
  * @author otakustay
  */
 
+'use strict';
+
 let u = require('underscore');
 
 /**
@@ -84,15 +86,16 @@ exports.toggle = () => {
  *
  * @param {static.Surface} surface 前端界面
  * @param {static.widget.Util} util 工具对象
- * @param {string} options.archive 压缩包名
- * @param {string[]} options.tags 压缩包上附带的标签
- * @param {string[]} options.allTags allTags全部的标签
+ * @param {Object} info 压缩包信息
+ * @param {string} info.archive 压缩包名
+ * @param {string[]} info.tags 压缩包上附带的标签
+ * @param {string[]} info.allTags allTags全部的标签
  */
-exports.update = (surface, util, {archive, tags, allTags}) => {
+exports.update = (surface, util, info) => {
     let data = {
-        selected: tags,
-        unselected: u.difference(allTags, tags),
-        archive: archive
+        selected: info.tags,
+        unselected: u.difference(info.allTags, info.tags),
+        archive: info.archive
     };
     let content = util.renderTemplate('content', data);
     let panel = document.getElementById('tag');
