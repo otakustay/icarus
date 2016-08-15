@@ -79,6 +79,9 @@ exports.toggle = () => {
     let panel = document.getElementById('tag');
     let display = panel.style.display;
     panel.style.display = display ? '' : 'none';
+    if (!panel.style.display) {
+        document.getElementById('add-tag').focus();
+    }
 };
 
 /**

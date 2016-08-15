@@ -4,6 +4,7 @@
     bottom: 0;
     right: 0;
     width: 30%;
+    overflow: auto;
     z-index: 1000;
     background-color: #272822;
 }
@@ -20,18 +21,18 @@
 
 #tag li {
     list-style: none;
-    display: block;
-    margin: 4px 0;
-    padding: 5px 20px;
+    float: left;
+    margin: 5px;
+    padding: 1px 10px;
+    border-radius: 30px;
     cursor: pointer;
-    color: #5f6a74;
+
+    background-color: #52594a;
+    color: #87d86b;
 }
 
-#tag li:hover {
-    color: #a1f2c6;
-    background-color: #44474f;
-}
-
+#tag li:hover,
 #tag .tag-selected {
-    color: #a1f2c6;
+    background-color: #7ac46f;
+    color: #e4eafb;
 }
