@@ -36,3 +36,17 @@
     background-color: #7ac46f;
     color: #e4eafb;
 }
+
+.tag-category ul {
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.tag-category-key {
+    display: block;
+    line-height: 1.5;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: .5em;
+    background-color: #44474f;
+}

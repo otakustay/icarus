@@ -5,7 +5,23 @@
 
 'use strict';
 
-let u = require('underscore');
+let pinyin = require('pinyin');
+
+let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
+
+let categorize = (all, selected) => {
+    let selectedSet = new Set(selected);
+    let result = all.reduce(
+        (result, tag) => {
+            let category = getCategory(tag);
+            let cache = result[category] || (result[category] = []);
+            cache.push({name: tag, selected: selectedSet.has(tag)});
+            return result;
+        },
+        {}
+    );
+    return Object.keys(result).sort().map(category => ({key: category, tags: result[category]}));
+};
 
 /**
  * 当前浏览的图片信息显示
@@ -58,12 +74,27 @@ exports.render = (surface, util) => {
                 let tagElement = document.createElement('li');
                 tagElement.innerText = tag;
                 tagElement.classList.add('tag-selected');
-                let container = panel.querySelector('ul');
-                container.insertBefore(tagElement, container.firstChild);
+                let category = getCategory(tag);
+                let container = panel.querySelector('#tag-category-' + category.toLowerCase());
+
+                if (!container) {
+                    let data = {
+                        category: {
+                            key: category,
+                            tags: [{name: tag, selected: true}]
+                        }
+                    };
+                    let html = util.renderTemplate('category', data);
+                    let placeholder = panel.querySelector('#tag-archive');
+                    placeholder.insertAdjacentHTML('afterEnd', html);
+                }
+                else {
+                    container.insertBefore(tagElement, container.firstChild);
+                }
 
                 target.value = '';
 
-                let archive = panel.querySelector('input[type="hidden"]').value;
+                let archive = panel.querySelector('#tag-archive').value;
                 surface.ipc.send('add-tag', {archive, tag});
             }
         );
@@ -96,8 +127,7 @@ exports.toggle = () => {
  */
 exports.update = (surface, util, info) => {
     let data = {
-        selected: info.tags,
-        unselected: u.difference(info.allTags, info.tags),
+        tagCategories: categorize(info.allTags, info.tags),
         archive: info.archive
     };
     let content = util.renderTemplate('content', data);

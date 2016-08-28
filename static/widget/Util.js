@@ -23,6 +23,8 @@ module.exports = class Util {
     constructor(widgetName) {
         this.widgetName = widgetName;
         this.templateEngine = new etpl.Engine();
+        this.templateEngine.addFilter('upper', s => s.toUpperCase());
+        this.templateEngine.addFilter('lower', s => s.toLowerCase());
     }
 
     /**

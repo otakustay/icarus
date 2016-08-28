@@ -88,11 +88,10 @@ module.exports = class Storage {
     /**
      * 为压缩包添加标签
      *
-     * @param {string} archive 压缩包路径
+     * @param {string} archiveName 压缩包名
      * @param {string} tag 标签
      */
-    async addTag(archive, tag) {
-        let archiveName = bareName(archive);
+    async addTag(archiveName, tag) {
         let doc = await this.database.findOne({archive: archiveName});
 
         if (doc) {
