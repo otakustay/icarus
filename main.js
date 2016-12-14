@@ -5,9 +5,12 @@
 
 'use strict';
 
+let mkdirp = require('mkdirp');
 let path = require('path');
 
 const USER_DATA_DIRECTORY = require('electron').app.getPath('userData');
+mkdirp.sync(USER_DATA_DIRECTORY);
+
 require('babel-polyfill');
 require('log4js').configure(
     require('path').join(__dirname, '.logrc'),
