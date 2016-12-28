@@ -7,6 +7,9 @@
 
 let util = require('./util');
 
+// 图片过大时，默认视窗为1.8倍的图片高度，这样分2步走的时候中间会有一些重叠，避免无重叠时一些文字阅读的困难
+const VIEW_PORT_SCALE = 1.8;
+
 /**
  * 智能上下两步式布局
  *
@@ -31,7 +34,7 @@ module.exports = (containerSize, imageSize) => {
         return util.calculateOneStepTransform(scale, containerSize, imageSize);
     }
 
-    let scale = Math.min(containerSize.height * 2 / imageSize.height, 1);
+    let scale = Math.min(containerSize.height * VIEW_PORT_SCALE / imageSize.height, 1);
 
     // 高度调整后宽度超出容器了，需要继续缩小
     if (imageSize.width * scale > containerSize.width) {
