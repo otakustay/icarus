@@ -31,6 +31,22 @@ module.exports = class Storage {
         this.database.nedb.persistence.setAutocompactionInterval(interval);
     }
 
+    async cleanup() {
+        logger.info('Compact database');
+
+        this.state.nedb.persistence.compactDatafile();
+        this.database.nedb.persistence.compactDatafile();
+
+        let tasks = [
+            new Promise(resolve => this.state.nedb.on('compaction.done', resolve)),
+            new Promise(resolve => this.database.nedb.on('compaction.done', resolve))
+        ];
+
+        await Promise.all(tasks);
+
+        logger.info('Compact database complete');
+    }
+
     /**
      * 保存应用状态
      *

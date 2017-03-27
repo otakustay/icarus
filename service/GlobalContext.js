@@ -108,4 +108,8 @@ module.exports = class GlobalContext {
 
         await this.storage.saveState(persistData);
     }
+
+    dispose() {
+        return this.storage.cleanup();
+    }
 };
