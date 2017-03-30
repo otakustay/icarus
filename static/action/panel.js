@@ -24,4 +24,10 @@ export let toggleTiming = () => (dispatch, getState) => {
 
 export let toggleInfo = () => ({type: TOGGLE_INFO});
 
-export let toggleTagList = () => ({type: TOGGLE_TAG_LIST});
+export let toggleTagList = () => (dispatch, getState) => {
+    if (!getState().image.uri) {
+        return;
+    }
+
+    dispatch({type: TOGGLE_TAG_LIST});
+};
