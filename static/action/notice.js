@@ -13,5 +13,5 @@ export let showAlert = message => dispatch => {
 export let showServerAlert = message => dispatch => {
     dispatch(hideLoading());
 
-    dispatch(showAlert('无法找到保存的阅读信息'));
+    dispatch(showAlert(message));
 };

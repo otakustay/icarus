@@ -59,11 +59,26 @@
         z-index: 10;
     }
 
-    .image {
+    .image-container {
         display: block;
-        transform-origin: 0 0;
         position: absolute;
-        z-index: 500;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 20;
+    }
+
+    #main:not([data-view-state~="fullscreen"]) .image-container {
+        bottom: 30px;
+    }
+
+    #main[data-view-state~="tag"] .image-container {
+        right: 30%;
+    }
+
+    .image {
+        transform-origin: 0 0;
     }
 
     .info {
@@ -71,7 +86,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 100;
+        z-index: 30;
         background-color: #272822;
         height: 30px;
         line-height: 30px;
@@ -91,7 +106,7 @@
         right: 0;
         width: 30%;
         overflow: auto;
-        z-index: 1000;
+        z-index: 40;
         background-color: #272822;
     }
 
@@ -164,7 +179,7 @@
         width: 720px;
         height: 400px;
         position: absolute;
-        z-index: 1000;
+        z-index: 60;
         top: 50%;
         left: 50%;
         margin: -200px 0 0 -360px;
@@ -221,7 +236,7 @@
         top: 50%;
         left: 50%;
         margin: -50px 0 0 -240px;
-        z-index: 10000;
+        z-index: 50;
         background-color: rgba(246, 246, 246, .9);
         text-align: center;
         line-height: 100px;
@@ -235,7 +250,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 1000;
+        z-index: 70;
         height: 4px;
     }
 
@@ -251,7 +266,7 @@
         left: 0;
         bottom: 0;
         right: 0;
-        z-index: 10000;
+        z-index: 80;
     }
 
     .clock {

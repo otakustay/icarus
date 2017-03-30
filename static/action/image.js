@@ -1,6 +1,6 @@
 import electron from 'electron';
 import {NEW_IMAGE} from './type';
-import {hideLoading} from './notice';
+import {showLoading, hideLoading} from './notice';
 
 let ipc = electron.ipcRenderer;
 
@@ -14,6 +14,8 @@ export let nextImage = () => (dispatch, getState) => {
         return;
     }
 
+    dispatch(showLoading());
+
     ipc.send('next-image');
 };
 
@@ -21,6 +23,8 @@ export let previousImage = () => (dispatch, getState) => {
     if (!getState().image.uri) {
         return;
     }
+
+    dispatch(showLoading());
 
     ipc.send('previous-image');
 };

@@ -1,4 +1,4 @@
 {
-    "presets": ["es2015", "stage-0", "react"],
-    "plugins": ["babel-plugin-react-require"]
+    "presets": ["react", "stage-0"],
+    "plugins": ["babel-plugin-react-require", "transform-es2015-modules-commonjs"]
 }

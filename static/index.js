@@ -1,13 +1,13 @@
 import 'babel-polyfill';
+import electron from 'electron';
 import React from 'react';
 import {render} from 'react-dom';
 import {createStore, applyMiddleware, compose} from 'redux';
-import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
 import reducer from './reducer';
-import App from './container/App';
 import * as receivers from './lib/receiver';
-import electron from 'electron';
+import App from './container/App';
 
 let initialState = {
     image: {
@@ -67,3 +67,6 @@ render(
     </Provider>,
     document.getElementById('app')
 );
+
+// TODO: 用webpack构建
+// TODO: 用reselect
