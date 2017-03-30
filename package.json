@@ -9,29 +9,39 @@
     "start": "npm run dist && electron dist",
     "debug": "npm run dist && electron dist --debug",
     "build": "npm run dist -- --install && npm run build:osx",
-    "build:osx": "electron-packager dist Icarus --platform=darwin --arch=x64 --version=1.3.3 --out=release --overwrite"
+    "build:osx": "electron-packager dist Icarus --platform=darwin --arch=x64 --version=1.3.14 --out=release --overwrite"
   },
   "author": "otakustay",
   "license": "LGPL-3.0",
   "dependencies": {
     "adm-zip": "^0.4.7",
     "babel-polyfill": "^6.2.0",
+    "classnames": "^2.2.5",
     "datauri": "^0.8.0",
     "denodeify": "^1.2.1",
-    "etpl": "^3.0.1",
+    "electron-devtools-installer": "^2.1.0",
     "glob": "^6.0.1",
+    "image-size": "^0.5.1",
     "log4js": "^0.6.29",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
     "nedb-promise": "^2.0.0",
     "pinyin": "^2.8.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
+    "san-update": "^2.0.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
+    "babel-plugin-react-require": "^3.0.0",
     "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.5.0",
     "electron-packager": "^7.3.0",
-    "electron-prebuilt": "^1.3.3"
+    "electron-prebuilt": "^1.4.13"
   }
 }

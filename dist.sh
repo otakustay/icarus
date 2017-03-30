@@ -5,7 +5,7 @@ mkdir dist
 for dir in service common static
 do
     cp -r $dir dist/
-    babel $dir/**/*.js $dir/*.js --out-dir dist/
+    babel "$dir/**/*.js" "$dir/*.js" --out-dir dist/
 done
 
 babel *.js --out-dir dist/

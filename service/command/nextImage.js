@@ -7,6 +7,7 @@
 
 let datauri = require('../util/datauri');
 let logger = require('log4js').getLogger('nextImage');
+let sizeOf = require('image-size');
 
 /**
  * 打开下一个图片
@@ -31,6 +32,7 @@ module.exports = async (context, sender) => {
 
     let buffer = await context.browsingArchive.readEntry(image);
     let imageSize = (buffer.byteLength / 1024).toFixed(2);
+    let dimension = sizeOf(buffer);
 
     logger.trace(`Image is ${image.entryName} (${imageSize}KB)`);
 
@@ -38,5 +40,13 @@ module.exports = async (context, sender) => {
 
     logger.info('Send image command to renderer');
 
-    sender.send('image', {archive: context.archiveList.current(), uri: uri, name: image.entryName});
+    sender.send(
+        'image',
+        {
+            uri: uri,
+            name: image.entryName,
+            width: dimension.width,
+            height: dimension.height
+        }
+    );
 };

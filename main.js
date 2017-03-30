@@ -10,7 +10,14 @@ require('babel-polyfill');
 let mkdirp = require('mkdirp');
 let path = require('path');
 let electron = require('electron');
+let {default: installExtension, REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} = require('electron-devtools-installer');
 let Application = require('./service/Application');
+
+const DEBUG = process.argv.includes('--debug');
+if (DEBUG) {
+    installExtension(REACT_DEVELOPER_TOOLS);
+    installExtension(REDUX_DEVTOOLS);
+}
 
 const USER_DATA_DIRECTORY = require('electron').app.getPath('userData');
 mkdirp.sync(USER_DATA_DIRECTORY);

@@ -2,8 +2,23 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>小薄本 - 单手看漫画</title>
+    <title>Icarus Comic Reader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+    @font-face {
+        font-family: Digital;
+        src: url("resource/Let's go Digital.ttf");
+    }
+
+    @-webkit-keyframes loading-indication {
+        from {
+            width: 0;
+        }
+        to {
+            width: 100%;
+        }
+    }
+
     html,
     body {
         font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
@@ -34,7 +49,7 @@
         text-decoration: underline;
     }
 
-    #main {
+    #app {
         position: absolute;
         top: 0;
         left: 0;
@@ -44,8 +59,162 @@
         z-index: 10;
     }
 
-    #warn {
-        display: none;
+    .image {
+        display: block;
+        transform-origin: 0 0;
+        position: absolute;
+        z-index: 500;
+    }
+
+    .info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background-color: #272822;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
+        text-align: right;
+        padding: 0 1em;
+    }
+
+    .info-image {
+        color: #777;
+    }
+
+    .tag {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 30%;
+        overflow: auto;
+        z-index: 1000;
+        background-color: #272822;
+    }
+
+    .new-tag {
+        box-sizing: border-box;
+        width: 100%;
+        height: 3em;
+        display: block;
+        margin: 10px 0;
+        padding: 0 1em;
+        border: 4px solid #272822;
+    }
+
+    .tag-item {
+        list-style: none;
+        float: left;
+        margin: 5px;
+        padding: 1px 10px;
+        border-radius: 30px;
+        cursor: pointer;
+
+        background-color: #52594a;
+        color: #87d86b;
+    }
+
+    .tag-item:hover,
+    .tag-item-selected {
+        background-color: #7ac46f;
+        color: #e4eafb;
+    }
+
+    .tag-item-list {
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .tag-category-key {
+        display: block;
+        line-height: 1.5;
+        font-size: 18px;
+        font-weight: bold;
+        padding-left: .5em;
+        background-color: #44474f;
+    }
+
+    .drop-indicator {
+        width: 300px;
+        height: 300px;
+        border: 4px dashed #999;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -150px 0 0 -150px;
+
+        font-size: 20px;
+        color: #999;
+        font-weight: bold;
+        text-align: center;
+        line-height: 300px;
+    }
+
+    .drop-indicator.accepting {
+        border-color: #fff;
+        color: #fff;
+    }
+
+    .help {
+        box-sizing: border-box;
+        width: 720px;
+        height: 400px;
+        position: absolute;
+        z-index: 1000;
+        top: 50%;
+        left: 50%;
+        margin: -200px 0 0 -360px;
+        background-color: #000;
+        border: 1px solid #ccc;
+        padding: 15px;
+    }
+
+    .help-title {
+        margin-top: 0;
+        margin-bottom: 6px;
+    }
+
+    .contact-title {
+        margin-top: 20px;
+        margin-bottom: 6px;
+    }
+
+    .shortcut-item {
+        display: inline-block;
+        width: 340px;
+        line-height: 20px;
+        margin: 5px 0;
+    }
+
+    .short-key-list {
+        display: inline-block;
+        text-align: right;
+        width: 70px;
+        margin-right: 10px;
+    }
+
+    .shortcut-key {
+        box-sizing: border-box;
+        display: inline-block;
+        margin-right: 4px;
+        border: 1px solid #fff;
+        min-width: 20px;
+        padding: 0 4px;
+        height: 20px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .shortcut-description {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .warn {
         width: 480px;
         height: 100px;
         position: absolute;
@@ -61,25 +230,50 @@
         color: #000;
     }
 
-    #image {
-        display: block;
-        transform-origin: 0 0;
+    .loading {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        height: 4px;
+    }
+
+    .loading-progress {
+        background-color: #4bd46f;
+        height: 100%;
+        -webkit-animation: .5s linear 0s infinite alternate loading-indication;
+    }
+
+    .disturb {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 10000;
+    }
+
+    .clock {
+        opacity: .8;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+    }
+
+    .stopwatch-indicator {
+        vertical-align: top;
+        font-size: 30px;
+    }
+
+    .clock-time {
+        font-family: Digital;
+        font-size: 48px;
     }
     </style>
 </head>
 <body>
-    <div id="main"></div>
-    <aside id="warn"></aside>
-    <script>
-    'use strict';
-
-    let Surface = require('./Surface');
-    let surface = new Surface(require('electron').ipcRenderer);
-    surface.setLayout(require('./layout/topBottom'));
-
-    require('./init/render')(surface);
-    require('./init/shortcut')(surface);
-    require('./init/widget')(surface);
-    </script>
+    <div id="app"></div>
+    <script src="./index.js"></script>
 </body>
 </html>

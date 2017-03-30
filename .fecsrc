@@ -21,7 +21,11 @@
             "fecs-valid-class-jsdoc": false,
             "fecs-valid-dom-style": false,
             "fecs-arrow-body-style": false,
-            "fecs-no-require": false
+            "fecs-no-require": false,
+            "fecs-valid-jsdoc": false
+        },
+        "globals": {
+            "webview": true
         }
     }
 }

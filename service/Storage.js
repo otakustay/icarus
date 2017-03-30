@@ -132,6 +132,31 @@ module.exports = class Storage {
     }
 
     /**
+     * 为压缩包移除标签
+     *
+     * @param {string} archiveName 压缩包名
+     * @param {string} tag 标签
+     */
+    async removeTag(archiveName, tag) {
+        let doc = await this.database.findOne({archive: archiveName});
+
+        if (doc) {
+            logger.trace(`Archive info ${archiveName} already exists, updte it`);
+
+            let tags = new Set(doc.tags);
+            tags.delete(tag);
+            doc.tags = Array.from(tags);
+
+            await this.database.update(u.pick(doc, '_id'), doc);
+        }
+        else {
+            logger.warn(`No archive info for ${archiveName} when remove tag, should not be possible`);
+        }
+
+        logger.info(`Removed tag ${tag} from ${archiveName}`);
+    }
+
+    /**
      * 获取所有要标签
      *
      * @return {string[]}

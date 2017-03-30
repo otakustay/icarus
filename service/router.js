@@ -14,7 +14,8 @@ let routes = {
     'next-image': require('./command/nextImage'),
     'previous-image': require('./command/previousImage'),
     'restore': require('./command/restore'),
-    'add-tag': require('./command/addTag')
+    'add-tag': require('./command/addTag'),
+    'remove-tag': require('./command/removeTag')
 };
 
 /**
