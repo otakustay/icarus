@@ -1,6 +1,7 @@
 import electron from 'electron';
 import {NEW_IMAGE} from './type';
 import {showLoading, hideLoading} from './notice';
+import {isReading} from '../selector';
 
 let ipc = electron.ipcRenderer;
 
@@ -10,7 +11,7 @@ export let newImage = info => dispatch => {
 };
 
 export let nextImage = () => (dispatch, getState) => {
-    if (!getState().image.uri) {
+    if (!isReading(getState())) {
         return;
     }
 
@@ -20,7 +21,7 @@ export let nextImage = () => (dispatch, getState) => {
 };
 
 export let previousImage = () => (dispatch, getState) => {
-    if (!getState().image.uri) {
+    if (!isReading(getState())) {
         return;
     }
 

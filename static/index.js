@@ -69,4 +69,3 @@ render(
 );
 
 // TODO: 用webpack构建
-// TODO: 用reselect

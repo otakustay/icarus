@@ -64,12 +64,8 @@ export default class DropZone extends Component {
             'accepting': this.state.accepting
         };
 
-        let style = {
-            display: this.props.visible ? '' : 'none'
-        };
-
         return (
-            <div className={classNames(classes)} style={style}>
+            <div className={classNames(classes)} style={{display: this.props.visible ? '' : 'none'}}>
                 将目录或.zip文件拖到此处
                 <GlobalEvent
                     onDragOver={::this.onDragOver}

@@ -1,21 +1,26 @@
 import {Component} from 'react';
 import pinyin from 'pinyin';
+import {createSelector} from 'reselect';
+import {property} from 'lodash';
 
 let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
 
-let categorize = (all, selected) => {
-    let selectedSet = new Set(selected);
-    let result = all.reduce(
-        (result, tag) => {
-            let category = getCategory(tag);
-            let cache = result[category] || (result[category] = []);
-            cache.push({name: tag, selected: selectedSet.has(tag)});
-            return result;
-        },
-        {}
-    );
-    return Object.keys(result).sort().map(category => ({key: category, tags: result[category]}));
-};
+let categorize = createSelector(
+    [property('allTags'), property('tags')],
+    (all, selected) => {
+        let selectedSet = new Set(selected);
+        let result = all.reduce(
+            (result, tag) => {
+                let category = getCategory(tag);
+                let cache = result[category] || (result[category] = []);
+                cache.push({name: tag, selected: selectedSet.has(tag)});
+                return result;
+            },
+            {}
+        );
+        return Object.keys(result).sort().map(category => ({key: category, tags: result[category]}));
+    }
+);
 
 export default class TagList extends Component {
 
@@ -52,8 +57,7 @@ export default class TagList extends Component {
     }
 
     render() {
-        let {allTags, tags, visible} = this.props;
-        let tagCategories = categorize(allTags, tags);
+        let tagCategories = categorize(this.props);
 
         let item = ({name, selected}) => {
             let className = selected ? 'tag-item tag-item-selected' : 'tag-item';
@@ -71,7 +75,7 @@ export default class TagList extends Component {
         );
 
         return (
-            <div className="tag" style={{display: visible ? '' : 'none'}}>
+            <div className="tag" style={{display: this.props.visible ? '' : 'none'}}>
                 <input
                     className="new-tag"
                     placeholder="输入标签"

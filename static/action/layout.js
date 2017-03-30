@@ -1,15 +1,16 @@
 import {CONTAINER_SIZE_CHANGE, CHANGE_LAYOUT} from './type';
+import {isReading} from '../selector';
 
 export let containerSizeChange = size => ({type: CONTAINER_SIZE_CHANGE, ...size});
 
 export let changeLayout = layoutType => (dispatch, getState) => {
-    let {image, layout} = getState();
+    let state = getState();
 
-    if (!image.uri) {
+    if (!isReading(state)) {
         return;
     }
 
-    if (layout.type === layoutType) {
+    if (state.layout.type === layoutType) {
         return;
     }
 

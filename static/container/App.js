@@ -1,7 +1,9 @@
-import {identity, flow} from 'lodash';
+import {identity, flow, property} from 'lodash';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
+import {createSelector} from 'reselect';
 import * as action from '../action';
+import {isReading} from '../selector';
 
 import {
     DropZone,
@@ -17,31 +19,24 @@ import {
     DisturbMode
 } from '../component';
 
+let isInfoVisible = createSelector(
+    [property('isFullscreen'), property('isInfoVisible')],
+    (isFullscreen, isInfoVisible) => !isFullscreen || isInfoVisible
+);
+
+export let getViewStates = createSelector(
+    [property('isFullscreen'), property('isTagVisible'), isInfoVisible],
+    (fullscreen, tag, info) => ({fullscreen, tag, info})
+);
+
+
 let App = props => {
-    let {
-        image,
-        layout,
-        archive,
-        message,
-        isHelpVisible,
-        isFullscreen,
-        isLoading,
-        isDisturbing,
-        timingBegin,
-        isInfoVisible,
-        isTagVisible
-    } = props;
-
-    let viewStates = {
-        fullscreen: isFullscreen,
-        info: !isFullscreen || isInfoVisible,
-        tag: isTagVisible
-    };
-
+    let {image, layout, archive, message, isHelpVisible, isLoading, isDisturbing, timingBegin} = props;
+    let viewStates = getViewStates(props);
 
     return (
         <div id="main" style={{width: '100%', height: '100%'}} data-view-state={classNames(viewStates)}>
-            <DropZone visible={!image.uri} onOpen={props.onOpen} onOpenMultiple={props.onOpenMultiple} />
+            <DropZone visible={!isReading(props)} onOpen={props.onOpen} onOpenMultiple={props.onOpenMultiple} />
             <Image image={image} layout={layout} onSizeChange={props.onContainerSizeChange} />
             <Clock isTiming={!!timingBegin} />
             <Info visible={viewStates.info} archiveName={archive.name} imageName={image.name} />

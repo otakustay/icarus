@@ -14,12 +14,9 @@ let shortcutItem = ([description, items]) => {
 export default ({children, visible}) => {
     let keys = children.map(key => pick(key.props, ['char', 'description']));
     let groups = Object.entries(groupBy(keys, 'description'));
-    let style = {
-        display: visible ? '' : 'none'
-    };
 
     return (
-        <div className="help" style={style}>
+        <div className="help" style={{display: visible ? '' : 'none'}}>
             {children}
             <h2 className="shortcut-title">键盘操作</h2>
             <ul>

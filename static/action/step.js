@@ -1,17 +1,18 @@
 import electron from 'electron';
 import {NEXT_STEP, PREVIOUS_STEP} from './type';
 import {showLoading} from './notice';
+import {isReading} from '../selector';
 
 let ipc = electron.ipcRenderer;
 
 export let nextStep = () => (dispatch, getState) => {
-    let {layout: {steps, stepIndex}, image} = getState();
+    let state = getState();
 
-    if (!image.uri) {
+    if (!isReading(state)) {
         return;
     }
 
-    if (stepIndex < steps.length - 1) {
+    if (state.layout.stepIndex < state.layout.steps.length - 1) {
         dispatch({type: NEXT_STEP});
     }
     else {
@@ -21,13 +22,13 @@ export let nextStep = () => (dispatch, getState) => {
 };
 
 export let previousStep = () => (dispatch, getState) => {
-    let {layout: {stepIndex}, image} = getState();
+    let state = getState();
 
-    if (!image.uri) {
+    if (!isReading(state)) {
         return;
     }
 
-    if (stepIndex > 0) {
+    if (state.layout.stepIndex > 0) {
         dispatch({type: PREVIOUS_STEP});
     }
     else {

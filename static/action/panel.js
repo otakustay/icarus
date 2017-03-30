@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {TOGGLE_HELP, TOGGLE_FULLSCREEN, TOGGLE_DISTURB_MODE, TOGGLE_TIMING, TOGGLE_INFO, TOGGLE_TAG_LIST} from './type';
 import {showAlert} from './notice';
+import {isReading} from '../selector';
 
 export let toggleHelp = () => ({type: TOGGLE_HELP});
 
@@ -25,7 +26,7 @@ export let toggleTiming = () => (dispatch, getState) => {
 export let toggleInfo = () => ({type: TOGGLE_INFO});
 
 export let toggleTagList = () => (dispatch, getState) => {
-    if (!getState().image.uri) {
+    if (!isReading(getState())) {
         return;
     }
 

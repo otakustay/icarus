@@ -1,13 +1,14 @@
 import electron from 'electron';
 import {NEW_ARCHIVE} from './type';
 import {showLoading} from './notice';
+import {isReading} from '../selector';
 
 let ipc = electron.ipcRenderer;
 
 export let newArchive = info => ({type: NEW_ARCHIVE, ...info});
 
 export let nextArchive = () => (dispatch, getState) => {
-    if (!getState().image.uri) {
+    if (!isReading(getState())) {
         return;
     }
 
@@ -17,7 +18,7 @@ export let nextArchive = () => (dispatch, getState) => {
 };
 
 export let previousArchive = () => (dispatch, getState) => {
-    if (!getState().image.uri) {
+    if (!isReading(getState())) {
         return;
     }
 

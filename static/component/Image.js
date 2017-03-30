@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {findDOMNode} from 'react-dom';
 import elementResizeDetector from 'element-resize-detector';
+import {isReading} from '../selector';
 
 export default class Image extends Component {
 
@@ -20,11 +21,11 @@ export default class Image extends Component {
     }
 
     render() {
-        let {image, layout} = this.props;
-
-        if (!image.uri) {
+        if (!isReading(this.props)) {
             return <div className="image-container"></div>;
         }
+
+        let {image, layout} = this.props;
 
         let transform = layout.steps[layout.stepIndex];
         let style = {
