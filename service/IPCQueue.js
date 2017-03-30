@@ -61,7 +61,14 @@ module.exports = class IPCQueue {
             logger.debug(`Process ${channel} request` + (arg ? ` with ${JSON.stringify(arg)}` : ''));
 
             let handle = this.commands[channel];
-            await handle(event, arg);
+
+            try {
+                await handle(event, arg);
+            }
+            catch (ex) {
+                logger.error(`Command ${channel} failed: ${ex}`);
+                event.sender.send('service-error');
+            }
         }
         this[SCHEDULE_TICK] = null;
     }

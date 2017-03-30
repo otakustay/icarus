@@ -59,6 +59,7 @@ connect('image', 'image');
 connect('no-more', 'noMore');
 connect('no-state', 'noState');
 connect('archive', 'archive');
+connect('service-error', 'serviceError');
 
 render(
     <Provider store={store}>
