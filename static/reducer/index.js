@@ -1,5 +1,6 @@
 import {flow, pick, cond, eq, stubTrue, identity, property, nthArg} from 'lodash/fp';
-import {immutable, macro} from 'san-update';
+import {set, apply, applyWith} from 'san-update/fp';
+import {immutable} from 'san-update';
 import moment from 'moment';
 import * as layouts from '../lib/layout';
 import * as actionType from '../action/type';
@@ -10,35 +11,33 @@ let pickArchive = pick(['name', 'tags', 'allTags']);
 let pickImage = pick(['uri', 'name', 'width', 'height']);
 let toggle = value => !value;
 
-let performLayout = state => {
-    if (!isReading(state)) {
-        return state;
-    }
-
-    let steps = layouts[state.layout.type](state.container, state.image);
-    return immutable(state)
-        .set('layout.steps', steps)
-        .set('layout.stepIndex', 0)
-        .set('layout.transition', false)
-        .value();
-};
+let doLayout = flow(
+    applyWith(
+        'layout.steps',
+        [property('layout'), property('container'), property('image')],
+        (layout, container, image) => layouts[layout.type](container, image)
+    ),
+    set('layout.stepIndex', 0),
+    set('layout.transition', false)
+);
+let performLayout = cond([[isReading, doLayout], [stubTrue, identity]]);
 
 let changeContainerSize = (state, {width, height}) => ({...state, container: {width, height}});
 let changeImage = (state, action) => ({...state, image: pickImage(action)});
 let changeArchive = (state, action) => ({...state, archive: pickArchive(action)});
-let toggleHelp = macro().apply('isHelpVisible', toggle).build();
-let toggleFullscreen = macro().apply('isFullscreen', toggle).build();
-let nextStep = macro().set('layout.transition', true).apply('layout.stepIndex', index => index + 1).build();
-let previousStep = macro().set('layout.transition', true).apply('layout.stepIndex', index => index - 1).build();
+let toggleHelp = apply('isHelpVisible', toggle);
+let toggleFullscreen = apply('isFullscreen', toggle);
+let nextStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index + 1));
+let previousStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index - 1));
 let showMessage = (state, action) => ({...state, message: {show: true, content: action.message}});
-let hideMessage = macro().set('message', {show: false, content: ''}).build();
-let showLoading = macro().set('isLoading', true).build();
-let hideLoading = macro().set('isLoading', false).build();
+let hideMessage = set('message', {show: false, content: ''});
+let showLoading = set('isLoading', true);
+let hideLoading = set('isLoading', false);
 let changeLayoutType = (state, action) => immutable(state).set('layout.type', action.layout).value();
-let toggleDisturbMode = macro().apply('isDisturbing', toggle).build();
-let toggleTiming = macro().apply('timingBegin', time => (time ? null : moment())).build();
-let toggleInfo = macro().apply('isInfoVisible', toggle).build();
-let toggleTagList = macro().apply('isTagVisible', toggle).build();
+let toggleDisturbMode = apply('isDisturbing', toggle);
+let toggleTiming = apply('timingBegin', time => (time ? null : moment()));
+let toggleInfo = apply('isInfoVisible', toggle);
+let toggleTagList = apply('isTagVisible', toggle);
 let addTag = (state, action) => {
     let addTag = addUnique(action.tag);
     return immutable(state)
