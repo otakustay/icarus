@@ -41,6 +41,7 @@
     "babel-cli": "^6.11.4",
     "babel-plugin-react-require": "^3.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
+    "babel-plugin-transform-rename-import": "^2.0.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.5.0",
     "electron-packager": "^7.3.0",

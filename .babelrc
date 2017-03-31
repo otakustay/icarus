@@ -1,4 +1,8 @@
 {
     "presets": ["react", "stage-0"],
-    "plugins": ["babel-plugin-react-require", "transform-es2015-modules-commonjs"]
+    "plugins": [
+        "babel-plugin-react-require",
+        "transform-es2015-modules-commonjs",
+        ["transform-rename-import", {"react": "react/dist/react.min"}]
+    ]
 }

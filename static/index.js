@@ -67,5 +67,3 @@ render(
     </Provider>,
     document.getElementById('app')
 );
-
-// TODO: 用webpack构建
