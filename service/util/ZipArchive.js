@@ -9,6 +9,17 @@ let denodeify = require('denodeify');
 let readFile = denodeify(require('fs').readFile);
 let Archive = require('./Archive');
 let AdmZip = require('adm-zip');
+let chardet = require('jschardet');
+let iconv = require('iconv-lite');
+
+let decodeName = buffer => iconv.decode(buffer, chardet.detect(buffer).encoding);
+let pickEntry = e => {
+    return {
+        entryName: decodeName(e.rawEntryName),
+        originalEntryName: e.entryName,
+        name: e.name
+    };
+};
 
 /**
  * Zip压缩包封装
@@ -22,7 +33,7 @@ module.exports = class ZipArchive extends Archive {
      */
     constructor(unzippedEntries) {
         super();
-        this.entries = unzippedEntries.map(e => ({entryName: e.entryName, name: e.name}));
+        this.entries = unzippedEntries.map(pickEntry);
         this.files = unzippedEntries.reduce(
             (result, entry) => {
                 result[entry.entryName] = {
@@ -40,8 +51,8 @@ module.exports = class ZipArchive extends Archive {
     /**
      * @override
      */
-    readEntry({entryName}) {
-        let file = this.files[entryName];
+    readEntry({entryName, originalEntryName}) {
+        let file = this.files[originalEntryName];
 
         if (!file) {
             return Promise.reject(`No file ${entryName} in archive`);
