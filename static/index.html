@@ -107,7 +107,7 @@
         width: 30%;
         overflow: auto;
         z-index: 40;
-        background-color: #272822;
+        background-color: #303030;
     }
 
     .new-tag {
@@ -122,20 +122,27 @@
 
     .tag-item {
         list-style: none;
-        float: left;
-        margin: 5px;
-        padding: 1px 10px;
-        border-radius: 30px;
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        padding: 0 12px;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 16px;
+        font-size: 13px;
         cursor: pointer;
 
-        background-color: #52594a;
-        color: #87d86b;
+        background-color: rgba(0, 0, 0, .5);
+        color: #fff;
     }
 
-    .tag-item:hover,
+    .tag-item:hover {
+        color: rgba(255, 255, 255, .5);
+    }
+
     .tag-item-selected {
-        background-color: #7ac46f;
-        color: #e4eafb;
+        background-color: #4caf50;
+        color: #fff;
     }
 
     .tag-item-list {
