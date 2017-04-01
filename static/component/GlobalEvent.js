@@ -1,6 +1,7 @@
 import {Component} from 'react';
 
 const EVENTS = [
+    ['keydown', 'onKeyDown'],
     ['keyup', 'onKeyUp'],
     ['dragover', 'onDragOver'],
     ['dragenter', 'onDragEnter'],

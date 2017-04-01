@@ -30,6 +30,35 @@ require('log4js').configure(
 let app = electron.app;
 let icarus = new Application();
 
+let setMenu = () => {
+    let template = [
+        {
+            label: "Application",
+            submenu: [
+                {role: 'about'},
+                {type: "separator" },
+                {role: 'quit'}
+            ]
+        },
+        {
+            label: "Edit",
+            submenu: [
+                {role: 'copy'},
+                {role: 'paste'},
+                {role: 'selectall'}
+            ]
+        },
+        {
+            label: 'View',
+            submenu: [
+                {role: 'toggledevtools'}
+            ]
+        }
+    ];
+
+    electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(template));
+};
+
 let cleanup = async e => {
     e.preventDefault();
     await icarus.exit();
@@ -37,5 +66,11 @@ let cleanup = async e => {
 };
 
 app.on('window-all-closed', () => app.quit());
-app.on('ready', () => icarus.start());
+app.on(
+    'ready',
+    () => {
+        setMenu();
+        icarus.start()
+    }
+);
 app.once('will-quit', cleanup);
