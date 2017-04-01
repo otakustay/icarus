@@ -31,7 +31,7 @@ export let getViewStates = createSelector(
 
 
 let App = props => {
-    let {image, layout, archive, message, isHelpVisible, isLoading, isDisturbing, timingBegin} = props;
+    let {image, layout, archive, message, isHelpVisible, isLoading, isDisturbing, timingBegin, tagCollisions} = props;
     let viewStates = getViewStates(props);
 
     return (
@@ -43,6 +43,7 @@ let App = props => {
             <TagList
                 allTags={archive.allTags}
                 tags={archive.tags}
+                collisions={tagCollisions}
                 visible={viewStates.tag}
                 onAddTag={props.onAddTag}
                 onRemoveTag={props.onRemoveTag}

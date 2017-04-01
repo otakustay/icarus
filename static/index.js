@@ -34,6 +34,7 @@ let initialState = {
         show: false,
         content: ''
     },
+    tagCollisions: {},
     isLoading: false,
     isHelpVisible: false,
     isInfoVisible: false,
@@ -55,11 +56,14 @@ let connect = (channel, module) => {
     electron.ipcRenderer.on(channel, (e, result) => store.dispatch(receiver(result)));
 };
 
+connect('init', 'init');
 connect('image', 'image');
 connect('no-more', 'noMore');
 connect('no-state', 'noState');
 connect('archive', 'archive');
 connect('service-error', 'serviceError');
+
+electron.ipcRenderer.send('init');
 
 render(
     <Provider store={store}>

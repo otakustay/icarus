@@ -1,19 +1,24 @@
 import {Component} from 'react';
 import pinyin from 'pinyin';
 import {createSelector} from 'reselect';
-import {property} from 'lodash';
+import {property, propertyOf, compact, max} from 'lodash';
 
 let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
 
 let categorize = createSelector(
-    [property('allTags'), property('tags')],
-    (all, selected) => {
+    [property('allTags'), property('tags'), property('collisions')],
+    (all, selected, collisions) => {
         let selectedSet = new Set(selected);
+        let collisionTable = selected.map(propertyOf(collisions));
         let result = all.reduce(
             (result, tag) => {
                 let category = getCategory(tag);
+                let collisionRate = max(compact(collisionTable.map(property(tag))));
+                if (collisionRate) {
+                    collisionRate = Math.min(Math.round(collisionRate * 10), 9);
+                }
                 let cache = result[category] || (result[category] = []);
-                cache.push({name: tag, selected: selectedSet.has(tag)});
+                cache.push({name: tag, selected: selectedSet.has(tag), collisionRate: collisionRate});
                 return result;
             },
             {}
@@ -59,8 +64,11 @@ export default class TagList extends Component {
     render() {
         let tagCategories = categorize(this.props);
 
-        let item = ({name, selected}) => {
+        let item = ({name, selected, collisionRate}) => {
             let className = selected ? 'tag-item tag-item-selected' : 'tag-item';
+            if (collisionRate) {
+                className += ` tag-collision-${collisionRate}`;
+            }
 
             return <li key={name} className={className} onClick={::this.onClickTag}>{name}</li>;
         };

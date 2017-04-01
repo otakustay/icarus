@@ -22,6 +22,7 @@ let doLayout = flow(
 );
 let performLayout = cond([[isReading, doLayout], [stubTrue, identity]]);
 
+let init = (state, action) => ({...state, ...action.state});
 let changeContainerSize = (state, {width, height}) => ({...state, container: {width, height}});
 let changeImage = (state, action) => ({...state, image: pickImage(action)});
 let changeArchive = (state, action) => ({...state, archive: pickArchive(action)});
@@ -49,6 +50,7 @@ let removeTag = (state, action) => immutable(state).remove('archive.tags', actio
 
 let type = value => flow(nthArg(1), property('type'), eq(value));
 let cases = [
+    [type(actionType.INIT), init],
     [type(actionType.CONTAINER_SIZE_CHANGE), flow(changeContainerSize, performLayout)],
     [type(actionType.NEW_IMAGE), flow(changeImage, performLayout)],
     [type(actionType.NEW_ARCHIVE), changeArchive],

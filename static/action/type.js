@@ -1,3 +1,4 @@
+export const INIT = 'INIT';
 export const NEW_ARCHIVE = 'NEW_ARCHIVE';
 export const NEW_IMAGE = 'NEW_IMAGE';
 export const CONTAINER_SIZE_CHANGE = 'CONTAINER_SIZE_CHANGE';

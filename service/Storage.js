@@ -6,6 +6,7 @@
 'use strict';
 
 let u = require('underscore');
+let lodash = require('lodash');
 let logger = require('log4js').getLogger('storage');
 let datastore = require('nedb-promise');
 let path = require('path');
@@ -168,5 +169,32 @@ module.exports = class Storage {
         logger.info(`Found ${tags.size} tags`);
 
         return Array.from(tags);
+    }
+
+    async tagCollisions() {
+        let docs = await this.database.find({});
+        let tagMap = docs.reduce(
+            (map, {tags}) => tags.reduce((map, tag) => map.set(tag, (map.get(tag) || []).concat(tags)), map),
+            new Map()
+        );
+        let collisionTable = Array.from(tagMap).reduce(
+            (table, [tag, collisions]) => {
+                let collisionIndex = lodash.countBy(collisions, lodash.identity);
+                let base = collisionIndex[tag];
+                let collisionProbabilities = Object.entries(collisionIndex).reduce(
+                    (result, [currentTag, value]) => {
+                        if (currentTag === tag || value / base < 0.2) {
+                            return result;
+                        }
+                        return Object.assign(result, {[currentTag]: value / base});
+                    },
+                    {}
+                );
+
+                return Object.assign(table, {[tag]: collisionProbabilities});
+            },
+            {}
+        );
+        return collisionTable;
     }
 };
