@@ -1,26 +1,12 @@
-/**
- * @file 上一个压缩文件指令
- * @author otakustay
- */
-
-'use strict';
-
-let unpack = require('../util/unpack');
-let logger = require('log4js').getLogger('previousArchive');
+import log4js from 'log4js';
+import {unpack} from '../util';
+import nextImage from './nextImage';
 
 const DEFAULT_OPTIONS = {moveToLast: false};
 
-/**
- * 打开上一个压缩文件
- *
- * @protected
- * @param {service.GlobalContext} context 全局上下文
- * @param {meta.BrowserWindow} sender 发送者
- * @param {Object} [options] 相关配置项
- * @param {boolean} options.moveToLast = false 是否要移动到最后一张图片，由`previousImage`指令产生的移动要恢复到最后一张
- * @return {Promise}
- */
-module.exports = async (context, sender, options) => {
+let logger = log4js.getLogger('previousArchive');
+
+let previousArchive = async (context, sender, options) => {
     logger.info('Start process');
 
     options = options || DEFAULT_OPTIONS;
@@ -39,7 +25,7 @@ module.exports = async (context, sender, options) => {
 
     if (!archive.entries.length) {
         logger.warn(`There is no image file in ${file}, move to next archive`);
-        await module.exports(context, sender);
+        await previousArchive(context, sender);
         return;
     }
 
@@ -55,5 +41,7 @@ module.exports = async (context, sender, options) => {
 
     logger.trace('Open the ' + options.moveToLast ? 'last' : 'first' + ' image in archive');
 
-    await require('./nextImage')(context, sender);
+    await nextImage(context, sender);
 };
+
+export default previousArchive;

@@ -1,23 +1,11 @@
-/**
- * @file 打开指定文件指令
- * @author otakustay
- */
+import path from 'path';
+import log4js from 'log4js';
+import {list} from '../util';
+import nextArchive from './nextArchive';
 
-'use strict';
+let logger = log4js.getLogger('open');
 
-let path = require('path');
-let list = require('../util/list');
-let logger = require('log4js').getLogger('open');
-
-/**
- * 打开客户端指定的文件或目录
- *
- * @protected
- * @param {service.GlobalContext} context 全局上下文
- * @param {meta.BrowserWindow} sender 发送者
- * @param {string} file 需要打开的文件或目录路径
- */
-module.exports = async (context, sender, file) => {
+export default async (context, sender, file) => {
     if (!file) {
         logger.error('No file provided');
         return;
@@ -55,5 +43,5 @@ module.exports = async (context, sender, file) => {
 
     logger.trace('Open ' + (extension ? file : 'the first archive'));
 
-    await require('./nextArchive')(context, sender);
+    await nextArchive(context, sender);
 };

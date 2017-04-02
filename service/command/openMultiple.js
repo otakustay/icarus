@@ -1,21 +1,9 @@
-/**
- * @file 打开指定的多个压缩文件
- * @author otakustay
- */
+import log4js from 'log4js';
+import nextArchive from './nextArchive';
 
-'use strict';
+let logger = log4js.getLogger('openMultiple');
 
-let logger = require('log4js').getLogger('openMultiple');
-
-/**
- * 打开客户端指定的文件或目录
- *
- * @protected
- * @param {service.GlobalContext} context 全局上下文
- * @param {meta.BrowserWindow} sender 发送者
- * @param {string[]} archiveList 需要打开的文件
- */
-module.exports = async (context, sender, archiveList) => {
+export default async (context, sender, archiveList) => {
     if (!archiveList || !archiveList.length) {
         logger.warn('No archives provided');
         return;
@@ -31,5 +19,5 @@ module.exports = async (context, sender, archiveList) => {
 
     logger.trace('Open the first selected archive');
 
-    await require('./nextArchive')(context, sender);
+    await nextArchive(context, sender);
 };

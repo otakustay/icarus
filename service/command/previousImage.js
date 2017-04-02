@@ -1,22 +1,11 @@
-/**
- * @file 上一张图片指令
- * @author otakustay
- */
+import sizeOf from 'image-size';
+import log4js from 'log4js';
+import {datauri} from '../util';
+import previousArchive from './previousArchive';
 
-'use strict';
+let logger = log4js.getLogger('previousImage');
 
-let datauri = require('../util/datauri');
-let logger = require('log4js').getLogger('previousImage');
-let sizeOf = require('image-size');
-
-/**
- * 打开上一个图片
- *
- * @protected
- * @param {service.GlobalContext} context 全局上下文
- * @param {meta.BrowserWindow} sender 发送者
- */
-module.exports = async (context, sender) => {
+export default async (context, sender) => {
     logger.info('Start process');
 
     let image = context.imageList.previous();
@@ -24,7 +13,7 @@ module.exports = async (context, sender) => {
     if (!image) {
         logger.info('Already at the first image, move to previous archive');
 
-        await require('./previousArchive')(context, sender, {moveToLast: true});
+        await previousArchive(context, sender, {moveToLast: true});
         return;
     }
 

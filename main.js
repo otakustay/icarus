@@ -1,17 +1,10 @@
-/**
- * @file 入口
- * @author otakustay
- */
-
-'use strict';
-
-require('babel-polyfill');
-
-let mkdirp = require('mkdirp');
-let path = require('path');
-let electron = require('electron');
-let {default: installExtension, REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} = require('electron-devtools-installer');
-let Application = require('./service/Application');
+import 'babel-polyfill';
+import path from 'path';
+import mkdirp from 'mkdirp';
+import electron from 'electron';
+import log4js from 'log4js';
+import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import Application from './service/Application';
 
 const DEBUG = process.argv.includes('--debug');
 if (DEBUG) {
@@ -19,11 +12,11 @@ if (DEBUG) {
     installExtension(REDUX_DEVTOOLS);
 }
 
-const USER_DATA_DIRECTORY = require('electron').app.getPath('userData');
+const USER_DATA_DIRECTORY = electron.app.getPath('userData');
 mkdirp.sync(USER_DATA_DIRECTORY);
 
-require('log4js').configure(
-    require('path').join(__dirname, '.logrc'),
+log4js.configure(
+    path.join(__dirname, '.logrc'),
     {cwd: USER_DATA_DIRECTORY}
 );
 

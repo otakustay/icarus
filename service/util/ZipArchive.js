@@ -1,16 +1,11 @@
-/**
- * @file .zip压缩文件基类
- * @author otakustay
- */
+import denodeify from 'denodeify';
+import fs from 'fs';
+import AdmZip from 'adm-zip';
+import chardet from 'jschardet';
+import iconv from 'iconv-lite';
+import Archive from './Archive';
 
-'use strict';
-
-let denodeify = require('denodeify');
-let readFile = denodeify(require('fs').readFile);
-let Archive = require('./Archive');
-let AdmZip = require('adm-zip');
-let chardet = require('jschardet');
-let iconv = require('iconv-lite');
+let readFile = denodeify(fs.readFile);
 
 let decodeName = buffer => iconv.decode(buffer, chardet.detect(buffer).encoding);
 let pickEntry = e => {
@@ -21,16 +16,8 @@ let pickEntry = e => {
     };
 };
 
-/**
- * Zip压缩包封装
- */
-module.exports = class ZipArchive extends Archive {
+export default class ZipArchive extends Archive {
 
-    /**
-     * 构造函数
-     *
-     * @param {ZipEntry[]} unzippedEntries 由`adm-zip`工具解压得到的数组
-     */
     constructor(unzippedEntries) {
         super();
         this.entries = unzippedEntries.map(pickEntry);
@@ -48,9 +35,6 @@ module.exports = class ZipArchive extends Archive {
         );
     }
 
-    /**
-     * @override
-     */
     readEntry({entryName, originalEntryName}) {
         let file = this.files[originalEntryName];
 
@@ -61,15 +45,9 @@ module.exports = class ZipArchive extends Archive {
         return file.getData();
     }
 
-    /**
-     * 从文件创建压缩包对象
-     *
-     * @param {string} file 文件路径
-     * @return {service.util.ZipArchive} 压缩包对象
-     */
     static async create(file) {
         let fileData = await readFile(file);
         let archive = new AdmZip(fileData);
         return new ZipArchive(archive.getEntries());
     }
-};
+}

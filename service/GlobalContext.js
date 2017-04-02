@@ -1,29 +1,15 @@
-/**
- * @file 全局上下文类
- * @author otakustay
- */
+import LinkedList from '../common/LinkedList';
+import log4js from 'log4js';
 
-'use strict';
+let logger = log4js.getLogger('context');
 
-let LinkedList = require('../common/LinkedList');
-let logger = require('log4js').getLogger('context');
-
-/**
- * 应用后端全局上下文
- */
-module.exports = class GlobalContext {
+export default class GlobalContext {
     constructor(ipc, storage, version) {
         this.ipc = ipc;
         this.storage = storage;
         this.version = version;
     }
 
-    /**
-     * 设置当前浏览的压缩文件列表
-     *
-     * @param {string[]} archiveList 压缩文件名称（不包含目录）数组
-     * @param {string} browsingFile 当前正在浏览的压缩文件名称（不包含目录）
-     */
     setArchiveList(archiveList, browsingFile) {
         this.archiveList = new LinkedList(archiveList);
 
@@ -36,12 +22,6 @@ module.exports = class GlobalContext {
         }
     }
 
-    /**
-     * 设置当前浏览的图片列表
-     *
-     * @param {string[]} imageList 图片文件名称（不包含目录）数组
-     * @param {string} browsingImage 当前正在浏览的图片文件名称（不包含目录）
-     */
     setImageList(imageList, browsingImage) {
         this.imageList = new LinkedList(imageList);
 
@@ -54,14 +34,6 @@ module.exports = class GlobalContext {
         }
     }
 
-    /**
-     * 设置当前浏览的压缩文件
-     *
-     * @param {service.util.Archive} archive 压缩文件对象
-     * @param {Object} [options] 额外配置项
-     * @param {boolean} options.moveToLast = false 是否要移动到最后一张图片，由`previousImage`指令产生的移动要恢复到最后一张
-     * @param {boolean} options.moveToImage 设置要恢复的图片
-     */
     setBrowsingArchive(archive, options = {}) {
         this.browsingArchive = archive;
         let imageList = archive.entries;
@@ -81,9 +53,6 @@ module.exports = class GlobalContext {
         }
     }
 
-    /**
-     * 保存状态
-     */
     async persist() {
         logger.trace('Try to save state');
 
@@ -112,4 +81,4 @@ module.exports = class GlobalContext {
     dispose() {
         return this.storage.cleanup();
     }
-};
+}

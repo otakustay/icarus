@@ -1,21 +1,10 @@
-/**
- * @file 下一个压缩文件指令
- * @author otakustay
- */
+import log4js from 'log4js';
+import {unpack} from '../util';
+import nextImage from './nextImage';
 
-'use strict';
+let logger = log4js.getLogger('nextArchive');
 
-let unpack = require('../util/unpack');
-let logger = require('log4js').getLogger('nextArchive');
-
-/**
- * 打开下一个压缩文件
- *
- * @protected
- * @param {service.GlobalContext} context 全局上下文
- * @param {meta.BrowserWindow} sender 发送者
- */
-module.exports = async (context, sender) => {
+let nextArchive = async (context, sender) => {
     logger.info('Start process');
 
     let file = context.archiveList.next();
@@ -32,7 +21,7 @@ module.exports = async (context, sender) => {
 
     if (!archive.entries.length) {
         logger.warn(`There is no image file in ${file}, move to next archive`);
-        await module.exports(context, sender);
+        await nextArchive(context, sender);
         return;
     }
 
@@ -48,5 +37,7 @@ module.exports = async (context, sender) => {
 
     logger.trace('Open the first image in archive');
 
-    await require('./nextImage')(context, sender);
+    await nextImage(context, sender);
 };
+
+export default nextArchive;

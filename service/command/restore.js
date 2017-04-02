@@ -1,21 +1,10 @@
-/**
- * @file 恢复先前状态指令
- * @author otakustay
- */
+import log4js from 'log4js';
+import {unpack} from '../util';
+import nextImage from './nextImage';
 
-'use strict';
+let logger = log4js.getLogger('restore');
 
-let unpack = require('../util/unpack');
-let logger = require('log4js').getLogger('restore');
-
-/**
- * 恢复之前保存的阅读进度
- *
- * @protected
- * @param {service.GlobalContext} context 全局上下文
- * @param {meta.BrowserWindow} sender 发送者
- */
-module.exports = async (context, sender) => {
+export default async (context, sender) => {
     logger.info('Start process');
 
     let persistData = await context.storage.restoreState();
@@ -45,5 +34,5 @@ module.exports = async (context, sender) => {
 
     logger.info('Move to open image');
 
-    await require('./nextImage')(context, sender);
+    await nextImage(context, sender);
 };

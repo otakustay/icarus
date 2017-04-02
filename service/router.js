@@ -1,30 +1,22 @@
-/**
- * @file 指令路由
- * @author otakustay
- */
+import log4js from 'log4js';
+import * as command from './command';
 
-'use strict';
+let logger = log4js.getLogger('router');
 
-let logger = require('log4js').getLogger('router');
 let routes = {
-    'open': require('./command/open'),
-    'open-multiple': require('./command/openMultiple'),
-    'next-archive': require('./command/nextArchive'),
-    'previous-archive': require('./command/previousArchive'),
-    'next-image': require('./command/nextImage'),
-    'previous-image': require('./command/previousImage'),
-    'restore': require('./command/restore'),
-    'add-tag': require('./command/addTag'),
-    'remove-tag': require('./command/removeTag'),
-    'init': require('./command/init')
+    'open': command.open,
+    'open-multiple': command.openMultiple,
+    'next-archive': command.nextArchive,
+    'previous-archive': command.previousArchive,
+    'next-image': command.nextImage,
+    'previous-image': command.previousImage,
+    'restore': command.restore,
+    'add-tag': command.addTag,
+    'remove-tag': command.removeTag,
+    'init': command.init
 };
 
-/**
- * 启动路由
- *
- * @param {service.GlobalContext} context 全局上下文
- */
-exports.start = context => {
+export let start = context => {
     for (let [channel, command] of Object.entries(routes)) {
         /* eslint-disable no-loop-func */
         context.ipc.on(channel, ({sender}, arg) => command(context, sender, arg));
