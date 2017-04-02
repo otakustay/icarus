@@ -9,7 +9,17 @@
             "appender": {
                 "type": "file",
                 "filename": "trace.log",
-                "maxLogSize": 20971520,
+                "maxLogSize": 2097152,
+                "backups": 3
+            }
+        },
+        {
+            "type": "logLevelFilter",
+            "level": "WARN",
+            "appender": {
+                "type": "file",
+                "filename": "wf.log",
+                "maxLogSize": 2097152,
                 "backups": 3
             }
         }
