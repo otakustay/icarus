@@ -1,5 +1,5 @@
 import electron from 'electron';
-import {ADD_TAG, REMOVE_TAG} from './type';
+import {ADD_TAG, REMOVE_TAG, UPDATE_TAGS} from './type';
 
 let ipc = electron.ipcRenderer;
 
@@ -16,3 +16,5 @@ export let removeTag = tag => (dispatch, getState) => {
 
     dispatch({type: REMOVE_TAG, tag: tag});
 };
+
+export let updateTags = info => ({type: UPDATE_TAGS, ...info});

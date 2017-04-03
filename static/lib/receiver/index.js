@@ -4,3 +4,4 @@ export init from './init.js';
 export noMore from './noMore.js';
 export noState from './noState.js';
 export serviceError from './serviceError.js';
+export tag from './tag.js';

@@ -123,11 +123,12 @@ export default class Storage {
 
     async allTags() {
         let docs = await this.database.find({});
-        let tags = new Set(docs.reduce((tags, doc) => tags.concat(doc.tags), []));
+        let docTagPairs = docs.reduce((result, doc) => result.concat(doc.tags.map(tag => ({tag, doc}))), []);
+        let tags = Object.entries(countBy(docTagPairs, 'tag')).map(([name, count]) => ({name, count}));
 
-        logger.info(`Found ${tags.size} tags`);
+        logger.info(`Found ${tags.length} tags`);
 
-        return Array.from(tags);
+        return tags;
     }
 
     async tagCollisions() {

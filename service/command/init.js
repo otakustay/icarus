@@ -5,7 +5,7 @@ let logger = log4js.getLogger('init');
 export default async (context, sender) => {
     logger.info('Start process');
 
-    let tagCollisions = await context.storage.tagCollisions();
+    let [all, collisions] = await Promise.all([context.storage.allTags(), context.storage.tagCollisions()]);
 
-    sender.send('init', {tagCollisions});
+    sender.send('init', {tags: {all, collisions}});
 };

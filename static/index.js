@@ -34,7 +34,10 @@ let initialState = {
         show: false,
         content: ''
     },
-    tagCollisions: {},
+    tags: {
+        all: [],
+        collisions: {}
+    },
     isLoading: false,
     isHelpVisible: false,
     isInfoVisible: false,
@@ -61,6 +64,7 @@ connect('image', 'image');
 connect('no-more', 'noMore');
 connect('no-state', 'noState');
 connect('archive', 'archive');
+connect('tag', 'tag');
 connect('service-error', 'serviceError');
 
 electron.ipcRenderer.send('init');

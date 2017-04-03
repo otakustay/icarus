@@ -39,14 +39,9 @@ let toggleDisturbMode = apply('isDisturbing', toggle);
 let toggleTiming = apply('timingBegin', time => (time ? null : moment()));
 let toggleInfo = apply('isInfoVisible', toggle);
 let toggleTagList = apply('isTagVisible', toggle);
-let addTag = (state, action) => {
-    let addTag = addUnique(action.tag);
-    return immutable(state)
-        .apply('archive.tags', addTag)
-        .apply('archive.allTags', addTag)
-        .value();
-};
+let addTag = (state, action) => immutable(state).apply('archive.tags', addUnique(action.tag)).value();
 let removeTag = (state, action) => immutable(state).remove('archive.tags', action.tag).value();
+let updateTags = (state, action) => immutable(state).set('tags.all', action.all).value();
 
 let type = value => flow(nthArg(1), property('type'), eq(value));
 let cases = [
@@ -69,6 +64,7 @@ let cases = [
     [type(actionType.TOGGLE_TAG_LIST), toggleTagList],
     [type(actionType.ADD_TAG), addTag],
     [type(actionType.REMOVE_TAG), removeTag],
+    [type(actionType.UPDATE_TAGS), updateTags],
     [stubTrue, identity]
 ];
 

@@ -24,10 +24,7 @@ export default async (context, sender) => {
 
     logger.info('Send archive command to renderer');
 
-    let info = {
-        ...(await context.storage.getArchiveInfo(file)),
-        allTags: await context.storage.allTags()
-    };
+    let info = await context.storage.getArchiveInfo(file);
     sender.send('archive', info);
 
     logger.trace('Image list restored');

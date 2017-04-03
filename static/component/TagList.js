@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import pinyin from 'pinyin';
 import {createSelector} from 'reselect';
-import {property, propertyOf, compact, max} from 'lodash';
+import {map, property, propertyOf, compact, max} from 'lodash';
 
 let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
 
@@ -10,7 +10,7 @@ let categorize = createSelector(
     (all, selected, collisions) => {
         let selectedSet = new Set(selected);
         let collisionTable = selected.map(propertyOf(collisions));
-        let result = all.reduce(
+        let result = map(all, 'name').reduce(
             (result, tag) => {
                 let category = getCategory(tag);
                 let collisionRate = max(compact(collisionTable.map(property(tag))));
