@@ -1,4 +1,5 @@
 export addTag from './addTag.js';
+export filter from './filter.js';
 export init from './init.js';
 export nextArchive from './nextArchive.js';
 export nextImage from './nextImage.js';

@@ -38,12 +38,16 @@ let initialState = {
         all: [],
         collisions: {}
     },
+    filter: {
+        tags: []
+    },
     isLoading: false,
     isHelpVisible: false,
     isInfoVisible: false,
     isFullscreen: false,
     isDisturbing: false,
-    isTagVisible: false
+    isTagVisible: false,
+    isFilterVisible: false
 };
 let store = createStore(
     reducer,
@@ -65,6 +69,7 @@ connect('no-more', 'noMore');
 connect('no-state', 'noState');
 connect('archive', 'archive');
 connect('tag', 'tag');
+connect('filter', 'filter');
 connect('service-error', 'serviceError');
 
 electron.ipcRenderer.send('init');

@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import pinyin from 'pinyin';
 import {createSelector} from 'reselect';
-import {map, property, propertyOf, compact, max} from 'lodash';
+import {property, propertyOf, compact, max} from 'lodash';
 
 let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
 
@@ -10,15 +10,15 @@ let categorize = createSelector(
     (all, selected, collisions) => {
         let selectedSet = new Set(selected);
         let collisionTable = selected.map(propertyOf(collisions));
-        let result = map(all, 'name').reduce(
+        let result = all.reduce(
             (result, tag) => {
-                let category = getCategory(tag);
-                let collisionRate = max(compact(collisionTable.map(property(tag))));
+                let category = getCategory(tag.name);
+                let collisionRate = max(compact(collisionTable.map(property(tag.name))));
                 if (collisionRate) {
                     collisionRate = Math.min(Math.round(collisionRate * 10), 9);
                 }
                 let cache = result[category] || (result[category] = []);
-                cache.push({name: tag, selected: selectedSet.has(tag), collisionRate: collisionRate});
+                cache.push({...tag, selected: selectedSet.has(tag.name), collisionRate: collisionRate});
                 return result;
             },
             {}
@@ -28,6 +28,12 @@ let categorize = createSelector(
 );
 
 export default class TagList extends Component {
+
+    static defaultProps = {
+        visible: true,
+        showTagWithCount: false,
+        newTag: true
+    };
 
     state = {
         newTagName: ''
@@ -51,9 +57,8 @@ export default class TagList extends Component {
         this.setState(() => ({newTagName: ''}));
     }
 
-    onClickTag(e) {
-        let tagName = e.target.innerText;
-        if (e.target.classList.contains('tag-item-selected')) {
+    onClickTag(tagName, selected) {
+        if (selected) {
             this.props.onRemoveTag(tagName);
         }
         else {
@@ -64,13 +69,14 @@ export default class TagList extends Component {
     render() {
         let tagCategories = categorize(this.props);
 
-        let item = ({name, selected, collisionRate}) => {
+        let item = ({name, count, selected, collisionRate}) => {
             let className = selected ? 'tag-item tag-item-selected' : 'tag-item';
             if (collisionRate) {
                 className += ` tag-collision-${collisionRate}`;
             }
+            let text = this.props.showTagWithCount ? `${name} (${count})` : name;
 
-            return <li key={name} className={className} onClick={::this.onClickTag}>{name}</li>;
+            return <li key={name} className={className} onClick={() => this.onClickTag(name, selected)}>{text}</li>;
         };
 
         let category = ({key, tags}) => (
@@ -88,6 +94,7 @@ export default class TagList extends Component {
                     className="new-tag"
                     placeholder="输入标签"
                     value={this.state.newTagName}
+                    style={{display: this.props.newTag ? '' : 'none'}}
                     onChange={::this.onChange}
                     onKeyUp={::this.onTagEnter}
                 />

@@ -2,6 +2,7 @@ export Alert from './Alert.js';
 export Clock from './Clock.js';
 export DisturbMode from './DisturbMode.js';
 export DropZone from './DropZone.js';
+export Filter from './Filter.js';
 export FullscreenToggle from './FullscreenToggle.js';
 export Image from './Image.js';
 export Info from './Info.js';

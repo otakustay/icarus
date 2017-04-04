@@ -42,6 +42,8 @@ let toggleTagList = apply('isTagVisible', toggle);
 let addTag = (state, action) => immutable(state).apply('archive.tags', addUnique(action.tag)).value();
 let removeTag = (state, action) => immutable(state).remove('archive.tags', action.tag).value();
 let updateTags = (state, action) => immutable(state).set('tags.all', action.all).value();
+let toggleFilter = apply('isFilterVisible', toggle);
+let updateFilter = (state, action) => immutable(state).set('filter.tags', action.tags).value();
 
 let type = value => flow(nthArg(1), property('type'), eq(value));
 let cases = [
@@ -65,6 +67,8 @@ let cases = [
     [type(actionType.ADD_TAG), addTag],
     [type(actionType.REMOVE_TAG), removeTag],
     [type(actionType.UPDATE_TAGS), updateTags],
+    [type(actionType.TOGGLE_FILTER), toggleFilter],
+    [type(actionType.UPDATE_FILTER), updateFilter],
     [stubTrue, identity]
 ];
 

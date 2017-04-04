@@ -13,7 +13,8 @@ let routes = {
     'restore': command.restore,
     'add-tag': command.addTag,
     'remove-tag': command.removeTag,
-    'init': command.init
+    'init': command.init,
+    'filter': command.filter
 };
 
 export let start = context => {

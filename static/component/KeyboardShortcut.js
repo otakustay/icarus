@@ -1,10 +1,16 @@
 import {pick, groupBy} from 'lodash';
 
+let displayPattern = pattern => {
+    let names = pattern.split('+');
+    let char = names.pop();
+    return [...names, char === ' ' ? 'SPACE' : char].join(' + ');
+};
+
 let shortcutItem = ([description, items]) => {
     return (
         <li key={description} className="shortcut-item">
             <span className="short-key-list">
-                {items.map(({char}) => <kbd key={char} className="shortcut-key">{char === ' ' ? 'SPACE' : char}</kbd>)}
+                {items.map(({pattern}) => <kbd key={pattern} className="shortcut-key">{displayPattern(pattern)}</kbd>)}
             </span>
             <span className="shortcut-description">{description}</span>
         </li>
@@ -12,7 +18,7 @@ let shortcutItem = ([description, items]) => {
 };
 
 export default ({children, visible}) => {
-    let keys = children.map(key => pick(key.props, ['char', 'description']));
+    let keys = children.map(key => pick(key.props, ['pattern', 'description']));
     let groups = Object.entries(groupBy(keys, 'description'));
 
     return (

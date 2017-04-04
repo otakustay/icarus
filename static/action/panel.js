@@ -1,5 +1,13 @@
 import moment from 'moment';
-import {TOGGLE_HELP, TOGGLE_FULLSCREEN, TOGGLE_DISTURB_MODE, TOGGLE_TIMING, TOGGLE_INFO, TOGGLE_TAG_LIST} from './type';
+import {
+    TOGGLE_HELP,
+    TOGGLE_FULLSCREEN,
+    TOGGLE_DISTURB_MODE,
+    TOGGLE_TIMING,
+    TOGGLE_INFO,
+    TOGGLE_TAG_LIST,
+    TOGGLE_FILTER
+} from './type';
 import {showAlert} from './notice';
 import {isReading} from '../selector';
 
@@ -31,4 +39,12 @@ export let toggleTagList = () => (dispatch, getState) => {
     }
 
     dispatch({type: TOGGLE_TAG_LIST});
+};
+
+export let toggleFilter = () => (dispatch, getState) => {
+    if (!isReading(getState())) {
+        return;
+    }
+
+    dispatch({type: TOGGLE_FILTER});
 };

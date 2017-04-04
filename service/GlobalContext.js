@@ -1,5 +1,5 @@
-import LinkedList from '../common/LinkedList';
 import log4js from 'log4js';
+import LinkedList from '../common/LinkedList';
 
 let logger = log4js.getLogger('context');
 
@@ -36,6 +36,7 @@ export default class GlobalContext {
 
     setBrowsingArchive(archive, options = {}) {
         this.browsingArchive = archive;
+
         let imageList = archive.entries;
 
         if (options.moveToLast) {
@@ -53,29 +54,44 @@ export default class GlobalContext {
         }
     }
 
+    setFilterTags(tags) {
+        if (!tags.length) {
+            logger.info('Clear filter tags');
+
+            this.filter = null;
+        }
+        else {
+            logger.info(`Set filter tags to ${tags}`);
+
+            this.filter = {tags};
+        }
+    }
+
     async persist() {
         logger.trace('Try to save state');
 
-        let archiveList = this.archiveList && this.archiveList.toArray();
-        let archive = this.archiveList && this.archiveList.current();
-        let image = this.imageList && this.imageList.current();
-        let dump = {
-            archiveList: archiveList,
-            archive: archive,
-            image: image && image.entryName,
-            version: this.version
-        };
-        let persistData = Object.entries(dump).reduce(
-            (result, [key, value]) => {
-                if (value) {
-                    result[key] = value;
-                    return result;
-                }
-            },
-            {}
-        );
+        if (this.filter) {
+            let savedState = await this.storage.restoreState();
+            let filterState = {
+                tags: this.filter.tags,
+                archive: this.archiveList.current(),
+                image: this.imageList.current().entryName
+            };
+            let dump = Object.assign(savedState, {filter: filterState, version: this.version});
 
-        await this.storage.saveState(persistData);
+            await this.storage.saveState(dump);
+        }
+        else {
+            let dump = {
+                archiveList: this.archiveList.toArray(),
+                archive: this.archiveList.current(),
+                image: this.imageList.current().entryName,
+                filter: null,
+                version: this.version
+            };
+
+            await this.storage.saveState(dump);
+        }
     }
 
     dispose() {

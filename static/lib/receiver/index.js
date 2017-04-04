@@ -1,4 +1,5 @@
 export archive from './archive.js';
+export filter from './filter.js';
 export image from './image.js';
 export init from './init.js';
 export noMore from './noMore.js';

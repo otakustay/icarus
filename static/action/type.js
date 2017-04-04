@@ -18,3 +18,5 @@ export const TOGGLE_TAG_LIST = 'TOGGLE_TAG_LIST';
 export const ADD_TAG = 'ADD_TAG';
 export const REMOVE_TAG = 'REMOVE_TAG';
 export const UPDATE_TAGS = 'UPDATE_TAGS';
+export const TOGGLE_FILTER = 'TOGGLE_FILTER';
+export const UPDATE_FILTER = 'UPDATE_FILTER';

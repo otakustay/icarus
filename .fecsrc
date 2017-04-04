@@ -21,7 +21,8 @@
             "fecs-valid-class-jsdoc": false,
             "fecs-valid-dom-style": false,
             "fecs-arrow-body-style": false,
-            "fecs-valid-jsdoc": false
+            "fecs-valid-jsdoc": false,
+            "fecs-prefer-async-await": false
         },
         "globals": {
             "webview": true

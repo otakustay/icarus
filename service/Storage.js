@@ -2,16 +2,15 @@ import {omit, pick, countBy, identity} from 'lodash';
 import datastore from 'nedb-promise';
 import path from 'path';
 import log4js from 'log4js';
+import {bareName} from './util';
 
 let logger = log4js.getLogger('storage');
 
 let stateToLog = state => {
     let log = Object.assign({}, state);
     log.archiveList = `(...${state.archiveList.length} files)`;
-    return log;
+    return JSON.stringify(log);
 };
-
-let bareName = file => path.basename(file, path.extname(file));
 
 export default class Storage {
 
@@ -41,7 +40,7 @@ export default class Storage {
     }
 
     async saveState(state) {
-        logger.info('Save state', JSON.stringify(stateToLog(state)));
+        logger.info('Save state', stateToLog(state));
 
         try {
             await this.state.remove({}, {multiple: true});
@@ -62,6 +61,11 @@ export default class Storage {
 
         logger.info('No saved state');
         return null;
+    }
+
+    async findArchivesByTags(tags) {
+        let docs = await this.database.find({tags: {$in: tags}});
+        return docs.filter(doc => tags.every(tag => doc.tags.includes(tag)));
     }
 
     async getArchiveInfo(archive) {
