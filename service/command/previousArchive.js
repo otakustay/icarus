@@ -33,7 +33,11 @@ let previousArchive = async (context, sender, options) => {
 
     logger.info('Send archive command to renderer');
 
-    let info = await context.storage.getArchiveInfo(file);
+    let info = {
+        ...await context.storage.getArchiveInfo(file),
+        total: context.archiveList.size(),
+        index: context.archiveList.currentIndex()
+    };
     sender.send('archive', info);
 
     logger.trace('Open the ' + options.moveToLast ? 'last' : 'first' + ' image in archive');

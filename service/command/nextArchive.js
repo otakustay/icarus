@@ -29,7 +29,11 @@ let nextArchive = async (context, sender) => {
 
     logger.info('Send archive command to renderer');
 
-    let info = await context.storage.getArchiveInfo(file);
+    let info = {
+        ...await context.storage.getArchiveInfo(file),
+        total: context.archiveList.size(),
+        index: context.archiveList.currentIndex()
+    };
     sender.send('archive', info);
 
     logger.trace('Open the first image in archive');

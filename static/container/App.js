@@ -52,7 +52,7 @@ let App = props => {
             <DropZone visible={!isReading(props)} onOpen={props.onOpen} onOpenMultiple={props.onOpenMultiple} />
             <Image image={image} layout={layout} onSizeChange={props.onContainerSizeChange} />
             <Clock isTiming={!!timingBegin} />
-            <Info visible={viewStates.info} archiveName={archive.name} imageName={image.name} />
+            <Info visible={viewStates.info} archive={archive} imageName={image.name} />
             <TagList
                 allTags={tags.all}
                 collisions={tags.collisions}

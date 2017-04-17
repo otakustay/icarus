@@ -12,6 +12,10 @@ export default class LinkedList {
         return this[LIST][this[CURSOR]];
     }
 
+    currentIndex() {
+        return this[CURSOR];
+    }
+
     next() {
         if (this[CURSOR] >= this[LIST].length - 1) {
             return null;
@@ -32,6 +36,10 @@ export default class LinkedList {
 
     readyFor(element) {
         this[CURSOR] = element ? this[LIST].indexOf(element) - 1 : -1;
+    }
+
+    size() {
+        return this[LIST].length;
     }
 
     toArray() {
