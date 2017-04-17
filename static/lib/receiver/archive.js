@@ -4,7 +4,8 @@ export default info => {
     let archive = {
         name: info.archive,
         tags: info.tags,
-        allTags: info.allTags
+        total: info.total,
+        index: info.index
     };
 
     return newArchive(archive);

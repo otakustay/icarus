@@ -21,8 +21,8 @@ import {
 } from '../component';
 
 let isInfoVisible = createSelector(
-    [property('isFullscreen'), property('isInfoVisible')],
-    (isFullscreen, isInfoVisible) => !isFullscreen || isInfoVisible
+    [isReading, property('isFullscreen'), property('isInfoVisible')],
+    (isReading, isFullscreen, isInfoVisible) => isReading && (!isFullscreen || isInfoVisible)
 );
 
 export let getViewStates = createSelector(

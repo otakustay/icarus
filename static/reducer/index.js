@@ -7,7 +7,7 @@ import * as actionType from '../action/type';
 import {isReading} from '../selector';
 
 let addUnique = value => array => Array.from(new Set(array).add(value));
-let pickArchive = pick(['name', 'tags', 'allTags']);
+let pickArchive = pick(['name', 'tags', 'total', 'index']);
 let pickImage = pick(['uri', 'name', 'width', 'height']);
 let toggle = value => !value;
 
