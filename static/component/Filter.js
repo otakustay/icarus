@@ -1,8 +1,9 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import TagList from './TagList';
 import {set, push, remove} from 'san-update/fp';
+import {autobind} from 'core-decorators';
 
-export default class Filter extends Component {
+export default class Filter extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -12,28 +13,32 @@ export default class Filter extends Component {
         };
     }
 
-    onAddTag(tag) {
-        this.setState(push('tags', tag));
-    }
-
-    onRemoveTag(tag) {
-        this.setState(remove('tags', tag));
-    }
-
-    onConfirm() {
-        this.props.onConfirm(this.state.tags);
-    }
-
-    onClear() {
-        let empty = [];
-        this.setState(set('tags', empty));
-        this.props.onConfirm(empty);
-    }
-
     componentWillReceiveProps(props) {
         if (props.tags !== this.props.tags) {
             this.setState(set('tags', props.tags));
         }
+    }
+
+    @autobind
+    onAddTag(tag) {
+        this.setState(push('tags', tag));
+    }
+
+    @autobind
+    onRemoveTag(tag) {
+        this.setState(remove('tags', tag));
+    }
+
+    @autobind
+    onConfirm() {
+        this.props.onConfirm(this.state.tags);
+    }
+
+    @autobind
+    onClear() {
+        let empty = [];
+        this.setState(set('tags', empty));
+        this.props.onConfirm(empty);
     }
 
     render() {
@@ -47,17 +52,17 @@ export default class Filter extends Component {
                             allTags={this.props.allTags}
                             collisions={{}}
                             tags={this.state.tags}
-                            showTagWithCount={true}
+                            showTagWithCount
                             newTag={false}
-                            onAddTag={::this.onAddTag}
-                            onRemoveTag={::this.onRemoveTag}
+                            onAddTag={this.onAddTag}
+                            onRemoveTag={this.onRemoveTag}
                         />
                     </div>
                 </div>
                 <footer className="filter-footer">
-                    <span className="filter-button" onClick={::this.onConfirm}>筛选</span>
-                    <span className="filter-button" onClick={::this.props.onCancel}>取消</span>
-                    <span className="filter-button" onClick={::this.onClear}>清空</span>
+                    <span className="filter-button" onClick={this.onConfirm}>筛选</span>
+                    <span className="filter-button" onClick={this.props.onCancel}>取消</span>
+                    <span className="filter-button" onClick={this.onClear}>清空</span>
                 </footer>
             </div>
         );

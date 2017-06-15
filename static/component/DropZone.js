@@ -1,15 +1,13 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import {macro} from 'san-update';
 import classNames from 'classnames';
 import GlobalEvent from './GlobalEvent';
+import {autobind} from 'core-decorators';
 
 let addAccepting = macro().set('accepting', true).build();
 let removeAccepting = macro().set('accepting', false).build();
 
-export default class DropZone extends Component {
-    state = {
-        accepting: false
-    };
+export default class DropZone extends PureComponent {
 
     defaultProps = {
         visible: true,
@@ -18,18 +16,26 @@ export default class DropZone extends Component {
         onOpenMultiple() {}
     };
 
+    state = {
+        accepting: false
+    };
+
+    @autobind
     onDragOver(e) {
         e.preventDefault();
     }
 
+    @autobind
     onDragEnter() {
         this.setState(addAccepting);
     }
 
+    @autobind
     onDragLeave() {
         this.setState(removeAccepting);
     }
 
+    @autobind
     onDrop(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -68,10 +74,10 @@ export default class DropZone extends Component {
             <div className={classNames(classes)} style={{display: this.props.visible ? '' : 'none'}}>
                 将目录或.zip文件拖到此处
                 <GlobalEvent
-                    onDragOver={::this.onDragOver}
-                    onDragEnter={::this.onDragEnter}
-                    onDragLeave={::this.onDragLeave}
-                    onDrop={::this.onDrop}
+                    onDragOver={this.onDragOver}
+                    onDragEnter={this.onDragEnter}
+                    onDragLeave={this.onDragLeave}
+                    onDrop={this.onDrop}
                 />
             </div>
         );

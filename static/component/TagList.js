@@ -1,7 +1,8 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import pinyin from 'pinyin';
 import {createSelector} from 'reselect';
 import {property, propertyOf, compact, max} from 'lodash';
+import {autobind} from 'core-decorators';
 
 let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
 
@@ -27,7 +28,7 @@ let categorize = createSelector(
     }
 );
 
-export default class TagList extends Component {
+export default class TagList extends PureComponent {
 
     static defaultProps = {
         visible: true,
@@ -39,11 +40,13 @@ export default class TagList extends Component {
         newTagName: ''
     };
 
+    @autobind
     onChange(e) {
         let value = e.target.value;
         this.setState(() => ({newTagName: value}));
     }
 
+    @autobind
     onTagEnter(e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
@@ -76,7 +79,9 @@ export default class TagList extends Component {
             }
             let text = this.props.showTagWithCount ? `${name} (${count})` : name;
 
+            /* eslint-disable react/jsx-no-bind */
             return <li key={name} className={className} onClick={() => this.onClickTag(name, selected)}>{text}</li>;
+            /* eslint-enable react/jsx-no-bind */
         };
 
         let category = ({key, tags}) => (
@@ -95,8 +100,8 @@ export default class TagList extends Component {
                     placeholder="输入标签"
                     value={this.state.newTagName}
                     style={{display: this.props.newTag ? '' : 'none'}}
-                    onChange={::this.onChange}
-                    onKeyUp={::this.onTagEnter}
+                    onChange={this.onChange}
+                    onKeyUp={this.onTagEnter}
                 />
                 {tagCategories.map(category)}
             </div>

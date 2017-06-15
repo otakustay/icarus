@@ -1,6 +1,6 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 
-export default class FullscreenToggle extends Component {
+export default class FullscreenToggle extends PureComponent {
     componentDidUpdate() {
         if (this.props.isFullscreen) {
             document.documentElement.webkitRequestFullScreen();

@@ -96,8 +96,8 @@ let App = props => {
 
                 <Key pattern="C" description="开启/关闭计时" onTrigger={props.onToggleTiming} />
 
-                <Key pattern="1" description="切换至两步布局" onTrigger={() => props.onChangeLayout('topBottom')} />
-                <Key pattern="2" description="切换至单页布局" onTrigger={() => props.onChangeLayout('oneStep')} />
+                <Key pattern="1" description="切换至两步布局" onTrigger={props.onTopBottomLayout} />
+                <Key pattern="2" description="切换至单页布局" onTrigger={props.onOneStepLayout} />
 
                 <Key pattern="I" description="显示/隐藏文件名（全屏状态有效）" onTrigger={props.onToggleInfo} />
                 <Key pattern="T" description="显示/隐藏漫画标签" onTrigger={props.onToggleTagList} />

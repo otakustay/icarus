@@ -16,3 +16,7 @@ export let changeLayout = layoutType => (dispatch, getState) => {
 
     dispatch({type: CHANGE_LAYOUT, layout: layoutType});
 };
+
+export let topBottomLayout = () => changeLayout('topBottom');
+
+export let oneStepLayout = () => changeLayout('oneStep');

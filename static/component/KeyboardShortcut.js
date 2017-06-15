@@ -29,7 +29,7 @@ export default ({children, visible}) => {
                 {groups.map(shortcutItem)}
             </ul>
             <h2 className="contact-title">联系作者</h2>
-            <a id="github-issues" href="http://github.com/otakustay/icarus/issues" target="_blank">前往 GitHub Issues</a>
+            <a id="github-issues" href="http://github.com/otakustay/icarus/issues" target="_blank" rel="noopener noreferrer">前往 GitHub Issues</a>
         </div>
     );
 };

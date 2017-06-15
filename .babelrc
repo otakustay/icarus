@@ -1,6 +1,7 @@
 {
     "presets": ["react", "stage-0"],
     "plugins": [
+        "transform-decorators-legacy",
         "babel-plugin-react-require",
         "transform-es2015-modules-commonjs",
         ["transform-rename-import", {"react": "react/dist/react.min"}]

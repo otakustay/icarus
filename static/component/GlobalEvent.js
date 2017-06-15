@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 
 const EVENTS = [
     ['keydown', 'onKeyDown'],
@@ -9,7 +9,7 @@ const EVENTS = [
     ['drop', 'onDrop']
 ];
 
-export default class GlobalEvent extends Component {
+export default class GlobalEvent extends PureComponent {
     componentDidMount() {
         let events = EVENTS.filter(([eventName, methodName]) => !!this.props[methodName]);
         for (let [eventName, methodName] of events) {

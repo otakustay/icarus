@@ -1,9 +1,9 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import elementResizeDetector from 'element-resize-detector';
 import {isReading} from '../selector';
 
-export default class Image extends Component {
+export default class Image extends PureComponent {
 
     componentDidMount() {
         let container = findDOMNode(this);

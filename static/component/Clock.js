@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import moment from 'moment';
 
-export default class Clock extends Component {
+export default class Clock extends PureComponent {
 
     state = {
         time: moment()

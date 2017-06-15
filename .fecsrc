@@ -17,12 +17,18 @@
         "disallow-quotes-in-url": false
     },
     "eslint": {
+        "env": {
+            "module": true,
+            "react": true
+        },
         "rules": {
             "fecs-valid-class-jsdoc": false,
             "fecs-valid-dom-style": false,
             "fecs-arrow-body-style": false,
             "fecs-valid-jsdoc": false,
-            "fecs-prefer-async-await": false
+            "fecs-prefer-async-await": false,
+            "react/jsx-handler-names": false,
+            "react/prop-types": false
         },
         "globals": {
             "webview": true

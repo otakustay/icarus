@@ -1,7 +1,8 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import {last, matches} from 'lodash';
 import GlobalEvent from './GlobalEvent';
 import {set} from 'san-update/fp';
+import {autobind} from 'core-decorators';
 
 const CONTROL = 17;
 const ALT = 18;
@@ -21,7 +22,7 @@ let parseKeyPattern = pattern => {
 let enterHelperMode = set('helperMode', true);
 let leaveHelperMode = set('helperMode', false);
 
-export default class Key extends Component {
+export default class Key extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -33,12 +34,14 @@ export default class Key extends Component {
         };
     }
 
+    @autobind
     onKeyDown({keyCode}) {
         if (keyCode === CMD || keyCode === CONTROL || keyCode === ALT || keyCode === META) {
             this.setState(enterHelperMode);
         }
     }
 
+    @autobind
     onKeyUp(e) {
         let keyCode = e.keyCode;
 
@@ -57,6 +60,6 @@ export default class Key extends Component {
     }
 
     render() {
-        return <GlobalEvent onKeyDown={::this.onKeyDown} onKeyUp={::this.onKeyUp} />;
+        return <GlobalEvent onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp} />;
     }
 }
