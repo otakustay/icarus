@@ -1,20 +1,9 @@
 import path from 'path';
+import {standalone} from 'path-sort';
 
 const ENTRIES = Symbol('entries');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.bmp']);
 const BLACKLIST = ['__MACOSX'];
-
-let findNumber = str => {
-    let matches = /(\d+)[^\d]*$/.exec(str);
-    return matches && +matches[1];
-};
-
-let smartCompare = (x, y) => {
-    let numberX = findNumber(x);
-    let numberY = findNumber(y);
-    let isAllNumber = typeof numberX === 'number' && typeof numberY === 'number';
-    return isAllNumber ? numberX - numberY : x.toLowerCase().localeCompare(y.toLowerCase());
-};
 
 export default class Archive {
 
@@ -28,10 +17,12 @@ export default class Archive {
     }
 
     set entries(list) {
+        let compare = standalone('/');
         let entries = list
             .filter(entry => !BLACKLIST.some(word => entry.entryName.includes(word)))
             .filter(entry => IMAGE_EXTENSIONS.has(path.extname(entry.name)))
-            .sort((x, y) => smartCompare(x.entryName, y.entryName));
+            .sort((x, y) => compare(x.entryName, y.entryName));
+
         this[ENTRIES] = entries;
     }
 

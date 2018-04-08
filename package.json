@@ -30,6 +30,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
     "nedb-promise": "^2.0.0",
+    "path-sort": "^0.1.0",
     "pinyin": "^2.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
