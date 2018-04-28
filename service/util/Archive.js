@@ -1,5 +1,5 @@
 import path from 'path';
-import {standalone} from 'path-sort';
+import naturalCompare from 'string-natural-compare';
 
 const ENTRIES = Symbol('entries');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.bmp']);
@@ -17,11 +17,10 @@ export default class Archive {
     }
 
     set entries(list) {
-        let compare = standalone('/');
         let entries = list
             .filter(entry => !BLACKLIST.some(word => entry.entryName.includes(word)))
             .filter(entry => IMAGE_EXTENSIONS.has(path.extname(entry.name)))
-            .sort((x, y) => compare(x.entryName, y.entryName));
+            .sort((x, y) => naturalCompare.caseInsensitive(x.entryName, y.entryName));
 
         this[ENTRIES] = entries;
     }
