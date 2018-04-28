@@ -1,7 +1,7 @@
 import log4js from 'log4js';
 import LinkedList from '../common/LinkedList';
 
-let logger = log4js.getLogger('context');
+const logger = log4js.getLogger('context');
 
 export default class GlobalContext {
     constructor(ipc, storage, version) {
@@ -37,7 +37,7 @@ export default class GlobalContext {
     setBrowsingArchive(archive, options = {}) {
         this.browsingArchive = archive;
 
-        let imageList = archive.entries;
+        const imageList = archive.entries;
 
         if (options.moveToLast) {
             this.setImageList(imageList, imageList[imageList.length - 1]);
@@ -46,7 +46,7 @@ export default class GlobalContext {
             this.setImageList(imageList);
 
             if (options.moveToImage) {
-                let entry = imageList.filter(image => image.entryName === options.moveToImage)[0];
+                const entry = imageList.filter(image => image.entryName === options.moveToImage)[0];
                 if (entry) {
                     this.imageList.readyFor(entry);
                 }
@@ -55,15 +55,15 @@ export default class GlobalContext {
     }
 
     setFilterTags(tags) {
-        if (!tags.length) {
-            logger.info('Clear filter tags');
-
-            this.filter = null;
-        }
-        else {
+        if (tags.length) {
             logger.info(`Set filter tags to ${tags}`);
 
             this.filter = {tags};
+        }
+        else {
+            logger.info('Clear filter tags');
+
+            this.filter = null;
         }
     }
 
@@ -71,18 +71,18 @@ export default class GlobalContext {
         logger.trace('Try to save state');
 
         if (this.filter) {
-            let savedState = await this.storage.restoreState();
-            let filterState = {
+            const savedState = await this.storage.restoreState();
+            const filterState = {
                 tags: this.filter.tags,
                 archive: this.archiveList.current(),
                 image: this.imageList.current().entryName
             };
-            let dump = Object.assign(savedState, {filter: filterState, version: this.version});
+            const dump = Object.assign(savedState, {filter: filterState, version: this.version});
 
             await this.storage.saveState(dump);
         }
         else {
-            let dump = {
+            const dump = {
                 archiveList: this.archiveList.toArray(),
                 archive: this.archiveList.current(),
                 image: this.imageList.current().entryName,

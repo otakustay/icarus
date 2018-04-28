@@ -3,12 +3,12 @@ import {map} from 'lodash';
 import {unpack, bareName} from '../util';
 import nextImage from './nextImage';
 
-let logger = log4js.getLogger('restore');
+const logger = log4js.getLogger('restore');
 
 export default async (context, sender) => {
     logger.info('Start process');
 
-    let persistData = await context.storage.restoreState();
+    const persistData = await context.storage.restoreState();
 
     if (!persistData) {
         sender.send('no-state');
@@ -23,25 +23,25 @@ export default async (context, sender) => {
 
         context.setFilterTags(persistData.filter.tags);
 
-        let filteredArchiveInfos = await context.storage.findArchivesByTags(persistData.filter.tags);
-        let filterSet = new Set(map(filteredArchiveInfos, 'archive'));
+        const filteredArchiveInfos = await context.storage.findArchivesByTags(persistData.filter.tags);
+        const filterSet = new Set(map(filteredArchiveInfos, 'archive'));
         archiveList = archiveList.filter(path => filterSet.has(bareName(path)));
 
         logger.trace(`Filtered ${archiveList.length} archives with tag ${persistData.filter.tags}`);
     }
 
-    let container = persistData.filter || persistData;
+    const container = persistData.filter || persistData;
     context.setArchiveList(archiveList, container.archive);
 
     logger.trace('Archive list restored');
 
-    let file = context.archiveList.next();
-    let archive = await unpack(file);
+    const file = context.archiveList.next();
+    const archive = await unpack(file);
     context.setBrowsingArchive(archive, {moveToImage: container.image});
 
     logger.info('Send archive command to renderer');
 
-    let info = {
+    const info = {
         ...await context.storage.getArchiveInfo(file),
         total: context.archiveList.size(),
         index: context.archiveList.currentIndex()

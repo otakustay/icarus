@@ -11,8 +11,8 @@ const EVENTS = [
 
 export default class GlobalEvent extends PureComponent {
     componentDidMount() {
-        let events = EVENTS.filter(([eventName, methodName]) => !!this.props[methodName]);
-        for (let [eventName, methodName] of events) {
+        const events = EVENTS.filter(event => !!this.props[event[1]]);
+        for (const [eventName, methodName] of events) {
             document.addEventListener(eventName, this.props[methodName], false);
         }
     }

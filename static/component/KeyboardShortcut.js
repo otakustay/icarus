@@ -1,12 +1,12 @@
 import {pick, groupBy} from 'lodash';
 
-let displayPattern = pattern => {
-    let names = pattern.split('+');
-    let char = names.pop();
+const displayPattern = pattern => {
+    const names = pattern.split('+');
+    const char = names.pop();
     return [...names, char === ' ' ? 'SPACE' : char].join(' + ');
 };
 
-let shortcutItem = ([description, items]) => {
+const shortcutItem = ([description, items]) => {
     return (
         <li key={description} className="shortcut-item">
             <span className="short-key-list">
@@ -18,8 +18,8 @@ let shortcutItem = ([description, items]) => {
 };
 
 export default ({children, visible}) => {
-    let keys = children.map(key => pick(key.props, ['pattern', 'description']));
-    let groups = Object.entries(groupBy(keys, 'description'));
+    const keys = children.map(key => pick(key.props, ['pattern', 'description']));
+    const groups = Object.entries(groupBy(keys, 'description'));
 
     return (
         <div className="help" style={{display: visible ? '' : 'none'}}>

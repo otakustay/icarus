@@ -16,7 +16,7 @@ import {calculateOneStepTransform} from './util';
  * @return {meta.Transform[]} 返回1步的数据
  */
 export default (containerSize, imageSize) => {
-    let scale = Math.min(
+    const scale = Math.min(
         containerSize.height / imageSize.height,
         containerSize.width / imageSize.width
     );

@@ -3,8 +3,6 @@
  * @author otakustay
  */
 
-'use strict';
-
 /**
  * 图片变换对象
  */

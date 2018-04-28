@@ -20,19 +20,19 @@ import {
     Filter
 } from '../component';
 
-let isInfoVisible = createSelector(
+const isInfoVisible = createSelector(
     [isReading, property('isFullscreen'), property('isInfoVisible')],
     (isReading, isFullscreen, isInfoVisible) => isReading && (!isFullscreen || isInfoVisible)
 );
 
-export let getViewStates = createSelector(
+export const getViewStates = createSelector(
     [property('isFullscreen'), property('isTagVisible'), isInfoVisible],
     (fullscreen, tag, info) => ({fullscreen, tag, info})
 );
 
 
-let App = props => {
-    let {
+const App = props => {
+    const {
         image,
         layout,
         tags,
@@ -45,7 +45,7 @@ let App = props => {
         isDisturbing,
         timingBegin
     } = props;
-    let viewStates = getViewStates(props);
+    const viewStates = getViewStates(props);
 
     return (
         <div id="main" style={{width: '100%', height: '100%'}} data-view-state={classNames(viewStates)}>
@@ -112,10 +112,10 @@ let App = props => {
     );
 };
 
-let mapDispatchToProps = dispatch => Object.entries(action).reduce(
+const mapDispatchToProps = dispatch => Object.entries(action).reduce(
     (handlers, [key, actionCreator]) => {
-        let methodName = 'on' + key[0].toUpperCase() + key.substring(1);
-        let method = flow(actionCreator, dispatch);
+        const methodName = 'on' + key[0].toUpperCase() + key.substring(1);
+        const method = flow(actionCreator, dispatch);
         return {...handlers, [methodName]: method};
     },
     {}

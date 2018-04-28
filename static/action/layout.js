@@ -1,10 +1,10 @@
-import {CONTAINER_SIZE_CHANGE, CHANGE_LAYOUT} from './type';
 import {isReading} from '../selector';
+import {CONTAINER_SIZE_CHANGE, CHANGE_LAYOUT} from './type';
 
-export let containerSizeChange = size => ({type: CONTAINER_SIZE_CHANGE, ...size});
+export const containerSizeChange = size => ({type: CONTAINER_SIZE_CHANGE, ...size});
 
-export let changeLayout = layoutType => (dispatch, getState) => {
-    let state = getState();
+export const changeLayout = layoutType => (dispatch, getState) => {
+    const state = getState();
 
     if (!isReading(state)) {
         return;
@@ -17,6 +17,6 @@ export let changeLayout = layoutType => (dispatch, getState) => {
     dispatch({type: CHANGE_LAYOUT, layout: layoutType});
 };
 
-export let topBottomLayout = () => changeLayout('topBottom');
+export const topBottomLayout = () => changeLayout('topBottom');
 
-export let oneStepLayout = () => changeLayout('oneStep');
+export const oneStepLayout = () => changeLayout('oneStep');

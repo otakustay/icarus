@@ -17,7 +17,7 @@ export default class Archive {
     }
 
     set entries(list) {
-        let entries = list
+        const entries = list
             .filter(entry => !BLACKLIST.some(word => entry.entryName.includes(word)))
             .filter(entry => IMAGE_EXTENSIONS.has(path.extname(entry.name)))
             .sort((x, y) => naturalCompare.caseInsensitive(x.entryName, y.entryName));
@@ -32,7 +32,7 @@ export default class Archive {
      * @param {meta.ArchiveEntry} entry 需要读取的项
      * @return {Promise.<Buffer>}
      */
-    readEntry(entry) {
+    readEntry() {
         throw new Error('Not implement');
     }
 }

@@ -3,7 +3,7 @@ import log4js from 'log4js';
 import {list} from '../util';
 import nextArchive from './nextArchive';
 
-let logger = log4js.getLogger('open');
+const logger = log4js.getLogger('open');
 
 export default async (context, sender, file) => {
     if (!file) {
@@ -13,17 +13,17 @@ export default async (context, sender, file) => {
 
     logger.info(`Start process file ${file}`);
 
-    let extension = path.extname(file);
+    const extension = path.extname(file);
 
     if (!extension) {
         logger.trace('This is a directory');
     }
 
-    let directory = extension ? path.dirname(file) : file;
+    const directory = extension ? path.dirname(file) : file;
 
     logger.info(`Listing ${directory}`);
 
-    let archiveList = await list(directory);
+    const archiveList = await list(directory);
 
     if (!archiveList) {
         logger.warn(`There is no valid archive in ${directory}`);

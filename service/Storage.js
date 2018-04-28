@@ -1,13 +1,13 @@
+import path from 'path';
 import {omit, pick, countBy, identity} from 'lodash';
 import datastore from 'nedb-promise';
-import path from 'path';
 import log4js from 'log4js';
 import {bareName} from './util';
 
-let logger = log4js.getLogger('storage');
+const logger = log4js.getLogger('storage');
 
-let stateToLog = state => {
-    let log = Object.assign({}, state);
+const stateToLog = state => {
+    const log = Object.assign({}, state);
     log.archiveList = `(...${state.archiveList.length} files)`;
     return JSON.stringify(log);
 };
@@ -18,7 +18,7 @@ export default class Storage {
         this.state = datastore({filename: path.join(directory, 'state.db'), autoload: true});
         this.database = datastore({filename: path.join(directory, 'main.db'), autoload: true});
 
-        let interval = 1000 * 60 * 5;
+        const interval = 1000 * 60 * 5;
         this.state.nedb.persistence.setAutocompactionInterval(interval);
         this.database.nedb.persistence.setAutocompactionInterval(interval);
     }
@@ -29,7 +29,7 @@ export default class Storage {
         this.state.nedb.persistence.compactDatafile();
         this.database.nedb.persistence.compactDatafile();
 
-        let tasks = [
+        const tasks = [
             new Promise(resolve => this.state.nedb.on('compaction.done', resolve)),
             new Promise(resolve => this.database.nedb.on('compaction.done', resolve))
         ];
@@ -52,7 +52,7 @@ export default class Storage {
     }
 
     async restoreState() {
-        let state = await this.state.findOne({});
+        const state = await this.state.findOne({});
 
         if (state) {
             logger.info(`Previously saved state is: ${stateToLog(state)}`);
@@ -64,13 +64,13 @@ export default class Storage {
     }
 
     async findArchivesByTags(tags) {
-        let docs = await this.database.find({tags: {$in: tags}});
+        const docs = await this.database.find({tags: {$in: tags}});
         return docs.filter(doc => tags.every(tag => doc.tags.includes(tag)));
     }
 
     async getArchiveInfo(archive) {
-        let archiveName = bareName(archive);
-        let doc = await this.database.findOne({archive: archiveName});
+        const archiveName = bareName(archive);
+        const doc = await this.database.findOne({archive: archiveName});
 
         if (doc) {
             return omit(doc, '_id');
@@ -83,12 +83,12 @@ export default class Storage {
     }
 
     async addTag(archiveName, tag) {
-        let doc = await this.database.findOne({archive: archiveName});
+        const doc = await this.database.findOne({archive: archiveName});
 
         if (doc) {
             logger.trace(`Archive info ${archiveName} already exists, updte it`);
 
-            let tags = new Set(doc.tags);
+            const tags = new Set(doc.tags);
             tags.add(tag);
             doc.tags = Array.from(tags);
             await this.database.update(pick(doc, '_id'), doc);
@@ -96,7 +96,7 @@ export default class Storage {
         else {
             logger.trace(`No archive info for ${archiveName}, insert new`);
 
-            let newDoc = {
+            const newDoc = {
                 archive: archiveName,
                 tags: [tag]
             };
@@ -107,12 +107,12 @@ export default class Storage {
     }
 
     async removeTag(archiveName, tag) {
-        let doc = await this.database.findOne({archive: archiveName});
+        const doc = await this.database.findOne({archive: archiveName});
 
         if (doc) {
             logger.trace(`Archive info ${archiveName} already exists, updte it`);
 
-            let tags = new Set(doc.tags);
+            const tags = new Set(doc.tags);
             tags.delete(tag);
             doc.tags = Array.from(tags);
 
@@ -126,9 +126,9 @@ export default class Storage {
     }
 
     async allTags() {
-        let docs = await this.database.find({});
-        let docTagPairs = docs.reduce((result, doc) => result.concat(doc.tags.map(tag => ({tag, doc}))), []);
-        let tags = Object.entries(countBy(docTagPairs, 'tag')).map(([name, count]) => ({name, count}));
+        const docs = await this.database.find({});
+        const docTagPairs = docs.reduce((result, doc) => result.concat(doc.tags.map(tag => ({tag, doc}))), []);
+        const tags = Object.entries(countBy(docTagPairs, 'tag')).map(([name, count]) => ({name, count}));
 
         logger.info(`Found ${tags.length} tags`);
 
@@ -136,16 +136,16 @@ export default class Storage {
     }
 
     async tagCollisions() {
-        let docs = await this.database.find({});
-        let tagMap = docs.reduce(
+        const docs = await this.database.find({});
+        const tagMap = docs.reduce(
             (map, {tags}) => tags.reduce((map, tag) => map.set(tag, (map.get(tag) || []).concat(tags)), map),
             new Map()
         );
-        let collisionTable = Array.from(tagMap).reduce(
+        const collisionTable = Array.from(tagMap).reduce(
             (table, [tag, collisions]) => {
-                let collisionIndex = countBy(collisions, identity);
-                let base = collisionIndex[tag];
-                let collisionProbabilities = Object.entries(collisionIndex).reduce(
+                const collisionIndex = countBy(collisions, identity);
+                const base = collisionIndex[tag];
+                const collisionProbabilities = Object.entries(collisionIndex).reduce(
                     (result, [currentTag, value]) => {
                         if (currentTag === tag || value / base < 0.2) {
                             return result;

@@ -1,26 +1,26 @@
 import {PureComponent} from 'react';
 import {last, matches} from 'lodash';
-import GlobalEvent from './GlobalEvent';
 import {set} from 'san-update/fp';
-import {autobind} from 'core-decorators';
+import {bind} from 'lodash-decorators';
+import GlobalEvent from './GlobalEvent';
 
 const CONTROL = 17;
 const ALT = 18;
 const CMD = 91;
 const META = 224;
 
-let isSingleKey = matches({altKey: false, ctrlKey: false, metaKey: false});
+const isSingleKey = matches({altKey: false, ctrlKey: false, metaKey: false});
 
-let parseKeyPattern = pattern => {
-    let names = pattern.split('+');
+const parseKeyPattern = pattern => {
+    const names = pattern.split('+');
     return {
         altKey: names.includes('ALT'),
         keyCode: last(names).charCodeAt(0)
     };
 };
 
-let enterHelperMode = set('helperMode', true);
-let leaveHelperMode = set('helperMode', false);
+const enterHelperMode = set('helperMode', true);
+const leaveHelperMode = set('helperMode', false);
 
 export default class Key extends PureComponent {
 
@@ -34,16 +34,16 @@ export default class Key extends PureComponent {
         };
     }
 
-    @autobind
+    @bind()
     onKeyDown({keyCode}) {
         if (keyCode === CMD || keyCode === CONTROL || keyCode === ALT || keyCode === META) {
             this.setState(enterHelperMode);
         }
     }
 
-    @autobind
+    @bind()
     onKeyUp(e) {
-        let keyCode = e.keyCode;
+        const keyCode = e.keyCode;
 
         if (keyCode === CMD || keyCode === CONTROL || keyCode === ALT || keyCode === META) {
             this.setState(leaveHelperMode);

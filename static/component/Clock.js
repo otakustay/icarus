@@ -8,10 +8,10 @@ export default class Clock extends PureComponent {
     };
 
     componentDidMount() {
-        let update = () => {
-            let now = moment();
+        const update = () => {
+            const now = moment();
 
-            this.setState(state => ({time: now}));
+            this.setState({time: now});
 
             setTimeout(update, (60 - now.second()) * 1000);
         };

@@ -1,21 +1,21 @@
 import electron from 'electron';
 import {showLoading} from './notice';
 
-let ipc = electron.ipcRenderer;
+const ipc = electron.ipcRenderer;
 
-export let open = file => dispatch => {
+export const open = file => dispatch => {
     dispatch(showLoading());
 
     ipc.send('open', file);
 };
 
-export let openMultiple = files => dispatch => {
+export const openMultiple = files => dispatch => {
     dispatch(showLoading());
 
     ipc.send('open-multiple', files);
 };
 
-export let restoreState = () => dispatch => {
+export const restoreState = () => dispatch => {
     dispatch(showLoading());
 
     ipc.send('restore');

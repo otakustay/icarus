@@ -1,23 +1,29 @@
 import {PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
 import elementResizeDetector from 'element-resize-detector';
 import {isReading} from '../selector';
 
 export default class Image extends PureComponent {
 
-    componentDidMount() {
-        let container = findDOMNode(this);
-        let detector = elementResizeDetector({strategy: 'scroll'});
-        detector.listenTo(
+    resizeDetector = elementResizeDetector({strategy: 'scroll'});
+
+    container = null;
+
+    enableResizeDetection(container) {
+        if (this.container) {
+            this.removeAllListeners(this.container);
+        }
+
+        this.resizeDetector.listenTo(
             container,
-            () => {
-                let size = {
-                    width: container.offsetWidth,
-                    height: container.offsetHeight
+            element => {
+                const size = {
+                    width: element.offsetWidth,
+                    height: element.offsetHeight
                 };
                 this.props.onSizeChange(size);
             }
         );
+        this.container = container;
     }
 
     render() {
@@ -25,16 +31,16 @@ export default class Image extends PureComponent {
             return <div className="image-container"></div>;
         }
 
-        let {image, layout} = this.props;
+        const {image, layout} = this.props;
 
-        let transform = layout.steps[layout.stepIndex];
-        let style = {
+        const transform = layout.steps[layout.stepIndex];
+        const style = {
             transition: layout.transition ? 'transform 1s linear' : '',
             transform: `scale(${transform.scale}) translate3d(${transform.translateX}px, ${transform.translateY}px, 0)`
         };
 
         return (
-            <div className="image-container">
+            <div className="image-container" ref={this.enableResizeDetection}>
                 <img className="image" src={image.uri} style={style} />
             </div>
         );

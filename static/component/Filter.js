@@ -1,7 +1,7 @@
 import {PureComponent} from 'react';
-import TagList from './TagList';
 import {set, push, remove} from 'san-update/fp';
-import {autobind} from 'core-decorators';
+import {bind} from 'lodash-decorators';
+import TagList from './TagList';
 
 export default class Filter extends PureComponent {
 
@@ -19,24 +19,24 @@ export default class Filter extends PureComponent {
         }
     }
 
-    @autobind
+    @bind()
     onAddTag(tag) {
         this.setState(push('tags', tag));
     }
 
-    @autobind
+    @bind()
     onRemoveTag(tag) {
         this.setState(remove('tags', tag));
     }
 
-    @autobind
+    @bind()
     onConfirm() {
         this.props.onConfirm(this.state.tags);
     }
 
-    @autobind
+    @bind()
     onClear() {
-        let empty = [];
+        const empty = [];
         this.setState(set('tags', empty));
         this.props.onConfirm(empty);
     }

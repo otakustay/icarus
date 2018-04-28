@@ -1,14 +1,14 @@
-import denodeify from 'denodeify';
 import fs from 'fs';
+import denodeify from 'denodeify';
 import AdmZip from 'adm-zip';
 import chardet from 'jschardet';
 import iconv from 'iconv-lite';
 import Archive from './Archive';
 
-let readFile = denodeify(fs.readFile);
+const readFile = denodeify(fs.readFile);
 
-let decodeName = buffer => iconv.decode(buffer, chardet.detect(buffer).encoding);
-let pickEntry = e => {
+const decodeName = buffer => iconv.decode(buffer, chardet.detect(buffer).encoding);
+const pickEntry = e => {
     return {
         entryName: decodeName(e.rawEntryName),
         originalEntryName: e.entryName,
@@ -23,31 +23,31 @@ export default class ZipArchive extends Archive {
         this.entries = unzippedEntries.map(pickEntry);
         this.files = unzippedEntries.reduce(
             (result, entry) => {
-                result[entry.entryName] = {
+                const entryValue = {
                     entry: entry,
                     getData() {
                         return new Promise(::this.entry.getDataAsync);
                     }
                 };
-                return result;
+                return {...result, [entry.entryName]: entryValue};
             },
             {}
         );
     }
 
     readEntry({entryName, originalEntryName}) {
-        let file = this.files[originalEntryName];
+        const file = this.files[originalEntryName];
 
         if (!file) {
-            return Promise.reject(`No file ${entryName} in archive`);
+            return Promise.reject(new Error(`No file ${entryName} in archive`));
         }
 
         return file.getData();
     }
 
     static async create(file) {
-        let fileData = await readFile(file);
-        let archive = new AdmZip(fileData);
+        const fileData = await readFile(file);
+        const archive = new AdmZip(fileData);
         return new ZipArchive(archive.getEntries());
     }
 }

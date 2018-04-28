@@ -1,13 +1,13 @@
 import electron from 'electron';
+import {isReading} from '../selector';
 import {NEW_ARCHIVE} from './type';
 import {showLoading} from './notice';
-import {isReading} from '../selector';
 
-let ipc = electron.ipcRenderer;
+const ipc = electron.ipcRenderer;
 
-export let newArchive = info => ({type: NEW_ARCHIVE, ...info});
+export const newArchive = info => ({type: NEW_ARCHIVE, ...info});
 
-export let nextArchive = () => (dispatch, getState) => {
+export const nextArchive = () => (dispatch, getState) => {
     if (!isReading(getState())) {
         return;
     }
@@ -17,7 +17,7 @@ export let nextArchive = () => (dispatch, getState) => {
     ipc.send('next-archive');
 };
 
-export let previousArchive = () => (dispatch, getState) => {
+export const previousArchive = () => (dispatch, getState) => {
     if (!isReading(getState())) {
         return;
     }

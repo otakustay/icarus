@@ -2,12 +2,12 @@ import log4js from 'log4js';
 import {unpack} from '../util';
 import nextImage from './nextImage';
 
-let logger = log4js.getLogger('nextArchive');
+const logger = log4js.getLogger('nextArchive');
 
-let nextArchive = async (context, sender) => {
+const nextArchive = async (context, sender) => {
     logger.info('Start process');
 
-    let file = context.archiveList.next();
+    const file = context.archiveList.next();
 
     if (!file) {
         logger.info('Already at the last archive, send no-more command to renderer');
@@ -17,7 +17,7 @@ let nextArchive = async (context, sender) => {
 
     logger.info(`Unpacking ${file}`);
 
-    let archive = await unpack(file);
+    const archive = await unpack(file);
 
     if (!archive.entries.length) {
         logger.warn(`There is no image file in ${file}, move to next archive`);
@@ -29,7 +29,7 @@ let nextArchive = async (context, sender) => {
 
     logger.info('Send archive command to renderer');
 
-    let info = {
+    const info = {
         ...await context.storage.getArchiveInfo(file),
         total: context.archiveList.size(),
         index: context.archiveList.currentIndex()

@@ -1,9 +1,9 @@
 import log4js from 'log4js';
 import * as command from './command';
 
-let logger = log4js.getLogger('router');
+const logger = log4js.getLogger('router');
 
-let routes = {
+const routes = {
     'open': command.open,
     'open-multiple': command.openMultiple,
     'next-archive': command.nextArchive,
@@ -17,8 +17,8 @@ let routes = {
     'filter': command.filter
 };
 
-export let start = context => {
-    for (let [channel, command] of Object.entries(routes)) {
+export const start = context => {
+    for (const [channel, command] of Object.entries(routes)) {
         /* eslint-disable no-loop-func */
         context.ipc.on(channel, ({sender}, arg) => command(context, sender, arg));
         /* eslint-enable no-loop-func */

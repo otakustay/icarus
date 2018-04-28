@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 import electron from 'electron';
-import React from 'react';
 import {render} from 'react-dom';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
@@ -9,7 +8,7 @@ import reducer from './reducer';
 import * as receivers from './lib/receiver';
 import App from './container/App';
 
-let initialState = {
+const initialState = {
     image: {
         name: null,
         uri: null,
@@ -49,7 +48,7 @@ let initialState = {
     isTagVisible: false,
     isFilterVisible: false
 };
-let store = createStore(
+const store = createStore(
     reducer,
     initialState,
     compose(
@@ -58,8 +57,8 @@ let store = createStore(
     )
 );
 
-let connect = (channel, module) => {
-    let receiver = receivers[module];
+const connect = (channel, module) => {
+    const receiver = receivers[module];
     electron.ipcRenderer.on(channel, (e, result) => store.dispatch(receiver(result)));
 };
 

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {isReading} from '../selector';
 import {
     TOGGLE_HELP,
     TOGGLE_FULLSCREEN,
@@ -9,31 +10,30 @@ import {
     TOGGLE_FILTER
 } from './type';
 import {showAlert} from './notice';
-import {isReading} from '../selector';
 
-export let toggleHelp = () => ({type: TOGGLE_HELP});
+export const toggleHelp = () => ({type: TOGGLE_HELP});
 
-export let toggleFullscreen = () => ({type: TOGGLE_FULLSCREEN});
+export const toggleFullscreen = () => ({type: TOGGLE_FULLSCREEN});
 
-export let toggleDisturbMode = () => ({type: TOGGLE_DISTURB_MODE});
+export const toggleDisturbMode = () => ({type: TOGGLE_DISTURB_MODE});
 
-export let toggleTiming = () => (dispatch, getState) => {
-    let timingBegin = getState().timingBegin;
+export const toggleTiming = () => (dispatch, getState) => {
+    const timingBegin = getState().timingBegin;
 
     if (timingBegin) {
-        let now = moment();
-        let totalSeconds = now.diff(timingBegin, 'seconds');
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = Math.floor(totalSeconds % 60);
+        const now = moment();
+        const totalSeconds = now.diff(timingBegin, 'seconds');
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = Math.floor(totalSeconds % 60);
         dispatch(showAlert('计时：' + (minutes ? `${minutes}分${seconds}秒` : `${seconds}秒`)));
     }
 
     dispatch({type: TOGGLE_TIMING});
 };
 
-export let toggleInfo = () => ({type: TOGGLE_INFO});
+export const toggleInfo = () => ({type: TOGGLE_INFO});
 
-export let toggleTagList = () => (dispatch, getState) => {
+export const toggleTagList = () => (dispatch, getState) => {
     if (!isReading(getState())) {
         return;
     }
@@ -41,7 +41,7 @@ export let toggleTagList = () => (dispatch, getState) => {
     dispatch({type: TOGGLE_TAG_LIST});
 };
 
-export let toggleFilter = () => (dispatch, getState) => {
+export const toggleFilter = () => (dispatch, getState) => {
     if (!isReading(getState())) {
         return;
     }

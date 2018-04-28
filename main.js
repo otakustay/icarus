@@ -1,9 +1,10 @@
+/* eslint-disable import/no-nodejs-modules */
 import 'babel-polyfill';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import electron from 'electron';
 import log4js from 'log4js';
-import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 import Application from './service/Application';
 
 const DEBUG = process.argv.includes('--debug');
@@ -20,21 +21,21 @@ log4js.configure(
     {cwd: USER_DATA_DIRECTORY}
 );
 
-let app = electron.app;
-let icarus = new Application();
+const app = electron.app;
+const icarus = new Application();
 
-let setMenu = () => {
-    let template = [
+const setMenu = () => {
+    const template = [
         {
-            label: "Application",
+            label: 'Application',
             submenu: [
                 {role: 'about'},
-                {type: "separator" },
+                {type: 'separator'},
                 {role: 'quit'}
             ]
         },
         {
-            label: "Edit",
+            label: 'Edit',
             submenu: [
                 {role: 'copy'},
                 {role: 'paste'},
@@ -52,7 +53,7 @@ let setMenu = () => {
     electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(template));
 };
 
-let cleanup = async e => {
+const cleanup = async e => {
     e.preventDefault();
     await icarus.exit();
     app.quit();
@@ -63,7 +64,7 @@ app.on(
     'ready',
     () => {
         setMenu();
-        icarus.start()
+        icarus.start();
     }
 );
 app.once('will-quit', cleanup);

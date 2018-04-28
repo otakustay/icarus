@@ -1,12 +1,12 @@
 import electron from 'electron';
+import {isReading} from '../selector';
 import {NEXT_STEP, PREVIOUS_STEP} from './type';
 import {showLoading} from './notice';
-import {isReading} from '../selector';
 
-let ipc = electron.ipcRenderer;
+const ipc = electron.ipcRenderer;
 
-export let nextStep = () => (dispatch, getState) => {
-    let state = getState();
+export const nextStep = () => (dispatch, getState) => {
+    const state = getState();
 
     if (!isReading(state)) {
         return;
@@ -21,8 +21,8 @@ export let nextStep = () => (dispatch, getState) => {
     }
 };
 
-export let previousStep = () => (dispatch, getState) => {
-    let state = getState();
+export const previousStep = () => (dispatch, getState) => {
+    const state = getState();
 
     if (!isReading(state)) {
         return;

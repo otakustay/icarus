@@ -2,25 +2,28 @@ import {PureComponent} from 'react';
 import pinyin from 'pinyin';
 import {createSelector} from 'reselect';
 import {property, propertyOf, compact, max} from 'lodash';
-import {autobind} from 'core-decorators';
+import {bind} from 'lodash-decorators';
 
-let getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
+const getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
 
-let categorize = createSelector(
+const categorize = createSelector(
     [property('allTags'), property('tags'), property('collisions')],
     (all, selected, collisions) => {
-        let selectedSet = new Set(selected);
-        let collisionTable = selected.map(propertyOf(collisions));
-        let result = all.reduce(
+        const selectedSet = new Set(selected);
+        const collisionTable = selected.map(propertyOf(collisions));
+        const result = all.reduce(
             (result, tag) => {
-                let category = getCategory(tag.name);
+                const category = getCategory(tag.name);
                 let collisionRate = max(compact(collisionTable.map(property(tag.name))));
                 if (collisionRate) {
                     collisionRate = Math.min(Math.round(collisionRate * 10), 9);
                 }
-                let cache = result[category] || (result[category] = []);
+                const cache = result[category] || [];
                 cache.push({...tag, selected: selectedSet.has(tag.name), collisionRate: collisionRate});
-                return result;
+                return {
+                    ...result,
+                    [category]: cache
+                };
             },
             {}
         );
@@ -40,13 +43,13 @@ export default class TagList extends PureComponent {
         newTagName: ''
     };
 
-    @autobind
+    @bind()
     onChange(e) {
-        let value = e.target.value;
+        const value = e.target.value;
         this.setState(() => ({newTagName: value}));
     }
 
-    @autobind
+    @bind()
     onTagEnter(e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
@@ -70,21 +73,21 @@ export default class TagList extends PureComponent {
     }
 
     render() {
-        let tagCategories = categorize(this.props);
+        const tagCategories = categorize(this.props);
 
-        let item = ({name, count, selected, collisionRate}) => {
+        const item = ({name, count, selected, collisionRate}) => {
             let className = selected ? 'tag-item tag-item-selected' : 'tag-item';
             if (collisionRate) {
                 className += ` tag-collision-${collisionRate}`;
             }
-            let text = this.props.showTagWithCount ? `${name} (${count})` : name;
+            const text = this.props.showTagWithCount ? `${name} (${count})` : name;
 
             /* eslint-disable react/jsx-no-bind */
             return <li key={name} className={className} onClick={() => this.onClickTag(name, selected)}>{text}</li>;
             /* eslint-enable react/jsx-no-bind */
         };
 
-        let category = ({key, tags}) => (
+        const category = ({key, tags}) => (
             <div key={key} className="tag-category">
                 <h3 className="tag-category-key">{key.toUpperCase()}</h3>
                 <ul className="tag-item-list">

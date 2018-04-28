@@ -6,7 +6,7 @@ import GlobalContext from './GlobalContext';
 import IPCQueue from './IPCQueue';
 import Storage from './Storage';
 
-let logger = log4js.getLogger('main');
+const logger = log4js.getLogger('main');
 
 const DEBUG = process.argv.includes('--debug');
 const INITIAL_WINDOW_SIZE = {width: 800, height: 600, backgroundColor: '#000'};
@@ -21,9 +21,9 @@ export default class Application {
         logger.info(`Start app version ${VERSION}`);
         logger.trace(`All data will be saved at ${STORAGE_DIRECTORY}`);
 
-        let BrowserWindow = electron.BrowserWindow;
-        let mainWindow = new BrowserWindow(INITIAL_WINDOW_SIZE);
-        let url = 'file://' + path.join(__dirname, '..', 'static', 'index.html');
+        const BrowserWindow = electron.BrowserWindow;
+        const mainWindow = new BrowserWindow(INITIAL_WINDOW_SIZE);
+        const url = 'file://' + path.join(__dirname, '..', 'static', 'index.html');
         mainWindow.loadURL(url);
 
         if (DEBUG) {
@@ -32,8 +32,8 @@ export default class Application {
 
         logger.trace(`Main window opened with size ${INITIAL_WINDOW_SIZE.width} x ${INITIAL_WINDOW_SIZE.height}`);
 
-        let ipc = new IPCQueue(electron.ipcMain);
-        let storage = new Storage(STORAGE_DIRECTORY);
+        const ipc = new IPCQueue(electron.ipcMain);
+        const storage = new Storage(STORAGE_DIRECTORY);
         this.globalContext = new GlobalContext(ipc, storage, VERSION);
         startRouter(this.globalContext);
     }

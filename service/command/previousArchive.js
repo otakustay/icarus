@@ -4,14 +4,12 @@ import nextImage from './nextImage';
 
 const DEFAULT_OPTIONS = {moveToLast: false};
 
-let logger = log4js.getLogger('previousArchive');
+const logger = log4js.getLogger('previousArchive');
 
-let previousArchive = async (context, sender, options) => {
+const previousArchive = async (context, sender, options = DEFAULT_OPTIONS) => {
     logger.info('Start process');
 
-    options = options || DEFAULT_OPTIONS;
-
-    let file = context.archiveList.previous();
+    const file = context.archiveList.previous();
 
     if (!file) {
         logger.info('Already at the first archive, send no-more command to renderer');
@@ -21,7 +19,7 @@ let previousArchive = async (context, sender, options) => {
 
     logger.info(`Unpacking ${file}`);
 
-    let archive = await unpack(file);
+    const archive = await unpack(file);
 
     if (!archive.entries.length) {
         logger.warn(`There is no image file in ${file}, move to next archive`);
@@ -33,14 +31,14 @@ let previousArchive = async (context, sender, options) => {
 
     logger.info('Send archive command to renderer');
 
-    let info = {
+    const info = {
         ...await context.storage.getArchiveInfo(file),
         total: context.archiveList.size(),
         index: context.archiveList.currentIndex()
     };
     sender.send('archive', info);
 
-    logger.trace('Open the ' + options.moveToLast ? 'last' : 'first' + ' image in archive');
+    logger.trace('Open the ' + (options.moveToLast ? 'last' : 'first') + ' image in archive');
 
     await nextImage(context, sender);
 };

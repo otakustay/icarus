@@ -25,7 +25,7 @@ const VIEW_PORT_SCALE = 1.8;
 export default (containerSize, imageSize) => {
     // 图片很小，要放大占满容器宽或高
     if (imageSize.width < containerSize.width && imageSize.height < containerSize.height) {
-        let scale = Math.min(
+        const scale = Math.min(
             containerSize.height / imageSize.height,
             containerSize.width / imageSize.width
         );
@@ -44,7 +44,7 @@ export default (containerSize, imageSize) => {
         return calculateOneStepTransform(scale, containerSize, imageSize);
     }
 
-    let left = calculateCenteredTranslate(scale, containerSize.width, imageSize.width);
+    const left = calculateCenteredTranslate(scale, containerSize.width, imageSize.width);
     // 第一步图片顶端贴住容器顶端，第二步图片底端贴住容器底端
     return [
         {scale: scale, translateX: left, translateY: 0},

@@ -1,16 +1,16 @@
 import electron from 'electron';
+import {isReading} from '../selector';
 import {NEW_IMAGE} from './type';
 import {showLoading, hideLoading} from './notice';
-import {isReading} from '../selector';
 
-let ipc = electron.ipcRenderer;
+const ipc = electron.ipcRenderer;
 
-export let newImage = info => dispatch => {
+export const newImage = info => dispatch => {
     dispatch(hideLoading());
     dispatch({type: NEW_IMAGE, ...info});
 };
 
-export let nextImage = () => (dispatch, getState) => {
+export const nextImage = () => (dispatch, getState) => {
     if (!isReading(getState())) {
         return;
     }
@@ -20,7 +20,7 @@ export let nextImage = () => (dispatch, getState) => {
     ipc.send('next-image');
 };
 
-export let previousImage = () => (dispatch, getState) => {
+export const previousImage = () => (dispatch, getState) => {
     if (!isReading(getState())) {
         return;
     }

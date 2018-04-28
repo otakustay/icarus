@@ -4,19 +4,19 @@ import {bareName} from '../util';
 import nextArchive from './nextArchive';
 import restore from './restore';
 
-let logger = log4js.getLogger('filter');
+const logger = log4js.getLogger('filter');
 
 export default async (context, sender, tags) => {
     logger.info('Start process');
 
     context.setFilterTags(tags);
 
-    let savedState = await context.storage.restoreState();
+    const savedState = await context.storage.restoreState();
 
     if (tags.length) {
-        let filteredArchiveInfos = await context.storage.findArchivesByTags(tags);
-        let filterSet = new Set(map(filteredArchiveInfos, 'archive'));
-        let archiveList = savedState.archiveList.filter(path => filterSet.has(bareName(path)));
+        const filteredArchiveInfos = await context.storage.findArchivesByTags(tags);
+        const filterSet = new Set(map(filteredArchiveInfos, 'archive'));
+        const archiveList = savedState.archiveList.filter(path => filterSet.has(bareName(path)));
 
         logger.info(`Filtered ${archiveList.length} archives with tag ${tags}`);
 

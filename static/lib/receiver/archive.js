@@ -1,7 +1,7 @@
 import {newArchive} from '../../action';
 
 export default info => {
-    let archive = {
+    const archive = {
         name: info.archive,
         tags: info.tags,
         total: info.total,

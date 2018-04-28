@@ -1,7 +1,7 @@
 import log4js from 'log4js';
 import nextArchive from './nextArchive';
 
-let logger = log4js.getLogger('openMultiple');
+const logger = log4js.getLogger('openMultiple');
 
 export default async (context, sender, archiveList) => {
     if (!archiveList || !archiveList.length) {

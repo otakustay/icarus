@@ -2,7 +2,7 @@ import log4js from 'log4js';
 
 const SCHEDULE_TICK = Symbol('scheduleTick');
 
-let logger = log4js.getLogger('ipc');
+const logger = log4js.getLogger('ipc');
 
 export default class IPCQueue {
 
@@ -30,11 +30,11 @@ export default class IPCQueue {
 
     async flush() {
         while (this.requestQueue.length) {
-            let {channel, event, arg} = this.requestQueue.shift();
+            const {channel, event, arg} = this.requestQueue.shift();
 
             logger.debug(`Process ${channel} request` + (arg ? ` with ${JSON.stringify(arg)}` : ''));
 
-            let handle = this.commands[channel];
+            const handle = this.commands[channel];
 
             try {
                 await handle(event, arg);

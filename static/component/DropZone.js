@@ -1,41 +1,41 @@
 import {PureComponent} from 'react';
 import {macro} from 'san-update';
 import classNames from 'classnames';
+import {noop} from 'lodash';
+import {bind} from 'lodash-decorators';
 import GlobalEvent from './GlobalEvent';
-import {autobind} from 'core-decorators';
 
-let addAccepting = macro().set('accepting', true).build();
-let removeAccepting = macro().set('accepting', false).build();
+const addAccepting = macro().set('accepting', true).build();
+const removeAccepting = macro().set('accepting', false).build();
 
 export default class DropZone extends PureComponent {
 
     defaultProps = {
         visible: true,
-
-        onOpen() {},
-        onOpenMultiple() {}
+        onOpen: noop,
+        onOpenMultiple: noop
     };
 
     state = {
         accepting: false
     };
 
-    @autobind
+    @bind()
     onDragOver(e) {
         e.preventDefault();
     }
 
-    @autobind
+    @bind()
     onDragEnter() {
         this.setState(addAccepting);
     }
 
-    @autobind
+    @bind()
     onDragLeave() {
         this.setState(removeAccepting);
     }
 
-    @autobind
+    @bind()
     onDrop(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -46,14 +46,14 @@ export default class DropZone extends PureComponent {
 
         // 只拖动一个目录或压缩文件，则浏览该目录下的所有压缩文件
         if (e.dataTransfer.files.length === 1) {
-            let file = e.dataTransfer.files[0];
+            const file = e.dataTransfer.files[0];
             if (!file.type || file.type.includes('zip')) {
                 this.props.onOpen(file.path);
             }
         }
         // 如果是多个压缩文件，则只浏览选中的这些。不支持多个目录
         else {
-            let files = Array.from(e.dataTransfer.files)
+            const files = Array.from(e.dataTransfer.files)
                 .filter(file => file.type.includes('zip'))
                 .map(file => file.path);
             if (files.length) {
@@ -65,7 +65,7 @@ export default class DropZone extends PureComponent {
     }
 
     render() {
-        let classes = {
+        const classes = {
             'drop-indicator': true,
             'accepting': this.state.accepting
         };

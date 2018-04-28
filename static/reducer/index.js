@@ -6,12 +6,12 @@ import * as layouts from '../lib/layout';
 import * as actionType from '../action/type';
 import {isReading} from '../selector';
 
-let addUnique = value => array => Array.from(new Set(array).add(value));
-let pickArchive = pick(['name', 'tags', 'total', 'index']);
-let pickImage = pick(['uri', 'name', 'width', 'height']);
-let toggle = value => !value;
+const addUnique = value => array => Array.from(new Set(array).add(value));
+const pickArchive = pick(['name', 'tags', 'total', 'index']);
+const pickImage = pick(['uri', 'name', 'width', 'height']);
+const toggle = value => !value;
 
-let doLayout = flow(
+const doLayout = flow(
     applyWith(
         'layout.steps',
         [property('layout'), property('container'), property('image')],
@@ -20,33 +20,33 @@ let doLayout = flow(
     set('layout.stepIndex', 0),
     set('layout.transition', false)
 );
-let performLayout = cond([[isReading, doLayout], [stubTrue, identity]]);
+const performLayout = cond([[isReading, doLayout], [stubTrue, identity]]);
 
-let init = (state, action) => ({...state, ...action.state});
-let changeContainerSize = (state, {width, height}) => ({...state, container: {width, height}});
-let changeImage = (state, action) => ({...state, image: pickImage(action)});
-let changeArchive = (state, action) => ({...state, archive: pickArchive(action)});
-let toggleHelp = apply('isHelpVisible', toggle);
-let toggleFullscreen = apply('isFullscreen', toggle);
-let nextStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index + 1));
-let previousStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index - 1));
-let showMessage = (state, action) => ({...state, message: {show: true, content: action.message}});
-let hideMessage = set('message', {show: false, content: ''});
-let showLoading = set('isLoading', true);
-let hideLoading = set('isLoading', false);
-let changeLayoutType = (state, action) => immutable(state).set('layout.type', action.layout).value();
-let toggleDisturbMode = apply('isDisturbing', toggle);
-let toggleTiming = apply('timingBegin', time => (time ? null : moment()));
-let toggleInfo = apply('isInfoVisible', toggle);
-let toggleTagList = apply('isTagVisible', toggle);
-let addTag = (state, action) => immutable(state).apply('archive.tags', addUnique(action.tag)).value();
-let removeTag = (state, action) => immutable(state).remove('archive.tags', action.tag).value();
-let updateTags = (state, action) => immutable(state).set('tags.all', action.all).value();
-let toggleFilter = apply('isFilterVisible', toggle);
-let updateFilter = (state, action) => immutable(state).set('filter.tags', action.tags).value();
+const init = (state, action) => ({...state, ...action.state});
+const changeContainerSize = (state, {width, height}) => ({...state, container: {width, height}});
+const changeImage = (state, action) => ({...state, image: pickImage(action)});
+const changeArchive = (state, action) => ({...state, archive: pickArchive(action)});
+const toggleHelp = apply('isHelpVisible', toggle);
+const toggleFullscreen = apply('isFullscreen', toggle);
+const nextStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index + 1));
+const previousStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index - 1));
+const showMessage = (state, action) => ({...state, message: {show: true, content: action.message}});
+const hideMessage = set('message', {show: false, content: ''});
+const showLoading = set('isLoading', true);
+const hideLoading = set('isLoading', false);
+const changeLayoutType = (state, action) => immutable(state).set('layout.type', action.layout).value();
+const toggleDisturbMode = apply('isDisturbing', toggle);
+const toggleTiming = apply('timingBegin', time => (time ? null : moment()));
+const toggleInfo = apply('isInfoVisible', toggle);
+const toggleTagList = apply('isTagVisible', toggle);
+const addTag = (state, action) => immutable(state).apply('archive.tags', addUnique(action.tag)).value();
+const removeTag = (state, action) => immutable(state).remove('archive.tags', action.tag).value();
+const updateTags = (state, action) => immutable(state).set('tags.all', action.all).value();
+const toggleFilter = apply('isFilterVisible', toggle);
+const updateFilter = (state, action) => immutable(state).set('filter.tags', action.tags).value();
 
-let type = value => flow(nthArg(1), property('type'), eq(value));
-let cases = [
+const type = value => flow(nthArg(1), property('type'), eq(value));
+const cases = [
     [type(actionType.INIT), init],
     [type(actionType.CONTAINER_SIZE_CHANGE), flow(changeContainerSize, performLayout)],
     [type(actionType.NEW_IMAGE), flow(changeImage, performLayout)],

@@ -1,2 +1,2 @@
-export oneStep from './oneStep.js';
-export topBottom from './topBottom.js';
+export oneStep from './oneStep';
+export topBottom from './topBottom';
