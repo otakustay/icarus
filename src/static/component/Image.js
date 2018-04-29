@@ -1,4 +1,5 @@
 import {PureComponent} from 'react';
+import {bind} from 'lodash-decorators';
 import elementResizeDetector from 'element-resize-detector';
 import {isReading} from '../selector';
 
@@ -8,6 +9,7 @@ export default class Image extends PureComponent {
 
     container = null;
 
+    @bind()
     enableResizeDetection(container) {
         if (this.container) {
             this.removeAllListeners(this.container);

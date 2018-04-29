@@ -1,10 +1,10 @@
 import {PureComponent} from 'react';
-import pinyin from 'pinyin';
+import pinyin from 'pinyinlite';
 import {createSelector} from 'reselect';
 import {property, propertyOf, compact, max} from 'lodash';
 import {bind} from 'lodash-decorators';
 
-const getCategory = tag => pinyin(tag, {style: pinyin.STYLE_NORMAL})[0][0][0].toUpperCase();
+const getCategory = tag => pinyin(tag)[0][0][0].toUpperCase();
 
 const categorize = createSelector(
     [property('allTags'), property('tags'), property('collisions')],

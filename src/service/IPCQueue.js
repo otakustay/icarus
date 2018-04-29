@@ -1,4 +1,5 @@
 import log4js from 'log4js';
+import {bind} from 'lodash-decorators';
 
 const SCHEDULE_TICK = Symbol('scheduleTick');
 
@@ -24,10 +25,11 @@ export default class IPCQueue {
         if (!this[SCHEDULE_TICK]) {
             logger.trace('Schedule to handle all queued requests');
 
-            this[SCHEDULE_TICK] = setImmediate(::this.flush);
+            this[SCHEDULE_TICK] = setImmediate(this.flush);
         }
     }
 
+    @bind()
     async flush() {
         while (this.requestQueue.length) {
             const {channel, event, arg} = this.requestQueue.shift();

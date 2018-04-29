@@ -7,7 +7,7 @@ import log4js from 'log4js';
 import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 import Application from './service/Application';
 
-const DEBUG = process.argv.includes('--debug');
+const DEBUG = !!process.env.DEBUG;
 if (DEBUG) {
     installExtension(REACT_DEVELOPER_TOOLS);
     installExtension(REDUX_DEVTOOLS);
@@ -17,7 +17,7 @@ const USER_DATA_DIRECTORY = electron.app.getPath('userData');
 mkdirp.sync(USER_DATA_DIRECTORY);
 
 log4js.configure(
-    path.join(__dirname, '.logrc'),
+    path.join(__dirname, '..', '.logrc'),
     {cwd: USER_DATA_DIRECTORY}
 );
 

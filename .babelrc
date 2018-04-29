@@ -1,10 +1,20 @@
 {
-    "presets": ["react", "stage-0"],
+    "presets": [
+        [
+            "env",
+            {
+                "targets": {
+                    "electron": "1.8"
+                }
+            }
+        ],
+        "stage-1",
+        "react"
+    ],
     "plugins": [
         "transform-decorators-legacy",
-        "babel-plugin-react-require",
-        "transform-es2015-modules-commonjs",
-        ["transform-rename-import", {"react": "react/dist/react.min"}],
-        "react-require"
-    ]
+        "react-require",
+        ["transform-rename-import", {"react": "react/dist/react.min"}]
+    ],
+    "sourceMaps": "inline"
 }

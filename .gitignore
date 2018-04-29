@@ -4,3 +4,4 @@ release
 dist
 storage
 .DS_Store
+/out

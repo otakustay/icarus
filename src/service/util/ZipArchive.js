@@ -26,7 +26,7 @@ export default class ZipArchive extends Archive {
                 const entryValue = {
                     entry: entry,
                     getData() {
-                        return new Promise(::this.entry.getDataAsync);
+                        return new Promise(resolve => this.entry.getDataAsync(resolve));
                     }
                 };
                 return {...result, [entry.entryName]: entryValue};
