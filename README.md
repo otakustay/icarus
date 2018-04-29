@@ -49,7 +49,7 @@ npm run start
 
 ```shell
 npm i
-npm run build
+npm run package
 ```
 
-由于需要在OS X下编译Windows二进制需要的环境较为复杂，因此当前仅支持OS X的编译。Icarus的编译依赖 [electron-packager](https://www.npmjs.com/package/electron-packager) 包，如果你对其有了解，可以自行编译Windows版本
+由于需要在OS X下编译Windows二进制需要的环境较为复杂，因此当前仅支持OS X的编译。Icarus的编译依赖 [electron-forge](https://github.com/electron-userland/electron-forge) 包，如果你对其有了解，可以自行编译Windows版本
