@@ -1,6 +1,6 @@
 {
   "name": "icarus",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "productName": "Icarus Comic Reader",
   "description": "小薄本 - 单手看漫画",
   "main": "src/index.js",
