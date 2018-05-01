@@ -1,10 +1,11 @@
 import {PureComponent} from 'react';
 import pinyin from 'pinyinlite';
 import {createSelector} from 'reselect';
-import {property, propertyOf, compact, max} from 'lodash';
+import {property, propertyOf, compact, max, last} from 'lodash';
 import {bind} from 'lodash-decorators';
 
-const getCategory = tag => pinyin(tag)[0][0][0].toUpperCase();
+// 这个奇葩的库基本上最常用的读音都在最后面
+const getCategory = tag => last(pinyin(tag)[0][0]).toUpperCase();
 
 const categorize = createSelector(
     [property('allTags'), property('tags'), property('collisions')],
