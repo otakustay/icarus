@@ -1,0 +1,8 @@
+{
+    "renderer": {
+        "webpackConfig": "custom.webpack.config.js"
+    },
+    "main": {
+        "webpackConfig": "custom.webpack.config.js"
+    }
+}

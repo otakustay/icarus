@@ -1,7 +1,7 @@
 module.exports = {
-    extends: '@ecomfe/eslint-config/strict',
+    extends: require.resolve('reskript/config/eslint'),
     rules: {
         'import/no-unresolved': ['error', {ignore: ['electron']}],
-        'import/extensions': 'off'
+        'import/order': 'off',
     }
 };
