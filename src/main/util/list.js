@@ -1,8 +1,8 @@
 import path from 'path';
-import denodeify from 'denodeify';
+import {promisify} from 'util';
 import rawGlob from 'glob';
 
-const glob = denodeify(rawGlob);
+const glob = promisify(rawGlob);
 
 export default async directory => {
     const list = await glob(`${directory}/*.{zip,rar}`);

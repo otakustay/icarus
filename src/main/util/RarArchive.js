@@ -1,10 +1,10 @@
 import path from 'path';
 import childProcess from 'child_process';
-import denodeify from 'denodeify';
+import {promisify} from 'util';
 import electron from 'electron';
 import Archive from './Archive';
 
-const exec = denodeify(childProcess.exec);
+const exec = promisify(childProcess.exec);
 
 // eslint-disable-next-line no-undef
 const RAR_TOOL_PATH = path.join(__static, 'unrar-os-x');

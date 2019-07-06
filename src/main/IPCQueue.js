@@ -1,5 +1,4 @@
 import {getLogger} from './util/logger';
-import {bind} from 'lodash-decorators';
 
 const SCHEDULE_TICK = Symbol('scheduleTick');
 
@@ -13,23 +12,6 @@ export default class IPCQueue {
         this.commands = {};
     }
 
-    on(channel, handler) {
-        this.commands[channel] = handler;
-        this.ipc.on(channel, this.enqueueRequest.bind(this, channel));
-    }
-
-    enqueueRequest(channel, event, arg) {
-        logger.info(`Receive ${channel} request` + (arg ? ` with ${JSON.stringify(arg)}` : ''));
-
-        this.requestQueue.push({channel, event, arg});
-        if (!this[SCHEDULE_TICK]) {
-            logger.silly('Schedule to handle all queued requests');
-
-            this[SCHEDULE_TICK] = setImmediate(this.flush);
-        }
-    }
-
-    @bind()
     async flush() {
         while (this.requestQueue.length) {
             const {channel, event, arg} = this.requestQueue.shift();
@@ -47,5 +29,21 @@ export default class IPCQueue {
             }
         }
         this[SCHEDULE_TICK] = null;
+    }
+
+    on(channel, handler) {
+        this.commands[channel] = handler;
+        this.ipc.on(channel, this.enqueueRequest.bind(this, channel));
+    }
+
+    enqueueRequest(channel, event, arg) {
+        logger.info(`Receive ${channel} request` + (arg ? ` with ${JSON.stringify(arg)}` : ''));
+
+        this.requestQueue.push({channel, event, arg});
+        if (!this[SCHEDULE_TICK]) {
+            logger.silly('Schedule to handle all queued requests');
+
+            this[SCHEDULE_TICK] = setImmediate(() => this.flush());
+        }
     }
 }

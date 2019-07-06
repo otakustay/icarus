@@ -1,11 +1,11 @@
 import fs from 'fs';
-import denodeify from 'denodeify';
+import {promisify} from 'util';
 import AdmZip from 'adm-zip';
 import chardet from 'jschardet';
 import iconv from 'iconv-lite';
 import Archive from './Archive';
 
-const readFile = denodeify(fs.readFile);
+const readFile = promisify(fs.readFile);
 
 const decodeName = buffer => iconv.decode(buffer, chardet.detect(buffer).encoding);
 const pickEntry = e => {
