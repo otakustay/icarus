@@ -23,7 +23,7 @@ export default class IPCQueue {
 
         this.requestQueue.push({channel, event, arg});
         if (!this[SCHEDULE_TICK]) {
-            logger.trace('Schedule to handle all queued requests');
+            logger.silly('Schedule to handle all queued requests');
 
             this[SCHEDULE_TICK] = setImmediate(this.flush);
         }

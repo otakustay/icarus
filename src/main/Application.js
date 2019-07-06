@@ -26,7 +26,7 @@ export default class Application {
 
     start() {
         logger.info(`Start app version ${VERSION}`);
-        logger.trace(`All data will be saved at ${STORAGE_DIRECTORY}`);
+        logger.silly(`All data will be saved at ${STORAGE_DIRECTORY}`);
 
         const BrowserWindow = electron.BrowserWindow;
         const mainWindow = new BrowserWindow(WINDOW_OPTIONS);
@@ -40,7 +40,7 @@ export default class Application {
             mainWindow.maximize();
         }
 
-        logger.trace(`Main window opened with size ${WINDOW_OPTIONS.width} x ${WINDOW_OPTIONS.height}`);
+        logger.silly(`Main window opened with size ${WINDOW_OPTIONS.width} x ${WINDOW_OPTIONS.height}`);
 
         const ipc = new IPCQueue(electron.ipcMain);
         const storage = new Storage(STORAGE_DIRECTORY);

@@ -27,13 +27,13 @@ export default async (context, sender) => {
         const filterSet = new Set(map(filteredArchiveInfos, 'archive'));
         archiveList = archiveList.filter(path => filterSet.has(bareName(path)));
 
-        logger.trace(`Filtered ${archiveList.length} archives with tag ${persistData.filter.tags}`);
+        logger.silly(`Filtered ${archiveList.length} archives with tag ${persistData.filter.tags}`);
     }
 
     const container = persistData.filter || persistData;
     context.setArchiveList(archiveList, container.archive);
 
-    logger.trace('Archive list restored');
+    logger.silly('Archive list restored');
 
     const file = context.archiveList.next();
     const archive = await unpack(file);
@@ -48,7 +48,7 @@ export default async (context, sender) => {
     };
     sender.send('archive', info);
 
-    logger.trace('Image list restored');
+    logger.silly('Image list restored');
 
     logger.info('Move to open image');
 

@@ -16,7 +16,7 @@ export default async (context, sender, file) => {
     const extension = path.extname(file);
 
     if (!extension) {
-        logger.trace('This is a directory');
+        logger.silly('This is a directory');
     }
 
     const directory = extension ? path.dirname(file) : file;
@@ -41,7 +41,7 @@ export default async (context, sender, file) => {
 
     sender.send('list', {archiveList: context.archiveList.toArray()});
 
-    logger.trace('Open ' + (extension ? file : 'the first archive'));
+    logger.silly('Open ' + (extension ? file : 'the first archive'));
 
     await nextArchive(context, sender);
 };

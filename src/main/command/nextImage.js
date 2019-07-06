@@ -23,7 +23,7 @@ export default async (context, sender) => {
     const imageSize = (buffer.byteLength / 1024).toFixed(2);
     const dimension = sizeOf(buffer);
 
-    logger.trace(`Image is ${image.entryName} (${imageSize}KB)`);
+    logger.silly(`Image is ${image.entryName} (${imageSize}KB)`);
 
     const uri = datauri(image.entryName, buffer);
 

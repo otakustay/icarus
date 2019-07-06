@@ -68,7 +68,7 @@ export default class GlobalContext {
     }
 
     async persist() {
-        logger.trace('Try to save state');
+        logger.silly('Try to save state');
 
         if (this.filter) {
             const savedState = await this.storage.restoreState();

@@ -26,7 +26,6 @@
     "jschardet": "^1.4.2",
     "lodash": "^4.17.10",
     "lodash-decorators": "^5.0.0",
-    "log4js": "^4.4.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
     "nedb": "^1.8.0",
@@ -41,7 +40,8 @@
     "reset-css": "^4.0.1",
     "san-update": "^2.1.0",
     "source-map-support": "^0.5.12",
-    "string-natural-compare": "^2.0.2"
+    "string-natural-compare": "^2.0.2",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "electron": "^5.0.6",

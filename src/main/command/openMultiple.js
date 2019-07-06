@@ -17,7 +17,7 @@ export default async (context, sender, archiveList) => {
 
     sender.send('list', {archiveList: context.archiveList.toArray()});
 
-    logger.trace('Open the first selected archive');
+    logger.silly('Open the first selected archive');
 
     await nextArchive(context, sender);
 };

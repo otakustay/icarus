@@ -38,7 +38,7 @@ const previousArchive = async (context, sender, options = DEFAULT_OPTIONS) => {
     };
     sender.send('archive', info);
 
-    logger.trace('Open the ' + (options.moveToLast ? 'last' : 'first') + ' image in archive');
+    logger.silly('Open the ' + (options.moveToLast ? 'last' : 'first') + ' image in archive');
 
     await nextImage(context, sender);
 };

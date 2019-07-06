@@ -1,8 +1,5 @@
-/* eslint-disable import/no-nodejs-modules */
-// import path from 'path';
 import mkdirp from 'mkdirp';
 import electron from 'electron';
-// import {getLogger} from './util/logger';
 import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 import Application from './Application';
 
@@ -10,11 +7,6 @@ const DEBUG = !!process.env.DEBUG;
 
 const USER_DATA_DIRECTORY = electron.app.getPath('userData');
 mkdirp.sync(USER_DATA_DIRECTORY);
-
-// log4js.configure(
-//     path.join(__dirname, '..', '.logrc'),
-//     {cwd: USER_DATA_DIRECTORY}
-// );
 
 const app = electron.app;
 const icarus = new Application();

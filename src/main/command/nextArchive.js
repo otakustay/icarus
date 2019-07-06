@@ -36,7 +36,7 @@ const nextArchive = async (context, sender) => {
     };
     sender.send('archive', info);
 
-    logger.trace('Open the first image in archive');
+    logger.silly('Open the first image in archive');
 
     await nextImage(context, sender);
 };

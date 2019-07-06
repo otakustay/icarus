@@ -99,7 +99,7 @@ export default class Storage {
         const doc = await this.database.findOne({archive: archiveName});
 
         if (doc) {
-            logger.trace(`Archive info ${archiveName} already exists, updte it`);
+            logger.silly(`Archive info ${archiveName} already exists, updte it`);
 
             const tags = new Set(doc.tags);
             tags.add(tag);
@@ -107,7 +107,7 @@ export default class Storage {
             await this.database.update(pick(doc, '_id'), doc);
         }
         else {
-            logger.trace(`No archive info for ${archiveName}, insert new`);
+            logger.silly(`No archive info for ${archiveName}, insert new`);
 
             const newDoc = {
                 archive: archiveName,
@@ -123,7 +123,7 @@ export default class Storage {
         const doc = await this.database.findOne({archive: archiveName});
 
         if (doc) {
-            logger.trace(`Archive info ${archiveName} already exists, updte it`);
+            logger.silly(`Archive info ${archiveName} already exists, updte it`);
 
             const tags = new Set(doc.tags);
             tags.delete(tag);
