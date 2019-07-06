@@ -14,14 +14,14 @@ const POSSIBLE_MAX_IMAGE_SIZE = 30 * 1024 * 1024; // 30MB
 
 const loadRarNames = async file => {
     const command = `${RAR_TOOL_PATH} lb "${file}"`;
-    const output = await exec(command, {env: ENV, encoding: 'utf8'});
+    const {stdout: output} = await exec(command, {env: ENV, encoding: 'utf8'});
     const names = output.split(/\r?\n/).map(name => ({entryName: name, name: path.basename(name)}));
     return names;
 };
 
-const readRarContentFile = (file, entryName) => {
+const readRarContentFile = async (file, entryName) => {
     const command = `${RAR_TOOL_PATH} p -y -idq "${file}" "${entryName}"`;
-    const result = exec(command, {env: ENV, encoding: 'buffer', maxBuffer: POSSIBLE_MAX_IMAGE_SIZE});
+    const {stdout: result} = await exec(command, {env: ENV, encoding: 'buffer', maxBuffer: POSSIBLE_MAX_IMAGE_SIZE});
     return result;
 };
 
