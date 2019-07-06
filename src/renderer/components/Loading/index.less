@@ -1,0 +1,24 @@
+@keyframes loading-indication {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.root {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 70;
+    height: 4px;
+}
+
+.progress {
+    background-color: #4bd46f;
+    height: 100%;
+    animation: .5s linear 0s infinite alternate loading-indication;
+}

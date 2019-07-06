@@ -28,7 +28,7 @@ const buildEnv = {
         reportLintErrors: true,
         styleName: false,
         cssScope: false,
-        largeAssetSize: true,
+        largeAssetSize: 1024 * 1024 * 1024,
         browserSupport: {
             electron: '5.0.0',
         },
@@ -47,4 +47,7 @@ module.exports = {
     module: config.module,
     externals: config.externals,
     resolve: config.resolve,
+    optimization: {
+        minimize: false,
+    },
 };

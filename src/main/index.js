@@ -7,10 +7,6 @@ import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} from 'electron-
 import Application from './Application';
 
 const DEBUG = !!process.env.DEBUG;
-if (DEBUG) {
-    installExtension(REACT_DEVELOPER_TOOLS);
-    installExtension(REDUX_DEVTOOLS);
-}
 
 const USER_DATA_DIRECTORY = electron.app.getPath('userData');
 mkdirp.sync(USER_DATA_DIRECTORY);
@@ -62,6 +58,11 @@ app.on('window-all-closed', () => app.quit());
 app.on(
     'ready',
     () => {
+        if (DEBUG) {
+            installExtension(REACT_DEVELOPER_TOOLS);
+            installExtension(REDUX_DEVTOOLS);
+        }
+
         setMenu();
         icarus.start();
     }

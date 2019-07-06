@@ -1,4 +1,7 @@
 {
+    "whiteListedModules": [
+        "react-redux"
+    ],
     "renderer": {
         "webpackConfig": "custom.webpack.config.js"
     },

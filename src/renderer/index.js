@@ -1,60 +1,9 @@
 import electron from 'electron';
 import {render} from 'react-dom';
-import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
-import thunk from 'redux-thunk';
-import reducer from './reducer';
-import * as receivers from './lib/receiver';
-import App from './container/App';
-
-const initialState = {
-    image: {
-        name: null,
-        uri: null,
-        width: null,
-        height: null,
-    },
-    archive: {
-        name: null,
-        tags: [],
-        allTags: [],
-    },
-    container: {
-        width: null,
-        height: null,
-    },
-    layout: {
-        type: 'topBottom',
-        steps: [],
-        stepIndex: 0,
-    },
-    message: {
-        show: false,
-        content: '',
-    },
-    tags: {
-        all: [],
-        collisions: {},
-    },
-    filter: {
-        tags: [],
-    },
-    isLoading: false,
-    isHelpVisible: false,
-    isInfoVisible: false,
-    isFullscreen: false,
-    isDisturbing: false,
-    isTagVisible: false,
-    isFilterVisible: false,
-};
-const store = createStore(
-    reducer,
-    initialState,
-    compose(
-        applyMiddleware(thunk),
-        window.devToolsExtension ? window.devToolsExtension() : f => f
-    )
-);
+import * as receivers from './lib/receivers';
+import store from './store';
+import App from './components/App';
 
 const connect = (channel, module) => {
     const receiver = receivers[module];

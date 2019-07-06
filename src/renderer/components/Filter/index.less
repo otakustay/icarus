@@ -1,0 +1,55 @@
+.root {
+    position: fixed;
+    z-index: 50;
+    top: 15%;
+    left: 0;
+    right: 0;
+    background-color: #303030;
+    color: #fff;
+    padding-bottom: 0;
+    height: 70%;
+    width: 90%;
+    margin: auto;
+    overflow-y: auto;
+    border-radius: 2px;
+}
+
+.content {
+    padding: 24px;
+    height: calc(100% - 64px - 48px);
+}
+
+.body {
+    height: calc(100% - 24px);
+    overflow: auto;
+}
+
+.footer {
+    box-sizing: border-box;
+    border-radius: 0 0 2px 2px;
+    padding: 4px 6px;
+    height: 56px;
+    width: 100%;
+}
+
+.button {
+    float: right;
+    margin: 6px 0;
+    cursor: pointer;
+    border-radius: 2px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 2rem;
+    user-select: none;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, .1);
+    }
+}
+
+.tag {
+    position: static;
+    width: auto;
+    z-index: auto;
+    background-color: #303030;
+}

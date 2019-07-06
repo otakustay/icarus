@@ -7,16 +7,15 @@
   "scripts": {
     "lint": "skr lint",
     "start": "electron-webpack dev",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "debug": "DEBUG=true npm start"
+    "compile": "electron-webpack",
+    "build": "yarn compile && electron-builder --config=electron-builder.config.js",
+    "debug": "DEBUG=true yarn start"
   },
   "author": "otakustay",
   "license": "LGPL-3.0",
   "dependencies": {
     "adm-zip": "^0.4.7",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "datauri": "^2.0.0",
     "denodeify": "^1.2.1",
     "electron-devtools-installer": "^2.1.0",
@@ -33,14 +32,15 @@
     "nedb": "^1.8.0",
     "path-sort": "^0.1.0",
     "pinyin": "^2.8.3",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-redux": "^5.0.3",
-    "redux": "^3.6.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.1",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.0",
+    "reselect": "^4.0.0",
+    "reset-css": "^4.0.1",
     "san-update": "^2.1.0",
-    "sharp": "^0.22.1",
+    "source-map-support": "^0.5.12",
     "string-natural-compare": "^2.0.2"
   },
   "devDependencies": {
