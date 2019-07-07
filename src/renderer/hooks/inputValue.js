@@ -7,5 +7,5 @@ export default initialValue => {
         []
     );
 
-    return {value, onChange};
+    return {value, onChange, setValue};
 };

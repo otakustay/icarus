@@ -15,7 +15,7 @@ const getCategory = tag => {
 };
 
 const TagList = ({className, visible, tags, allTags, collisions, newTag, showTagWithCount, onAddTag, onRemoveTag}) => {
-    const {value: newTagName, onChange: setNewTagName} = useInputValue('');
+    const {setValue: setNewTagName, ...newTagName} = useInputValue('');
     const tagEnter = useCallback(
         e => {
             e.stopPropagation();
@@ -25,10 +25,10 @@ const TagList = ({className, visible, tags, allTags, collisions, newTag, showTag
                 return;
             }
 
-            onAddTag(newTagName.trim());
+            onAddTag(newTagName.value.trim());
             setNewTagName('');
         },
-        [onAddTag, newTagName, setNewTagName]
+        [onAddTag, newTagName.value, setNewTagName]
     );
     const toggleTag = useCallback(
         (tagName, selected) => {
@@ -93,9 +93,8 @@ const TagList = ({className, visible, tags, allTags, collisions, newTag, showTag
             <input
                 className={c.newTag}
                 placeholder="输入标签"
-                value={newTagName}
+                {...newTagName}
                 style={{display: newTag ? '' : 'none'}}
-                onChange={setNewTagName}
                 onKeyUp={tagEnter}
             />
             {tagCategories.map(category)}
