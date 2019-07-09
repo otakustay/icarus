@@ -42,7 +42,7 @@ export default class DefaultIPCQueue implements IPCQueue {
             }
             catch (ex) {
                 logger.error(`Command ${channel} failed: ${ex}`);
-                event.sender.send('service-error');
+                event.sender.send('service-error', {message: ex.message});
             }
         }
         this.scheduleTick = null;

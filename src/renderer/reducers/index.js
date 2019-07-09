@@ -53,7 +53,7 @@ const toggleHelp = apply('isHelpVisible', toggle);
 const toggleFullscreen = apply('isFullscreen', toggle);
 const nextStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index + 1));
 const previousStep = flow(set('layout.transition', true), apply('layout.stepIndex', index => index - 1));
-const showMessage = (state, action) => ({...state, message: {show: true, content: action.message}});
+const showMessage = (state, action) => ({...state, message: {show: true, ...action.payload}});
 const hideMessage = set('message', {show: false, content: ''});
 const showLoading = set('isLoading', true);
 const hideLoading = set('isLoading', false);

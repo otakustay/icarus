@@ -136,7 +136,7 @@ export default () => {
 
                 <Key pattern="¿" description="显示/隐藏帮助" onTrigger={callbacks.onToggleHelp} />
             </KeyboardShortcut>
-            <Alert visible={message.show} content={message.content} />
+            <Alert visible={message.show} title={message.title} content={message.content} />
             <Loading visible={isLoading} />
             <DisturbMode visible={isDisturbing} />
         </div>

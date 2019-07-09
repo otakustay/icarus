@@ -22,6 +22,7 @@ const execute: CommandHandler<null> = async (context, sender) => {
 
     if (!archive.entries.length) {
         logger.warn(`There is no image file in ${file}, move to next archive`);
+        sender.send('service-error', {message: `There is no image file in ${file}`});
         await execute(context, sender, null);
         return;
     }
