@@ -35,9 +35,9 @@ export default class DefaultStorage implements Storage {
 
     readonly database: PromisedDataStore<PersistArchiveInfo>;
 
-    constructor(directory: string) {
-        this.state = datastore({filename: path.join(directory, 'state.db'), autoload: true});
-        this.database = datastore({filename: path.join(directory, 'main.db'), autoload: true});
+    constructor(databaseDirectory: string, storageDirectory: string) {
+        this.state = datastore({filename: path.join(storageDirectory, 'state.db'), autoload: true});
+        this.database = datastore({filename: path.join(databaseDirectory, 'main.db'), autoload: true});
 
         const interval = 1000 * 60 * 5;
         this.state.nedb.persistence.setAutocompactionInterval(interval);

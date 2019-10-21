@@ -18,7 +18,13 @@ const WINDOW_OPTIONS = {
         nodeIntegration: true,
     },
 };
-const STORAGE_DIRECTORY = DEBUG ? path.join(__dirname, '..', 'storage') : electron.app.getPath('userData');
+const STORAGE_DIRECTORY = DEBUG
+    ? path.join(__dirname, '..', 'storage')
+    : electron.app.getPath('userData');
+const DATABASE_DIRECTORY = DEBUG
+    ? path.join(__dirname, '..', 'storage')
+    : path.join(electron.app.getPath('documents'), 'Icarus');
+
 const VERSION = electron.app.getVersion();
 
 export default class Application {
@@ -43,7 +49,7 @@ export default class Application {
         logger.silly(`Main window opened with size ${WINDOW_OPTIONS.width} x ${WINDOW_OPTIONS.height}`);
 
         const ipc = new IPCQueue(electron.ipcMain);
-        const storage = new Storage(STORAGE_DIRECTORY);
+        const storage = new Storage(DATABASE_DIRECTORY, STORAGE_DIRECTORY);
         this.globalContext = new GlobalContext(ipc, storage, VERSION);
         startRouter(this.globalContext);
     }
