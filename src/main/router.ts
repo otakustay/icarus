@@ -1,10 +1,10 @@
+import {AppContext, CommandName, CommandHandler} from '../types';
 import {getLogger} from './util/logger';
 import * as command from './command';
-import {AppContext, CommandName, CommandHandler} from '../types';
 
 const logger = getLogger('router');
 
-const routes: {[name in CommandName]: CommandHandler<any>} = {
+const routes: {[N in CommandName]: CommandHandler<any>} = {
     open: command.open,
     'open-multiple': command.openMultiple,
     'next-archive': command.nextArchive,

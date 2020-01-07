@@ -2,7 +2,7 @@ import {LinkedList} from '../types';
 
 export default class DefaultLinkedList<T> implements LinkedList<T> {
 
-    private list: T[] = null;
+    private readonly list: T[] = [];
     private cursor: number = -1;
 
     constructor(list: T[]) {

@@ -1,6 +1,6 @@
+import {last, matches} from 'lodash';
 import {useRef, useMemo} from 'react';
 import useDocumentEvent from './documentEvent';
-import {last, matches} from 'lodash';
 
 const CONTROL = 17;
 const ALT = 18;

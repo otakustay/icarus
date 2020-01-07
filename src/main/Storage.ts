@@ -1,10 +1,10 @@
 import path from 'path';
-import {omit, pick, countBy, identity} from 'lodash';
-import DataStore, {DataStoreOptions, RemoveOptions} from 'nedb';
 import {promisify} from 'util';
+import {omit, pick, countBy, identity} from 'lodash';
+import DataStore, {DataStoreOptions} from 'nedb';
+import {AppState, PersistArchiveInfo, PromisedDataStore, Storage, CollisionTable} from '../types';
 import {getLogger} from './util/logger';
 import {bareName} from './util';
-import {AppState, PersistArchiveInfo, PromisedDataStore, Storage, CollisionTable} from '../types';
 
 const logger = getLogger('storage');
 

@@ -9,6 +9,12 @@ export default class BaseArchive implements Archive {
 
     private archiveEntries: ArchiveEntry[] = [];
 
+    static empty() {
+        const archive = new BaseArchive();
+        archive.entries = [];
+        return archive;
+    }
+
     get entries(): ArchiveEntry[] {
         return this.archiveEntries;
     }
@@ -20,13 +26,7 @@ export default class BaseArchive implements Archive {
             .sort((x, y) => naturalCompare.caseInsensitive(x.entryName, y.entryName));
     }
 
-    readEntry(entry: ArchiveEntry): Promise<Buffer> {
+    readEntry(): Promise<Buffer> {
         throw new Error('Not implement');
-    }
-
-    static empty() {
-        const archive = new BaseArchive();
-        archive.entries = [];
-        return archive;
     }
 }

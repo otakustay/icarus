@@ -51,7 +51,7 @@
     "electron": "^6.0.12",
     "electron-builder": "^21.2.0",
     "electron-webpack": "^2.7.4",
-    "reskript": "^0.20.6",
+    "reskript": "^0.21.0",
     "webpack": "^4.41.2"
   }
 }

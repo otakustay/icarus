@@ -19,7 +19,7 @@ const initialState = {
         height: null,
     },
     layout: {
-        type: 'topBottom',
+        type: 'adaptive',
         steps: [],
         stepIndex: 0,
     },

@@ -1,5 +1,5 @@
 import mkdirp from 'mkdirp';
-import electron, {MenuItemConstructorOptions, Event} from 'electron';
+import electron, {MenuItemConstructorOptions} from 'electron';
 import installExtension, {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 import Application from './Application';
 
@@ -26,13 +26,13 @@ const setMenu = () => {
             submenu: [
                 {role: 'copy'},
                 {role: 'paste'},
-                {role: 'selectall'},
+                {role: 'selectAll'},
             ],
         },
         {
             label: 'View',
             submenu: [
-                {role: 'toggledevtools'},
+                {role: 'toggleDevTools'},
             ],
         },
     ];

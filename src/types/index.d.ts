@@ -1,5 +1,5 @@
-import {Event, IpcMain, WebContents} from 'electron';
-import DataStore, {DataStoreOptions, RemoveOptions} from 'nedb';
+import {IpcRenderer, IpcRendererEvent} from 'electron';
+import DataStore, {RemoveOptions} from 'nedb';
 
 export type CommandName = 'open'
     | 'open-multiple'
@@ -14,7 +14,7 @@ export type CommandName = 'open'
     | 'filter';
 
 interface IPCQueue {
-    on<TArgs>(channel: CommandName, handler: (event: Event, arg: TArgs) => void): void;
+    on<TArgs>(channel: CommandName, handler: (event: IpcRendererEvent, arg: TArgs) => void): void;
 }
 
 interface PromisedDataStore<T> {
@@ -85,7 +85,7 @@ interface PreviousArchiveCommandArgs {
     moveToLast: boolean;
 }
 
-type CommandHandler<TArg = null> = (context: AppContext, sender: WebContents, arg: TArg) => Promise<void>;
+type CommandHandler<TArg = null> = (context: AppContext, sender: IpcRenderer, arg: TArg) => Promise<void>;
 
 interface ArchiveEntry {
     name: string;

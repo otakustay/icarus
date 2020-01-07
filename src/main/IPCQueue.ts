@@ -12,13 +12,14 @@ interface QueuedEvent {
 
 export default class DefaultIPCQueue implements IPCQueue {
 
-    private requestQueue: QueuedEvent[] = [];
+    readonly ipc: IpcMain;
+
+    private readonly requestQueue: QueuedEvent[] = [];
 
     private commands: {[name: string]: (...args: any[]) => void} = {};
 
     private scheduleTick: NodeJS.Immediate | null = null;
 
-    readonly ipc: IpcMain;
 
     constructor(ipc: IpcMain) {
         this.ipc = ipc;

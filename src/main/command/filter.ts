@@ -1,5 +1,5 @@
-import {getLogger} from '../util/logger';
 import {map} from 'lodash';
+import {getLogger} from '../util/logger';
 import {CommandHandler} from '../../types';
 import {bareName} from '../util';
 import nextArchive from './nextArchive';

@@ -22,3 +22,5 @@ export const changeLayout = layoutType => (dispatch, getState) => {
 export const topBottomLayout = () => changeLayout('topBottom');
 
 export const oneStepLayout = () => changeLayout('oneStep');
+
+export const adaptiveLayout = () => changeLayout('adaptive');
