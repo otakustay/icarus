@@ -1,4 +1,4 @@
-import {IpcMain, Event} from 'electron';
+import {IpcMain, IpcMainEvent} from 'electron';
 import {IPCQueue, CommandName} from '../types';
 import {getLogger} from './util/logger';
 
@@ -6,7 +6,7 @@ const logger = getLogger('ipc');
 
 interface QueuedEvent {
     channel: string;
-    event: Event;
+    event: IpcMainEvent;
     arg: any;
 }
 
@@ -25,7 +25,7 @@ export default class DefaultIPCQueue implements IPCQueue {
         this.ipc = ipc;
     }
 
-    on<TArgs = null>(channel: CommandName, handler: (event: Event, arg: TArgs) => void): void {
+    on<TArgs = null>(channel: CommandName, handler: (event: IpcMainEvent, arg: TArgs) => void): void {
         this.commands[channel] = handler;
         this.ipc.on(channel, this.enqueueRequest.bind(this, channel));
     }
@@ -39,6 +39,7 @@ export default class DefaultIPCQueue implements IPCQueue {
             const handle = this.commands[channel];
 
             try {
+                // eslint-disable-next-line @typescript-eslint/await-thenable
                 await handle(event, arg);
             }
             catch (ex) {
@@ -49,7 +50,7 @@ export default class DefaultIPCQueue implements IPCQueue {
         this.scheduleTick = null;
     }
 
-    private enqueueRequest(channel: string, event: Event, arg: any) {
+    private enqueueRequest(channel: string, event: IpcMainEvent, arg: any) {
         logger.info(`Receive ${channel} request` + (arg ? ` with ${JSON.stringify(arg)}` : ''));
 
         this.requestQueue.push({channel, event, arg});

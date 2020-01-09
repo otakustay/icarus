@@ -1,4 +1,3 @@
-/* eslint-disable import/unambiguous, import/no-commonjs, global-require */
 const path = require('path');
 const {createBuildConfig} = require('reskript');
 

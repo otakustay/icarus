@@ -1,7 +1,7 @@
 import path from 'path';
-import {getLogger} from './util/logger';
 import electron from 'electron';
 import {AppContext} from '../types';
+import {getLogger} from './util/logger';
 import {start as startRouter} from './router';
 import GlobalContext from './GlobalContext';
 import IPCQueue from './IPCQueue';

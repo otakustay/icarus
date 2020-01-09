@@ -1,4 +1,4 @@
-import {IpcRenderer, IpcRendererEvent} from 'electron';
+import {IpcRenderer, IpcMainEvent} from 'electron';
 import DataStore, {RemoveOptions} from 'nedb';
 
 export type CommandName = 'open'
@@ -14,7 +14,7 @@ export type CommandName = 'open'
     | 'filter';
 
 interface IPCQueue {
-    on<TArgs>(channel: CommandName, handler: (event: IpcRendererEvent, arg: TArgs) => void): void;
+    on<TArgs>(channel: CommandName, handler: (event: IpcMainEvent, arg: TArgs) => void): void;
 }
 
 interface PromisedDataStore<T> {
@@ -33,14 +33,14 @@ interface CollisionTable {
 interface Storage {
     state: PromisedDataStore<AppState>;
     database: PromisedDataStore<PersistArchiveInfo>;
-    cleanup(): Promise<void>
+    cleanup(): Promise<void>;
     saveState(state: AppState): Promise<void>;
     restoreState(): Promise<AppState | null>;
     findArchivesByTags(tags: string[]): Promise<PersistArchiveInfo[]>;
     getArchiveInfo(archive: string): Promise<PersistArchiveInfo>;
     addTag(archiveName: string, tag: string): Promise<void>;
     removeTag(archiveName: string, tag: string): Promise<void>;
-    allTags(): Promise<{name: string, count: number}[]>;
+    allTags(): Promise<Array<{name: string, count: number}>>;
     tagCollisions(): Promise<CollisionTable>;
 }
 
@@ -61,7 +61,7 @@ interface Archive {
 
 export interface ArchiveBrowsingOptions {
     moveToLast?: boolean;
-    moveToImage?: string
+    moveToImage?: string;
 }
 
 interface AppContext {

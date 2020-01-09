@@ -1,7 +1,7 @@
-import {getLogger} from './util/logger';
 import LinkedList from '../common/LinkedList';
-import {Archive} from './util';
 import {IPCQueue, Storage, AppContext, ArchiveEntry, AppState, ArchiveBrowsingOptions} from '../types';
+import {getLogger} from './util/logger';
+import {Archive} from './util';
 
 const logger = getLogger('context');
 

@@ -2,11 +2,12 @@ import * as path from 'path';
 import {exec as execAsync} from 'child_process';
 import {promisify} from 'util';
 import electron from 'electron';
-import Archive from './Archive';
 import {ArchiveEntry} from '../../types';
+import Archive from './Archive';
 
 const exec = promisify(execAsync);
 
+// eslint-disable-next-line no-undef
 const RAR_TOOL_PATH = path.join(__static, 'unrar-os-x');
 // 在使用`electron-packager`打包后的应用程序启动时`LANG`环境变量是错误的`C`（即`ASCII`编码），会导致带中文的文件名读取全部错误
 const ENV = Object.assign({}, process.env, {LANG: electron.app.getLocale().replace(/-/g, '_')});
@@ -27,7 +28,7 @@ const readRarContentFile = async (file: string, entryName: string): Promise<Buff
 
 export default class RarArchive extends Archive {
 
-    private file: string;
+    private readonly file: string;
 
     constructor(file: string, entries: ArchiveEntry[]) {
         super();
@@ -35,12 +36,12 @@ export default class RarArchive extends Archive {
         this.entries = entries;
     }
 
-    readEntry({entryName}: ArchiveEntry): Promise<Buffer> {
-        return readRarContentFile(this.file, entryName);
-    }
-
     static async create(file: string): Promise<RarArchive> {
         const entries = await loadRarNames(file);
         return new RarArchive(file, entries);
+    }
+
+    readEntry({entryName}: ArchiveEntry): Promise<Buffer> {
+        return readRarContentFile(this.file, entryName);
     }
 }

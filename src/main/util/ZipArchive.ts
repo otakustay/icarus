@@ -3,8 +3,8 @@ import {promisify} from 'util';
 import AdmZip, {IZipEntry} from 'adm-zip';
 import * as chardet from 'jschardet';
 import iconv from 'iconv-lite';
-import Archive from './Archive';
 import {ZipArchiveEntry} from '../../types';
+import Archive from './Archive';
 
 const readFile = promisify(fs.readFile);
 
@@ -24,7 +24,7 @@ interface RarFileEntry {
 
 export default class ZipArchive extends Archive {
 
-    private files: {[name: string]: RarFileEntry} = {};
+    private readonly files: {[name: string]: RarFileEntry} = {};
 
     constructor(unzippedEntries: IZipEntry[]) {
         super();
@@ -43,6 +43,12 @@ export default class ZipArchive extends Archive {
         );
     }
 
+    static async create(file: string): Promise<ZipArchive> {
+        const fileData = await readFile(file);
+        const archive = new AdmZip(fileData);
+        return new ZipArchive(archive.getEntries());
+    }
+
     readEntry({entryName, originalEntryName}: ZipArchiveEntry) {
         const file = this.files[originalEntryName];
 
@@ -51,11 +57,5 @@ export default class ZipArchive extends Archive {
         }
 
         return file.getData();
-    }
-
-    static async create(file: string): Promise<ZipArchive> {
-        const fileData = await readFile(file);
-        const archive = new AdmZip(fileData);
-        return new ZipArchive(archive.getEntries());
     }
 }
