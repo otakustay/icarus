@@ -14,6 +14,10 @@ const execute: CommandHandler<string[]> = async (context, sender, tags) => {
 
     const savedState = await context.storage.restoreState();
 
+    if (!savedState) {
+        return;
+    }
+
     if (tags.length) {
         const filteredArchiveInfos = await context.storage.findArchivesByTags(tags);
         const filterSet = new Set(map(filteredArchiveInfos, 'archive'));

@@ -1,4 +1,4 @@
-import sizeOf from 'image-size';
+import {imageSize as sizeOf} from 'image-size';
 import {CommandHandler} from '../../types';
 import {getLogger} from '../util/logger';
 import {datauri} from '../util';

@@ -1,4 +1,4 @@
-import {IpcRenderer, IpcMainEvent} from 'electron';
+import {IpcMainEvent, WebContents} from 'electron';
 import DataStore, {RemoveOptions} from 'nedb';
 
 export type CommandName = 'open'
@@ -85,7 +85,7 @@ interface PreviousArchiveCommandArgs {
     moveToLast: boolean;
 }
 
-type CommandHandler<TArg = null> = (context: AppContext, sender: IpcRenderer, arg: TArg) => Promise<void>;
+type CommandHandler<TArg = null> = (context: AppContext, sender: WebContents, arg: TArg) => Promise<void>;
 
 interface ArchiveEntry {
     name: string;

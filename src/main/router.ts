@@ -22,7 +22,7 @@ export const start = (context: AppContext): void => {
     for (const [channel, command] of Object.entries(routes)) {
         context.ipc.on(
             channel as CommandName,
-            ({sender}, arg) => command(context, sender, arg as any)
+            ({sender}, arg) => command(context, sender, arg)
         );
     }
 
