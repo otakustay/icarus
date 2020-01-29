@@ -2,7 +2,7 @@ import path from 'path';
 import {promisify} from 'util';
 import {omit, pick, countBy, identity} from 'lodash';
 import DataStore, {DataStoreOptions} from 'nedb';
-import {AppState, PersistArchiveInfo, PromisedDataStore, Storage, CollisionTable} from '../types';
+import {AppState, PersistArchiveInfo, PromisedDataStore, Storage, CollisionTable} from '../interface';
 import {getLogger} from './util/logger';
 import {bareName} from './util';
 

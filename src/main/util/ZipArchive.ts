@@ -3,7 +3,7 @@ import {promisify} from 'util';
 import AdmZip, {IZipEntry} from 'adm-zip';
 import * as chardet from 'jschardet';
 import iconv from 'iconv-lite';
-import {ZipArchiveEntry} from '../../types';
+import {ZipArchiveEntry} from '../../interface';
 import Archive from './Archive';
 
 const readFile = promisify(fs.readFile);

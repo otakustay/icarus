@@ -1,6 +1,26 @@
 import {IpcMainEvent, WebContents} from 'electron';
 import DataStore, {RemoveOptions} from 'nedb';
 
+export interface ClientArchiveInfo {
+    total: number;
+    index: number;
+    archive: string;
+    tags: string[];
+}
+
+export interface ClientImageInfo {
+    uri: string;
+    name: string;
+    width: number;
+    height: number;
+}
+
+export interface ClientTagInfo {
+    name: string;
+    count: number;
+}
+
+
 export type CommandName = 'open'
     | 'open-multiple'
     | 'next-archive'
@@ -13,11 +33,11 @@ export type CommandName = 'open'
     | 'init'
     | 'filter';
 
-interface IPCQueue {
+export interface IPCQueue {
     on<TArgs>(channel: CommandName, handler: (event: IpcMainEvent, arg: TArgs) => void): void;
 }
 
-interface PromisedDataStore<T> {
+export interface PromisedDataStore<T> {
     nedb: DataStore;
     remove(query: any, options: RemoveOptions): Promise<number>;
     insert(newDoc: T): Promise<T>;
@@ -26,11 +46,11 @@ interface PromisedDataStore<T> {
     update(query: any, newDoc: T): Promise<void>;
 }
 
-interface CollisionTable {
+export interface CollisionTable {
     [baseTag: string]: {[targetTag: string]: number};
 }
 
-interface Storage {
+export interface Storage {
     state: PromisedDataStore<AppState>;
     database: PromisedDataStore<PersistArchiveInfo>;
     cleanup(): Promise<void>;
@@ -40,11 +60,11 @@ interface Storage {
     getArchiveInfo(archive: string): Promise<PersistArchiveInfo>;
     addTag(archiveName: string, tag: string): Promise<void>;
     removeTag(archiveName: string, tag: string): Promise<void>;
-    allTags(): Promise<Array<{name: string, count: number}>>;
+    allTags(): Promise<ClientTagInfo[]>;
     tagCollisions(): Promise<CollisionTable>;
 }
 
-interface LinkedList<T> {
+export interface LinkedList<T> {
     current(): T;
     currentIndex(): number;
     next(): T | null;
@@ -54,7 +74,7 @@ interface LinkedList<T> {
     toArray(): T[];
 }
 
-interface Archive {
+export interface Archive {
     entries: ArchiveEntry[];
     readEntry(entry: ArchiveEntry): Promise<Buffer>;
 }
@@ -64,7 +84,7 @@ export interface ArchiveBrowsingOptions {
     moveToImage?: string;
 }
 
-interface AppContext {
+export interface AppContext {
     readonly ipc: IPCQueue;
     readonly storage: Storage;
     readonly version: string;
@@ -81,30 +101,30 @@ interface AppContext {
     dispose(): Promise<void>;
 }
 
-interface PreviousArchiveCommandArgs {
+export interface PreviousArchiveCommandArgs {
     moveToLast: boolean;
 }
 
-type CommandHandler<TArg = null> = (context: AppContext, sender: WebContents, arg: TArg) => Promise<void>;
+export type CommandHandler<TArg = null> = (context: AppContext, sender: WebContents, arg: TArg) => Promise<void>;
 
-interface ArchiveEntry {
+export interface ArchiveEntry {
     name: string;
     entryName: string;
 }
 
-interface ZipArchiveEntry {
+export interface ZipArchiveEntry {
     name: string;
     entryName: string;
     originalEntryName: string;
 }
 
-interface FilterState {
+export interface FilterState {
     tags: string[];
     archive: string;
     image: string;
 }
 
-interface AppState {
+export interface AppState {
     archiveList: string[];
     archive: string;
     image: string;
@@ -112,7 +132,7 @@ interface AppState {
     filter: FilterState | null;
 }
 
-interface PersistArchiveInfo {
+export interface PersistArchiveInfo {
     archive: string;
     tags: string[];
 }

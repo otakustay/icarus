@@ -1,4 +1,4 @@
-import {CommandHandler} from '../../types';
+import {CommandHandler, ClientArchiveInfo} from '../../interface';
 import {getLogger} from '../util/logger';
 import {unpack} from '../util';
 import nextImage from './nextImage';
@@ -37,7 +37,7 @@ const execute: CommandHandler<PreviousArchiveOptions> = async (context, sender, 
 
     logger.info('Send archive command to renderer');
 
-    const info = {
+    const info: ClientArchiveInfo = {
         ...await context.storage.getArchiveInfo(file),
         total: context.archiveList.size(),
         index: context.archiveList.currentIndex(),

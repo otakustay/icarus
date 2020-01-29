@@ -1,6 +1,6 @@
 import {imageSize as sizeOf} from 'image-size';
 import {getLogger} from '../util/logger';
-import {CommandHandler} from '../../types';
+import {CommandHandler} from '../../interface';
 import {datauri} from '../util';
 import nextArchive from './nextArchive';
 

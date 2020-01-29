@@ -1,4 +1,4 @@
-import {AppContext, CommandName, CommandHandler} from '../types';
+import {AppContext, CommandName, CommandHandler} from '../interface';
 import {getLogger} from './util/logger';
 import * as command from './command';
 

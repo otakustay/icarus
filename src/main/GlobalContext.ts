@@ -1,5 +1,5 @@
 import LinkedList from '../common/LinkedList';
-import {IPCQueue, Storage, AppContext, ArchiveEntry, AppState, ArchiveBrowsingOptions} from '../types';
+import {IPCQueue, Storage, AppContext, ArchiveEntry, AppState, ArchiveBrowsingOptions} from '../interface';
 import {getLogger} from './util/logger';
 import {Archive} from './util';
 

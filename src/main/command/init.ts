@@ -1,4 +1,4 @@
-import {CommandHandler} from '../../types';
+import {CommandHandler} from '../../interface';
 import {getLogger} from '../util/logger';
 
 const logger = getLogger('init');

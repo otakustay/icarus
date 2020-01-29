@@ -2,7 +2,7 @@ import * as path from 'path';
 import {exec as execAsync} from 'child_process';
 import {promisify} from 'util';
 import electron from 'electron';
-import {ArchiveEntry} from '../../types';
+import {ArchiveEntry} from '../../interface';
 import Archive from './Archive';
 
 const exec = promisify(execAsync);

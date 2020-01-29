@@ -1,6 +1,6 @@
 import * as path from 'path';
 import naturalCompare from 'string-natural-compare';
-import {Archive, ArchiveEntry} from '../../types';
+import {Archive, ArchiveEntry} from '../../interface';
 
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.bmp']);
 const BLACKLIST = ['__MACOSX'];

@@ -1,4 +1,4 @@
-import {CommandHandler} from '../../types';
+import {CommandHandler} from '../../interface';
 import {getLogger} from '../util/logger';
 import nextArchive from './nextArchive';
 

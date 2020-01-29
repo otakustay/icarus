@@ -1,4 +1,4 @@
-import {LinkedList} from '../types';
+import {LinkedList} from '../interface';
 
 export default class DefaultLinkedList<T> implements LinkedList<T> {
 

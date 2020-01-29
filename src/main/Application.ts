@@ -1,6 +1,6 @@
 import path from 'path';
 import electron from 'electron';
-import {AppContext} from '../types';
+import {AppContext} from '../interface';
 import {getLogger} from './util/logger';
 import {start as startRouter} from './router';
 import GlobalContext from './GlobalContext';

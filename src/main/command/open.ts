@@ -1,5 +1,5 @@
 import path from 'path';
-import {CommandHandler} from '../../types';
+import {CommandHandler} from '../../interface';
 import {getLogger} from '../util/logger';
 import {list} from '../util';
 import nextArchive from './nextArchive';

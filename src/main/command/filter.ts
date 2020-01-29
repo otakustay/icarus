@@ -1,6 +1,6 @@
 import {map} from 'lodash';
 import {getLogger} from '../util/logger';
-import {CommandHandler} from '../../types';
+import {CommandHandler} from '../../interface';
 import {bareName} from '../util';
 import nextArchive from './nextArchive';
 import restore from './restore';

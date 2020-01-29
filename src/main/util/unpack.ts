@@ -1,5 +1,5 @@
 import path from 'path';
-import {Archive} from '../../types';
+import {Archive} from '../../interface';
 import ZipArchive from './ZipArchive';
 import RarArchive from './RarArchive';
 

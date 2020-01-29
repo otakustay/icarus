@@ -1,6 +1,9 @@
 {
     "extends": "./node_modules/reskript/config/tsconfig.json",
     "compilerOptions": {
-        "keyofStringsOnly": true
+        "keyofStringsOnly": true,
+        "allowJs": true,
+        "noImplicitAny": false,
+        "jsx": "preserve"
     }
 }

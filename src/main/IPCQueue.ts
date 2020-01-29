@@ -1,5 +1,5 @@
 import {IpcMain, IpcMainEvent} from 'electron';
-import {IPCQueue, CommandName} from '../types';
+import {IPCQueue, CommandName} from '../interface';
 import {getLogger} from './util/logger';
 
 const logger = getLogger('ipc');
