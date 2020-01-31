@@ -6,7 +6,7 @@ import {addTag, removeTag} from '../actions/tag';
 const INITIAL: ClientArchiveInfo = {
     total: 0,
     index: 0,
-    archive: '',
+    name: '',
     tags: [],
 };
 

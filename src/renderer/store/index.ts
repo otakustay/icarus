@@ -6,10 +6,9 @@ import image from './image';
 import layout from './layout';
 import message from './message';
 import tags from './tags';
-import timing from './timing';
 import view from './view';
 
-const reducer = combineReducers({archive, filter, image, layout, message, tags, timing, view});
+const reducer = combineReducers({archive, filter, image, layout, message, tags, view});
 
 const store = configureStore({reducer, devTools: true});
 

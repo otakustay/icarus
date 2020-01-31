@@ -3,10 +3,12 @@ import {
     showMessage,
     hideMessage,
     noMore,
-    ShowMessagePayload,
     Direction,
     noState,
     serviceError,
+    endTiming,
+    ShowMessagePayload,
+    TimingPayload,
 } from '../actions/notice';
 
 export default createReducer(
@@ -37,6 +39,12 @@ export default createReducer(
             state.visible = true;
             state.title = '应用程序出现异常';
             state.content = action.payload;
+        },
+        [endTiming.type](state, action: PayloadAction<TimingPayload>) {
+            const {minutes, seconds} = action.payload;
+            state.visible = true;
+            state.title = '计时：' + (minutes ? `${minutes}分${seconds}秒` : `${seconds}秒`);
+            state.content = '';
         },
     }
 );
