@@ -15,6 +15,7 @@ import Alert from '../Alert';
 import Loading from '../Loading';
 import DisturbMode from '../DisturbMode';
 import Filter from '../Filter';
+import Help from '../Help';
 
 const App: FC = () => {
     const viewState = useViewState();
@@ -39,6 +40,7 @@ const App: FC = () => {
             <Loading />
             <Filter />
             <DisturbMode />
+            <Help />
         </div>
     );
 };
