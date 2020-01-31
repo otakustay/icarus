@@ -15,7 +15,7 @@ const execute: CommandHandler<RemoveTagCommandArgs> = async (context, sender, {a
 
     const allTags = await context.storage.allTags();
 
-    sender.send('tag', {all: allTags});
+    sender.send('tag', allTags);
 };
 
 export default execute;

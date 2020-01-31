@@ -8,7 +8,7 @@ const execute: CommandHandler<null> = async (context, sender) => {
 
     const [all, collisions] = await Promise.all([context.storage.allTags(), context.storage.tagCollisions()]);
 
-    sender.send('init', {tags: {all, collisions}});
+    sender.send('init', {all, collisions});
 };
 
 export default execute;

@@ -13,7 +13,7 @@ const execute: CommandHandler<AddTagCommandArgs> = async (context, sender, {arch
 
     await context.storage.addTag(archive, tag);
     const allTags = await context.storage.allTags();
-    sender.send('tag', {all: allTags});
+    sender.send('tag', allTags);
 };
 
 export default execute;

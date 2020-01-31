@@ -1,10 +1,15 @@
 import {IpcMainEvent, WebContents} from 'electron';
 import DataStore, {RemoveOptions} from 'nedb';
 
+export interface Size {
+    width: number;
+    height: number;
+}
+
 export interface ClientArchiveInfo {
     total: number;
     index: number;
-    archive: string;
+    name: string;
     tags: string[];
 }
 
@@ -20,6 +25,10 @@ export interface ClientTagInfo {
     count: number;
 }
 
+export interface TagState {
+    all: ClientTagInfo[];
+    collisions: CollisionTable;
+}
 
 export type CommandName = 'open'
     | 'open-multiple'
@@ -47,7 +56,7 @@ export interface PromisedDataStore<T> {
 }
 
 export interface CollisionTable {
-    [baseTag: string]: {[targetTag: string]: number};
+    [baseTag: string]: {[targetTag: string]: number | undefined} | undefined;
 }
 
 export interface Storage {
@@ -136,3 +145,5 @@ export interface PersistArchiveInfo {
     archive: string;
     tags: string[];
 }
+
+export type LayoutType = 'topBottom' | 'oneStep' | 'adaptive';
