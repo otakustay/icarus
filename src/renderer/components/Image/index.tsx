@@ -105,9 +105,9 @@ const ImageView: FC<ImageProps> = ({image, layoutType, containerSize}) => {
     useKeyboard('J', moveToNextStep);
 
     const transform = transformSteps[stepIndex];
+    const transition = (screen.width * devicePixelRatio) > 2560;
     const style = {
-        // TODO: 尝试取消动画的可能性
-        transition: 'transform 1s linear',
+        transition: transition ? 'transform 1s linear' : '',
         transform: `scale(${transform.scale}) translate3d(${transform.translateX}px, ${transform.translateY}px, 0)`,
     };
 
