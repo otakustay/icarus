@@ -1,19 +1,9 @@
 import {useCallback, useMemo, useState, FC} from 'react';
 import {useSelector} from 'react-redux';
-import pinyin, {STYLE_NORMAL} from 'pinyin';
 import {compact, max} from 'lodash';
+import {getPinYinPrefix} from '../../lib/pinYin';
 import {State} from '../../store';
 import c from './index.less';
-
-// 这个奇葩的库基本上最常用的读音都在最后面
-const getCategory = (tag: string) => {
-    try {
-        return pinyin(tag, {heteronym: false, style: STYLE_NORMAL})[0][0][0].toUpperCase();
-    }
-    catch (ex) {
-        return '?';
-    }
-};
 
 interface Props {
     className?: string;
@@ -64,7 +54,7 @@ const TagList: FC<Props> = ({className, visible, selected, newTag, showTagWithCo
             const collisionTable = selected.map(t => collisions[t]);
             const result = allTags.reduce(
                 (result, tag) => {
-                    const category = getCategory(tag.name);
+                    const category = getPinYinPrefix(tag.name)?.toUpperCase() ?? '?';
                     let collisionRate = max(compact(collisionTable.map(t => t?.name)));
                     if (collisionRate) {
                         collisionRate = Math.min(Math.round(collisionRate * 10), 9);
