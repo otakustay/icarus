@@ -16,3 +16,5 @@ declare class ResizeObserver {
     unobserve(element: HTMLElement): void;
     disconnect(): void;
 }
+
+declare const __static: string;
