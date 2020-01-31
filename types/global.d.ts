@@ -18,3 +18,8 @@ declare class ResizeObserver {
 }
 
 declare const __static: string;
+
+declare class FontFace {
+    constructor(family: string, source: string);
+    load(): Promise<void>;
+}

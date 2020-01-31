@@ -29,7 +29,7 @@ const buildEnv = {
         cssScope: false,
         largeAssetSize: 1024 * 1024 * 1024,
         browserSupport: {
-            electron: '5.0.0',
+            electron: '7.0.0',
         },
     },
     devServer: {
