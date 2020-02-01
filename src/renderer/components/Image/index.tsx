@@ -4,6 +4,7 @@ import {ClientImageInfo, LayoutType} from '../../../interface';
 import useViewState from '../../hooks/viewState';
 import useKeyboard from '../../hooks/keyboard';
 import {previousImage, nextImage} from '../../actions/image';
+import {topBottomLayout, adaptiveLayout, oneStepLayout} from '../../actions/layout';
 import {previousArchive, nextArchive} from '../../actions/archive';
 import {State} from '../../store';
 import * as layouts from '../../lib/layouts';
@@ -103,6 +104,21 @@ const ImageView: FC<ImageProps> = ({image, layoutType, containerSize}) => {
         [moveToNextImage, stepIndex, transformSteps.length]
     );
     useKeyboard('J', moveToNextStep);
+    const toOneStepLayout = useCallback(
+        () => dispatch(oneStepLayout()),
+        [dispatch]
+    );
+    useKeyboard('3', toOneStepLayout);
+    const toTopBottomLayout = useCallback(
+        () => dispatch(topBottomLayout()),
+        [dispatch]
+    );
+    useKeyboard('2', toTopBottomLayout);
+    const toAdaptiveLayout = useCallback(
+        () => dispatch(adaptiveLayout()),
+        [dispatch]
+    );
+    useKeyboard('1', toAdaptiveLayout);
 
     const transform = transformSteps[stepIndex];
     const transition = (screen.width * devicePixelRatio) > 2560;

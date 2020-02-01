@@ -57,6 +57,12 @@ const Help: FC = () => {
                 <Sortcut patterns={['ALT+F']} description="筛选漫画" />
                 <Sortcut patterns={['/']} description="打扰模式" />
             </ul>
+            <h2 className={c.shortcutTitle}>阅读模式</h2>
+            <ul>
+                <Sortcut patterns={['1']} description="自适应模式" />
+                <Sortcut patterns={['2']} description="两步模式" />
+                <Sortcut patterns={['3']} description="单步模式" />
+            </ul>
             <h2 className={c.contactTitle}>联系作者</h2>
             <a
                 href="http://github.com/otakustay/icarus/issues"
