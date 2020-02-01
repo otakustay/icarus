@@ -16,7 +16,7 @@ const Info: FC = () => {
     const isReading = useIsReading();
     const toggleInfoPanel = useCallback(
         () => {
-            if (!isReading) {
+            if (isReading) {
                 dispatch(toggleInfo());
             }
         },
