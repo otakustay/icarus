@@ -1,6 +1,4 @@
-import {LinkedList} from '../interface';
-
-export default class DefaultLinkedList<T> implements LinkedList<T> {
+export default class LinkedList<T> {
 
     private readonly list: T[] = [];
     private cursor: number = -1;
@@ -10,6 +8,7 @@ export default class DefaultLinkedList<T> implements LinkedList<T> {
         this.cursor = -1;
     }
 
+    // TODO: 可能是null
     current(): T {
         return this.list[this.cursor];
     }
@@ -34,6 +33,22 @@ export default class DefaultLinkedList<T> implements LinkedList<T> {
 
         this.cursor--;
         return this.current();
+    }
+
+    peakNext(): T | null {
+        if (this.cursor >= this.list.length - 1) {
+            return null;
+        }
+
+        return this.list[this.cursor + 1];
+    }
+
+    peakPrevious(): T | null {
+        if (this.cursor <= 0) {
+            return null;
+        }
+
+        return this.list[this.cursor - 1];
     }
 
     readyFor(element?: T | null): void {

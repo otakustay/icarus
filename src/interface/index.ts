@@ -1,5 +1,10 @@
 import {IpcMainEvent, WebContents} from 'electron';
 import DataStore, {RemoveOptions} from 'nedb';
+import AdjacentCache from '../common/AdjacentCache';
+import LinkedList from '../common/LinkedList';
+import {BackendImageInfo} from './backend';
+
+export {BackendImageInfo};
 
 export interface Size {
     width: number;
@@ -73,16 +78,6 @@ export interface Storage {
     tagCollisions(): Promise<CollisionTable>;
 }
 
-export interface LinkedList<T> {
-    current(): T;
-    currentIndex(): number;
-    next(): T | null;
-    previous(): T | null;
-    readyFor(element?: T | null): void;
-    size(): number;
-    toArray(): T[];
-}
-
 export interface Archive {
     entries: ArchiveEntry[];
     readEntry(entry: ArchiveEntry): Promise<Buffer>;
@@ -97,6 +92,7 @@ export interface AppContext {
     readonly ipc: IPCQueue;
     readonly storage: Storage;
     readonly version: string;
+    readonly imageCache: AdjacentCache<BackendImageInfo>;
     archiveList: LinkedList<string>;
     browsingArchive: Archive;
     imageList: LinkedList<ArchiveEntry>;

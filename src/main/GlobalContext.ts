@@ -1,5 +1,14 @@
 import LinkedList from '../common/LinkedList';
-import {IPCQueue, Storage, AppContext, ArchiveEntry, AppState, ArchiveBrowsingOptions} from '../interface';
+import AdjacentCache from '../common/AdjacentCache';
+import {
+    IPCQueue,
+    Storage,
+    AppContext,
+    ArchiveEntry,
+    AppState,
+    ArchiveBrowsingOptions,
+    BackendImageInfo,
+} from '../interface';
 import {getLogger} from './util/logger';
 import {Archive} from './util';
 
@@ -12,6 +21,8 @@ export default class GlobalContext implements AppContext {
     readonly storage: Storage;
 
     readonly version: string;
+
+    readonly imageCache = new AdjacentCache<BackendImageInfo>();
 
     archiveList: LinkedList<string> = new LinkedList<string>([]);
 
