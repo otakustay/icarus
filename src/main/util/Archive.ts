@@ -22,7 +22,7 @@ export default class BaseArchive implements Archive {
     set entries(list: ArchiveEntry[]) {
         this.archiveEntries = list
             .filter(entry => !BLACKLIST.some(word => entry.entryName.includes(word)))
-            .filter(entry => IMAGE_EXTENSIONS.has(path.extname(entry.name)))
+            .filter(entry => IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
             .sort((x, y) => naturalCompare(x.entryName, y.entryName, {caseInsensitive: true}));
     }
 
