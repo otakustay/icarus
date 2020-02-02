@@ -1,12 +1,43 @@
 import {imageSize as sizeOf} from 'image-size';
-import {WebContents} from 'electron';
+import {WebContents, screen} from 'electron';
 import {Logger} from 'winston';
+import sharp from 'sharp';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
 import {datauri} from '../../util';
 import previousArchive from '../previousArchive';
 import nextArchive from '../nextArchive';
 
+interface Size {
+    width: number;
+    height: number;
+}
+
+const computeImageSize = (buffer: Buffer) => {
+    const size = sizeOf(buffer);
+    return {
+        width: size.width || 0,
+        height: size.height || 0,
+    };
+};
+
 const isAppContext = (input: any): input is AppContext => typeof input.persist === 'function';
+
+const computeResizeScale = (imageSize: Size, screenSize: Size): number => {
+    const {width: imageWidth = 0, height: imageHeight = 0} = imageSize;
+    const {width: screenWidth = 0, height: screenHeight = 0} = screenSize;
+
+    if (imageWidth > screenWidth) {
+        return screenWidth / imageWidth;
+    }
+    if (imageHeight > screenHeight * 2) {
+        return screenHeight * 2 / imageHeight;
+    }
+    return 1;
+};
+
+const resizeImage = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
+    return sharp(buffer).resize(width, height).toBuffer();
+};
 
 export default class Util {
     private readonly context: AppContext;
@@ -28,16 +59,38 @@ export default class Util {
 
     async readImage(entry: ArchiveEntry): Promise<BackendImageInfo> {
         const buffer = await this.context.browsingArchive.readEntry(entry);
+        const imageSize = computeImageSize(buffer);
+        const {size: screenSize} = screen.getPrimaryDisplay();
+        const scale = computeResizeScale(imageSize, screenSize);
+        const currentArchive = this.context.archiveList.current();
+
+        if (scale >= 1) {
+            return {
+                archive: currentArchive,
+                name: entry.entryName,
+                content: buffer,
+                width: imageSize.width,
+                height: imageSize.height,
+            };
+        }
+
+        const outputWidth = Math.round(imageSize.width * scale);
+        const outputHeight = Math.round(imageSize.height * scale);
+
+        this.logger.silly(`Resize image from ${imageSize.width}x${imageSize.height} to ${outputWidth}x${outputHeight}`);
+
+        const resizedBuffer = await resizeImage(buffer, outputWidth, outputHeight);
         return {
-            archive: this.context.archiveList.current(),
+            archive: currentArchive,
             name: entry.entryName,
-            content: buffer,
+            content: resizedBuffer,
+            width: outputWidth,
+            height: outputHeight,
         };
     }
 
-    sendToClient({name, content}: BackendImageInfo): void {
+    sendToClient({name, content, width, height}: BackendImageInfo): void {
         const imageSize = (content.byteLength / 1024).toFixed(2);
-        const {width = 0, height = 0} = sizeOf(content);
 
         this.logger.silly(`Image is ${name} (${imageSize}KB)`);
 
