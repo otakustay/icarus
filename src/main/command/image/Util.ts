@@ -4,8 +4,7 @@ import {Logger} from 'winston';
 import sharp from 'sharp';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
 import {datauri} from '../../util';
-import previousArchive from '../previousArchive';
-import nextArchive from '../nextArchive';
+import {previousArchive, nextArchive} from '../archive';
 
 interface Size {
     width: number;
@@ -129,7 +128,7 @@ export default class Util {
         }
         else {
             this.logger.info('Already at the last image, move to next archive');
-            await nextArchive(this.context, this.sender, null);
+            await nextArchive(this.context, this.sender, undefined);
         }
     }
 }

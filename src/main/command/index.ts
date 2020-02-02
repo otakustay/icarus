@@ -1,23 +1,9 @@
-import addTag from './addTag';
-import filter from './filter';
-import init from './init';
-import nextArchive from './nextArchive';
-import open from './open';
-import openMultiple from './openMultiple';
-import previousArchive from './previousArchive';
-import removeTag from './removeTag';
-import restore from './restore';
-
+export {default as addTag} from './addTag';
+export {default as filter} from './filter';
+export {default as init} from './init';
+export {default as open} from './open';
+export {default as openMultiple} from './openMultiple';
+export {default as removeTag} from './removeTag';
+export {default as restore} from './restore';
 export {previousImage, nextImage} from './image';
-
-export {
-    addTag,
-    filter,
-    init,
-    nextArchive,
-    open,
-    openMultiple,
-    previousArchive,
-    removeTag,
-    restore,
-};
+export {previousArchive, nextArchive} from './archive';

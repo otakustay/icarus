@@ -106,10 +106,6 @@ export interface AppContext {
     dispose(): Promise<void>;
 }
 
-export interface PreviousArchiveCommandArgs {
-    moveToLast: boolean;
-}
-
 export type CommandHandler<TArg = null> = (context: AppContext, sender: WebContents, arg: TArg) => Promise<void>;
 
 export interface ArchiveEntry {

@@ -2,7 +2,7 @@ import path from 'path';
 import {CommandHandler} from '../../interface';
 import {getLogger} from '../util/logger';
 import {list} from '../util';
-import nextArchive from './nextArchive';
+import {nextArchive} from './archive';
 
 const logger = getLogger('open');
 
@@ -44,7 +44,7 @@ const execute: CommandHandler<string> = async (context, sender, file) => {
 
     logger.silly('Open ' + (extension ? file : 'the first archive'));
 
-    await nextArchive(context, sender, null);
+    await nextArchive(context, sender, undefined);
 };
 
 export default execute;

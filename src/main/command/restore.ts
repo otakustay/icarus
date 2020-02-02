@@ -2,7 +2,7 @@ import {map} from 'lodash';
 import {CommandHandler} from '../../interface';
 import {getLogger} from '../util/logger';
 import {unpack, bareName} from '../util';
-import nextImage from './nextImage';
+import {nextImage} from './image';
 
 const logger = getLogger('restore');
 

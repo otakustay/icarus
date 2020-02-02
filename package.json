@@ -6,10 +6,11 @@
   "main": "src/main/index.js",
   "scripts": {
     "lint": "skr lint",
-    "start": "electron-rebuild && electron-webpack dev",
-    "compile": "electron-rebuild && electron-webpack",
+    "start": "electron-webpack dev",
+    "compile": "electron-webpack",
     "build": "yarn compile && electron-builder --config=electron-builder.config.js",
-    "debug": "DEBUG=true yarn start"
+    "debug": "DEBUG=true yarn start",
+    "postinstall": "electron-rebuild -f"
   },
   "author": "otakustay",
   "license": "LGPL-3.0",
