@@ -52,7 +52,6 @@ const TagList: FC<Props> = ({className, visible, selected, newTag, showTagWithCo
         () => {
             const selectedSet = new Set(selected);
             const collisionTable = selected.map(t => collisions[t]);
-            console.log(collisionTable);
             const result = allTags.reduce(
                 (result, tag) => {
                     const category = getPinYinPrefix(tag.name)?.toUpperCase() ?? '?';
@@ -69,7 +68,6 @@ const TagList: FC<Props> = ({className, visible, selected, newTag, showTagWithCo
                 },
                 {}
             );
-            console.log(result);
             return Object.keys(result).sort().map(category => ({key: category, tags: result[category]}));
         },
         [allTags, collisions, selected]
