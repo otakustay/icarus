@@ -52,10 +52,11 @@ const TagList: FC<Props> = ({className, visible, selected, newTag, showTagWithCo
         () => {
             const selectedSet = new Set(selected);
             const collisionTable = selected.map(t => collisions[t]);
+            console.log(collisionTable);
             const result = allTags.reduce(
                 (result, tag) => {
                     const category = getPinYinPrefix(tag.name)?.toUpperCase() ?? '?';
-                    let collisionRate = max(compact(collisionTable.map(t => t?.name)));
+                    let collisionRate = max(compact(collisionTable.map(t => t?.[tag.name]))) || 0;
                     if (collisionRate) {
                         collisionRate = Math.min(Math.round(collisionRate * 10), 9);
                     }
@@ -68,6 +69,7 @@ const TagList: FC<Props> = ({className, visible, selected, newTag, showTagWithCo
                 },
                 {}
             );
+            console.log(result);
             return Object.keys(result).sort().map(category => ({key: category, tags: result[category]}));
         },
         [allTags, collisions, selected]
