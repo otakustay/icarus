@@ -1,5 +1,7 @@
+import {Worker} from 'worker_threads';
 import {imageSize as sizeOf} from 'image-size';
 import {WebContents, screen} from 'electron';
+import {uniqueId} from 'lodash';
 import {Logger} from 'winston';
 import sharp from 'sharp';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
@@ -7,6 +9,13 @@ import {datauri} from '../../util';
 import {previousArchive, nextArchive} from '../archive';
 
 interface Size {
+    width: number;
+    height: number;
+}
+
+interface WorkerData {
+    id: string;
+    content: SharedArrayBuffer;
     width: number;
     height: number;
 }
@@ -34,8 +43,33 @@ const computeResizeScale = (imageSize: Size, screenSize: Size): number => {
     return 1;
 };
 
-const resizeImage = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
+const resizeInMain = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
     return sharp(buffer).resize(width, height).toBuffer();
+};
+
+const resizeInWorker = async (content: Buffer, width: number, height: number): Promise<Buffer> => {
+    const execute = (resolve: (resized: Buffer) => void) => {
+        const id = uniqueId();
+        // eslint-disable-next-line no-undef
+        const sharedMemory = new SharedArrayBuffer(content.byteLength);
+        content.copy(Buffer.from(sharedMemory));
+        const workerData: WorkerData = {
+            id,
+            width,
+            height,
+            content: sharedMemory,
+        };
+        const worker = new Worker(require.resolve('./shrink'), {workerData});
+        worker.on(
+            'message',
+            (message: {size: number, id: string}) => {
+                if (message.id === id) {
+                    resolve(Buffer.from(sharedMemory));
+                }
+            }
+        );
+    };
+    return new Promise(execute);
 };
 
 export default class Util {
@@ -56,7 +90,7 @@ export default class Util {
         return `${input.archive}/${input.name}`;
     }
 
-    async readImage(entry: ArchiveEntry): Promise<BackendImageInfo> {
+    async readImage(entry: ArchiveEntry, preload: boolean = false): Promise<BackendImageInfo> {
         const buffer = await this.context.browsingArchive.readEntry(entry);
         const imageSize = computeImageSize(buffer);
         const {size: screenSize} = screen.getPrimaryDisplay();
@@ -78,7 +112,8 @@ export default class Util {
 
         this.logger.silly(`Resize image from ${imageSize.width}x${imageSize.height} to ${outputWidth}x${outputHeight}`);
 
-        const resizedBuffer = await resizeImage(buffer, outputWidth, outputHeight);
+        const resize = preload ? resizeInWorker : resizeInMain;
+        const resizedBuffer = await resize(buffer, outputWidth, outputHeight);
         return {
             archive: currentArchive,
             name: entry.entryName,
@@ -106,7 +141,7 @@ export default class Util {
         const image = type === 'previous' ? this.context.imageList.peakPrevious() : this.context.imageList.peakNext();
 
         if (image) {
-            const info = await this.readImage(image);
+            const info = await this.readImage(image, true);
             const infoKey = this.cacheKey(info);
             const cached = type === 'previous'
                 ? this.context.imageCache.cachePrevious(currentKey, infoKey, info)
