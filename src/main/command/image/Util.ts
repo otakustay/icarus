@@ -47,6 +47,8 @@ const resizeInMain = async (buffer: Buffer, width: number, height: number): Prom
     return sharp(buffer).resize(width, height).toBuffer();
 };
 
+const workersPool = new Set<Worker>();
+
 const resizeInWorker = async (content: Buffer, width: number, height: number): Promise<Buffer> => {
     const execute = (resolve: (resized: Buffer) => void) => {
         const id = uniqueId();
@@ -60,9 +62,11 @@ const resizeInWorker = async (content: Buffer, width: number, height: number): P
             content: sharedMemory,
         };
         const worker = new Worker(require.resolve('./shrink'), {workerData});
+        workersPool.add(worker);
         worker.on(
             'message',
             (message: {size: number, id: string}) => {
+                workersPool.delete(worker);
                 if (message.id === id) {
                     resolve(Buffer.from(sharedMemory));
                 }
@@ -137,6 +141,11 @@ export default class Util {
     }
 
     async cache(type: 'previous' | 'next'): Promise<void> {
+        for (const worker of workersPool) {
+            worker.terminate();
+        }
+        workersPool.clear();
+
         const currentKey = this.cacheKey(this.context);
         const image = type === 'previous' ? this.context.imageList.peakPrevious() : this.context.imageList.peakNext();
 
