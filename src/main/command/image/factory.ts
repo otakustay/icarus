@@ -24,6 +24,7 @@ export default (type: 'previous' | 'next') => {
         if (cachedImage?.archive === currentArchive && cachedImage?.name === image?.entryName) {
             logger.silly(`Loaded ${type} image from cache`);
 
+            util.terminatePendingCache();
             util.sendToClient(cachedImage);
             util.cache(type);
             return;
@@ -31,6 +32,7 @@ export default (type: 'previous' | 'next') => {
 
         const current = await util.readImage(image);
         context.imageCache.setCurrent(util.cacheKey(current), current);
+        util.terminatePendingCache();
         util.sendToClient(current);
         util.cache('previous');
         util.cache('next');

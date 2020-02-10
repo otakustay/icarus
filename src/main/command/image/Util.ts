@@ -3,7 +3,6 @@ import {imageSize as sizeOf} from 'image-size';
 import {WebContents, screen} from 'electron';
 import {uniqueId} from 'lodash';
 import {Logger} from 'winston';
-import sharp from 'sharp';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
 import {datauri} from '../../util';
 import {previousArchive, nextArchive} from '../archive';
@@ -41,10 +40,6 @@ const computeResizeScale = (imageSize: Size, screenSize: Size): number => {
         return screenHeight * 2 / imageHeight;
     }
     return 1;
-};
-
-const resizeInMain = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
-    return sharp(buffer).resize(width, height).toBuffer();
 };
 
 const workersPool = new Set<Worker>();
@@ -101,7 +96,7 @@ export default class Util {
         const scale = computeResizeScale(imageSize, screenSize);
         const currentArchive = this.context.archiveList.current();
 
-        if (scale >= 1) {
+        if (scale >= 1 || !preload) {
             return {
                 archive: currentArchive,
                 name: entry.entryName,
@@ -116,8 +111,7 @@ export default class Util {
 
         this.logger.silly(`Resize image from ${imageSize.width}x${imageSize.height} to ${outputWidth}x${outputHeight}`);
 
-        const resize = preload ? resizeInWorker : resizeInMain;
-        const resizedBuffer = await resize(buffer, outputWidth, outputHeight);
+        const resizedBuffer = await resizeInWorker(buffer, outputWidth, outputHeight);
         return {
             archive: currentArchive,
             name: entry.entryName,
@@ -141,11 +135,6 @@ export default class Util {
     }
 
     async cache(type: 'previous' | 'next'): Promise<void> {
-        for (const worker of workersPool) {
-            worker.terminate();
-        }
-        workersPool.clear();
-
         const currentKey = this.cacheKey(this.context);
         const image = type === 'previous' ? this.context.imageList.peakPrevious() : this.context.imageList.peakNext();
 
@@ -163,6 +152,13 @@ export default class Util {
                 this.logger.silly(`Discard expired cache ${infoKey}`);
             }
         }
+    }
+
+    terminatePendingCache(): void {
+        for (const worker of workersPool) {
+            worker.terminate();
+        }
+        workersPool.clear();
     }
 
     async moveToArchive(type: 'previous' | 'next'): Promise<void> {
