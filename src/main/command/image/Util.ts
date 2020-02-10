@@ -3,7 +3,6 @@ import {imageSize as sizeOf} from 'image-size';
 import {WebContents, screen} from 'electron';
 import {uniqueId} from 'lodash';
 import {Logger} from 'winston';
-import sharp from 'sharp';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
 import {datauri} from '../../util';
 import {previousArchive, nextArchive} from '../archive';
@@ -41,10 +40,6 @@ const computeResizeScale = (imageSize: Size, screenSize: Size): number => {
         return screenHeight * 2 / imageHeight;
     }
     return 1;
-};
-
-const resizeInMain = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
-    return sharp(buffer).resize(width, height).toBuffer();
 };
 
 const workersPool = new Set<Worker>();
@@ -116,7 +111,7 @@ export default class Util {
 
         this.logger.silly(`Resize image from ${imageSize.width}x${imageSize.height} to ${outputWidth}x${outputHeight}`);
 
-        const resize = preload ? resizeInWorker : resizeInMain;
+        const resize = preload ? resizeInWorker : (buffer: Buffer) => Promise.resolve(buffer);
         const resizedBuffer = await resize(buffer, outputWidth, outputHeight);
         return {
             archive: currentArchive,
