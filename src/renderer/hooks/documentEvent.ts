@@ -5,6 +5,7 @@ export default function useDocumentEvent<K extends keyof DocumentEventMap>(
     fn: (ev: DocumentEventMap[K]) => any
 ) {
     const handler = useRef(fn);
+    handler.current = fn;
     useLayoutEffect(
         () => {
             const trigger = (e: DocumentEventMap[K]) => handler.current(e);
