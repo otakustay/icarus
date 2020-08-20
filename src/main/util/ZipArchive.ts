@@ -8,7 +8,7 @@ import Archive from './Archive';
 
 const readFile = promisify(fs.readFile);
 
-const decodeName = (buffer: Buffer): string => iconv.decode(buffer, chardet.detect(buffer).encoding);
+const decodeName = (buffer: Buffer): string => iconv.decode(buffer, chardet.detect(buffer).encoding || 'utf-8');
 const pickEntry = (e: IZipEntry): ZipArchiveEntry => {
     return {
         entryName: decodeName(e.rawEntryName),
