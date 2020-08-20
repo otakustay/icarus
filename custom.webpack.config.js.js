@@ -1,46 +1,23 @@
-const path = require('path');
-const {createBuildConfig} = require('reskript');
-
-const context = path.join(__dirname, '..');
-const src = path.join(context, 'src');
+const {createWebpackConfig, createRuntimeBuildEnv} = require('@reskript/config-webpack');
+const projectSettings = require('./settings');
 
 const buildEnv = {
-    mode: 'development',
-    usage: 'play',
-    clean: false,
-    analyze: false,
-    cwd: context,
-    srcDirectory: src,
-    buildTarget: 'stable',
-    hostPackageName: 'icarus',
-    entries: [],
-    featureMatrix: {
-        stable: {},
-    },
-    build: {
-        extraLessPaths: [],
-        extraLessVariables: {},
-        styleResources: [],
-        sourceCompilePackages: [],
-        noCompileScripts: [],
-        noModulesStyles: [],
-        reportLintErrors: true,
-        styleName: false,
-        cssScope: false,
-        largeAssetSize: 1024 * 1024 * 1024,
-        browserSupport: {
-            electron: '7.0.0',
-        },
-    },
-    devServer: {
-        hot: 'none',
-    },
-    addition() {
-        return {};
-    },
+    projectSettings,
+    cwd: __dirname,
+    hostPackageName: 'icarus-comic-reader',
+    usage: 'build',
+    mode: 'production',
+    srcDirectory: 'src',
 };
-
-const [config] = createBuildConfig(buildEnv);
+const runtimeBuildEnv = createRuntimeBuildEnv(buildEnv);
+const buildContext = {
+    ...runtimeBuildEnv,
+    entries: [],
+    features: {},
+    buildTarget: 'stable',
+    isDefaultTarget: false,
+};
+const config = createWebpackConfig(buildContext);
 
 module.exports = {
     module: config.module,

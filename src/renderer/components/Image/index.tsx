@@ -122,7 +122,7 @@ const ImageView: FC<ImageProps> = ({image, layoutType, containerSize}) => {
 
     const transform = transformSteps[stepIndex];
     const style = {
-        transition: 'transform 1s linear',
+        transition: 'transform .5s linear',
         transform: `scale(${transform.scale}) translate3d(${transform.translateX}px, ${transform.translateY}px, 0)`,
     };
 

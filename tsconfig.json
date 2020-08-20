@@ -1,6 +1,19 @@
 {
-    "extends": "./node_modules/reskript/config/tsconfig.json",
     "compilerOptions": {
+        "module": "esnext",
+        "target": "es2018",
+        "noEmit": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "lib": [
+          "es2018",
+          "dom"
+        ],
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "noUnusedLocals": false,
+        "noFallthroughCasesInSwitch": true,
         "keyofStringsOnly": true,
         "allowJs": true,
         "noImplicitAny": false,
