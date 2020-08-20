@@ -149,10 +149,10 @@ export default class DefaultStorage implements Storage {
     async allTags(): Promise<Array<{name: string, count: number}>> {
         const docs = await this.database.find({});
         const docTagPairs = docs.reduce(
-            (result, doc) => [
-                ...result,
-                ...doc.tags.map(tag => ({tag, doc})),
-            ],
+            (result, doc) => {
+                result.push(...doc.tags.map(tag => ({tag, doc})));
+                return result;
+            },
             [] as Array<{doc: PersistArchiveInfo, tag: string}>
         );
         const tags = Object.entries(countBy(docTagPairs, 'tag')).map(([name, count]) => ({name, count}));
