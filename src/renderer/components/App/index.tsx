@@ -5,7 +5,6 @@ import {restoreState} from '../../actions/open';
 import useKeyboard from '../../hooks/keyboard';
 import useViewState from '../../hooks/viewState';
 import useFullscreen from '../../hooks/fullscreen';
-import '../../styles';
 import DropZone from '../DropZone';
 import Image from '../Image';
 import Clock from '../Clock';

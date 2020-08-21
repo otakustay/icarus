@@ -1,14 +1,23 @@
+:root {
+    --color-background-primary: #000;
+    --color-background-secondary: #1e1e1e;
+    --color-background-highlight: #2d2d2d;
+    --color-contrast-primary: #0492ca;
+    --color-contrast-secondary: #2dac6e;
+    --color-neutural: #f5f5f5;
+}
+
 html,
 body {
     font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     margin: 0;
     overflow: hidden;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--color-background-primary);
+    color: var(--color-neutural);
 }
 
 a {
-    color: #3ebde1;
+    color: var(--color-contrast-primary);
     text-decoration: none;
 
     &:hover {

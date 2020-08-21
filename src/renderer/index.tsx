@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import * as receivers from './lib/receivers';
 import store from './store';
 import App from './components/App';
+import './styles';
 
 const connect = (channel: string, module: any) => {
     const receiver = receivers[module];
