@@ -9672,6 +9672,11 @@ readdirp@~3.4.0:
   dependencies:
     picomatch "^2.2.1"
 
+recoil@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.npm.taobao.org/recoil/download/recoil-0.0.10.tgz#679ab22306f559f8a63c46fd5ff5241539f9248f"
+  integrity sha1-Z5qyIwb1WfimPEb9X/UkFTn5JI8=
+
 redent@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/redent/download/redent-3.0.0.tgz#e557b7998316bb53c9f1f56fa626352c6963059f"

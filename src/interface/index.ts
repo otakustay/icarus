@@ -137,5 +137,3 @@ export interface PersistArchiveInfo {
     archive: string;
     tags: string[];
 }
-
-export type LayoutType = 'topBottom' | 'oneStep' | 'adaptive';

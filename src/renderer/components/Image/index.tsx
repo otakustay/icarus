@@ -1,13 +1,13 @@
 import {useState, useLayoutEffect, useMemo, FC, useCallback, useRef, MutableRefObject} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {ClientImageInfo, LayoutType} from '../../../interface';
+import {ClientImageInfo} from '../../../interface';
 import useViewState from '../../hooks/viewState';
 import useKeyboard from '../../hooks/keyboard';
 import {previousImage, nextImage} from '../../actions/image';
-import {topBottomLayout, adaptiveLayout, oneStepLayout} from '../../actions/layout';
 import {previousArchive, nextArchive} from '../../actions/archive';
 import {State} from '../../store';
 import * as layouts from '../../lib/layouts';
+import {useChangeLayout, useLayoutType, LayoutType} from './layout';
 import c from './index.less';
 
 interface Size {
@@ -104,19 +104,20 @@ const ImageView: FC<ImageProps> = ({image, layoutType, containerSize}) => {
         [moveToNextImage, stepIndex, transformSteps.length]
     );
     useKeyboard('J', moveToNextStep);
+    const changeLayout = useChangeLayout();
     const toOneStepLayout = useCallback(
-        () => dispatch(oneStepLayout()),
-        [dispatch]
+        () => changeLayout('oneStep'),
+        [changeLayout]
     );
     useKeyboard('3', toOneStepLayout);
     const toTopBottomLayout = useCallback(
-        () => dispatch(topBottomLayout()),
-        [dispatch]
+        () => changeLayout('topBottom'),
+        [changeLayout]
     );
     useKeyboard('2', toTopBottomLayout);
     const toAdaptiveLayout = useCallback(
-        () => dispatch(adaptiveLayout()),
-        [dispatch]
+        () => changeLayout('adaptive'),
+        [changeLayout]
     );
     useKeyboard('1', toAdaptiveLayout);
 
@@ -134,7 +135,7 @@ const Image: FC = () => {
     const containerSize = useSize(root);
     const viewState = useViewState();
     const image = useSelector((s: State) => s.image);
-    const layoutType = useSelector((s: State) => s.layout.type);
+    const layoutType = useLayoutType();
 
     return (
         <div className={c('root', viewState)} ref={root}>

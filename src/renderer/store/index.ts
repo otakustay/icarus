@@ -3,12 +3,11 @@ import {configureStore} from '@reduxjs/toolkit';
 import archive from './archive';
 import filter from './filter';
 import image from './image';
-import layout from './layout';
 import message from './message';
 import tags from './tags';
 import view from './view';
 
-const reducer = combineReducers({archive, filter, image, layout, message, tags, view});
+const reducer = combineReducers({archive, filter, image, message, tags, view});
 
 const store = configureStore({reducer, devTools: true});
 

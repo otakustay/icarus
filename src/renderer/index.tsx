@@ -1,6 +1,7 @@
 import electron from 'electron';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
+import {RecoilRoot} from 'recoil';
 import * as receivers from './lib/receivers';
 import store from './store';
 import App from './components/App';
@@ -23,8 +24,10 @@ connect('service-error', 'serviceError');
 electron.ipcRenderer.send('init');
 
 render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+    <RecoilRoot>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </RecoilRoot>,
     document.getElementById('app')
 );
