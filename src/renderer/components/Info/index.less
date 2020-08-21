@@ -9,13 +9,22 @@
     line-height: 30px;
     font-size: 12px;
     padding: 0 1em;
-    text-align: right;;
+    display: flex;
 }
 
 .tag {
     right: 30%;
 }
 
-.image {
+.cursor {
+    flex: 1;
+}
+
+.inside-current {
+    width: 400px;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     color: var(--color-neutural);
 }

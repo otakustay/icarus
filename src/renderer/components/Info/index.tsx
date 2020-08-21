@@ -10,7 +10,6 @@ import c from './index.less';
 const Info: FC = () => {
     const visible = useSelector((s: State) => s.view.isInfoVisible);
     const archive = useSelector((s: State) => s.archive);
-    const imageName = useSelector((s: State) => s.image.name);
     const viewState = useViewState();
     const dispatch = useDispatch();
     const isReading = useIsReading();
@@ -26,11 +25,12 @@ const Info: FC = () => {
 
     return (
         <div className={c('root', viewState)} style={{display: visible ? '' : 'none'}}>
-            <span>
-                [{archive.index + 1}/{archive.total}]
+            <span className={c.cursor}>
+                {archive.index + 1}/{archive.total}
             </span>
-            <span>{archive.name}</span>
-            <span className={c.image}>{imageName ? '/' + imageName : ''}</span>
+            <div className={c.insideCurrent}>
+                {archive.name}
+            </div>
         </div>
     );
 };
