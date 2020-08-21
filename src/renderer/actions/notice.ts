@@ -13,9 +13,7 @@ export const showMessage = createAction<ShowMessagePayload>('SHOW_MESSAGE');
 
 export const hideMessage = createAction('HIDE_MESSAGE');
 
-export type Direction = 'forward' | 'backward';
-
-export const noMore = createAction<Direction>('NO_MORE');
+export const noMore = createAction('NO_MORE');
 
 export const noState = createAction('NO_STATE');
 

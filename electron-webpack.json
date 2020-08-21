@@ -1,6 +1,10 @@
 {
     "whiteListedModules": [
-        "react-redux"
+        "react-redux",
+        "recoil",
+        "react",
+        "react-dom",
+        "@huse/input-value"
     ],
     "renderer": {
         "webpackConfig": "custom.webpack.config.js"

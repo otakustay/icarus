@@ -21,7 +21,6 @@ const config = createWebpackConfig(buildContext);
 
 module.exports = {
     module: config.module,
-    externals: config.externals,
     resolve: config.resolve,
     optimization: {
         minimize: false,

@@ -40,7 +40,11 @@ export default function useKeyboard(pattern: string, handler: () => void) {
     useDocumentEvent('keydown', down);
     const up = useCallback(
         (e: KeyboardEvent) => {
-            const {keyCode} = e;
+            const {keyCode, target} = e;
+
+            if ((target as HTMLElement).nodeName === 'INPUT') {
+                return;
+            }
 
             if (HELPER_KEYS.has(keyCode)) {
                 isInHelperMode.current = false;

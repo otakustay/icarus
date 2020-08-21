@@ -6,5 +6,5 @@ export default (name: string, buffer: Buffer): string => {
     const uri = new DatauriParser();
     uri.format(extension, buffer);
 
-    return uri.content;
+    return uri.content || '';
 };

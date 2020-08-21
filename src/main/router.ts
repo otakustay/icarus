@@ -7,8 +7,7 @@ const logger = getLogger('router');
 const routes: {[N in CommandName]: CommandHandler<any>} = {
     open: command.open,
     'open-multiple': command.openMultiple,
-    'next-archive': command.nextArchive,
-    'previous-archive': command.previousArchive,
+    'move-to-archive': command.moveToArchive,
     'next-image': command.nextImage,
     'previous-image': command.previousImage,
     restore: command.restore,

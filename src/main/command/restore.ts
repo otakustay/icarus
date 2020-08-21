@@ -40,7 +40,7 @@ const execute: CommandHandler<null> = async (context, sender) => {
 
     if (!file) {
         logger.warn('No archives in saved state, possibly a broken state');
-        sender.send('no-more', {direction: 'forward'});
+        sender.send('no-more');
         return;
     }
 

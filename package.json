@@ -15,6 +15,7 @@
   "author": "otakustay",
   "license": "LGPL-3.0",
   "dependencies": {
+    "@huse/input-value": "^1.0.1",
     "@reduxjs/toolkit": "^1.4.0",
     "@types/mkdirp": "^1.0.1",
     "adm-zip": "^0.4.16",
@@ -31,8 +32,8 @@
     "nedb": "^1.8.0",
     "path-sort": "^0.1.0",
     "pinyin-utils": "^1.61.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react": "^17.0.0-rc.0",
+    "react-dom": "^17.0.0-rc.0",
     "react-redux": "^7.2.1",
     "recoil": "^0.0.10",
     "redux": "^4.0.5",
@@ -56,13 +57,15 @@
     "@types/image-size": "^0.8.0",
     "@types/lodash": "^4.14.159",
     "@types/nedb": "^1.8.10",
+    "@types/react": "^16.9.46",
+    "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.7",
     "@types/sharp": "^0.25.1",
-    "electron": "9.0.0",
+    "electron": "9.2.1",
     "electron-builder": "^22.8.0",
-    "electron-rebuild": "^1.10.0",
+    "electron-rebuild": "^2.0.0",
     "electron-webpack": "^2.7.4",
-    "typescript": "^3.9.7",
+    "typescript": "^4.0.2",
     "webpack": "^4.44.1"
   }
 }

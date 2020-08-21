@@ -3,7 +3,6 @@ import {
     showMessage,
     hideMessage,
     noMore,
-    Direction,
     noState,
     serviceError,
     endTiming,
@@ -25,9 +24,9 @@ export default createReducer(
         [hideMessage.type](state) {
             state.visible = false;
         },
-        [noMore.type](state, action: PayloadAction<Direction>) {
+        [noMore.type](state) {
             state.visible = true;
-            state.title = `不能再往${action.payload === 'forward' ? '后' : '前'}翻了`;
+            state.title = '没有更多的漫画了';
             state.content = '';
         },
         [noState.type](state) {

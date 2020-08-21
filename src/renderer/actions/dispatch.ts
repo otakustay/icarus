@@ -3,4 +3,4 @@ import {State} from '../store';
 
 export type Dispatch = ThunkDispatch<State, any, any>;
 
-export type GetState = () => any;
+export type GetState = () => State;

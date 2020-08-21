@@ -6,4 +6,4 @@ export {default as openMultiple} from './openMultiple';
 export {default as removeTag} from './removeTag';
 export {default as restore} from './restore';
 export {previousImage, nextImage} from './image';
-export {previousArchive, nextArchive} from './archive';
+export {default as moveToArchive} from './archive';

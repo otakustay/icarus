@@ -51,6 +51,11 @@ export default class LinkedList<T> {
         return this.list[this.cursor - 1];
     }
 
+    move(index: number): T | null {
+        this.cursor = index;
+        return (this.list[this.cursor]) ?? null;
+    }
+
     readyFor(element?: T | null): void {
         this.cursor = element ? this.list.indexOf(element) - 1 : -1;
     }

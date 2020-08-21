@@ -1,6 +1,6 @@
 import {CommandHandler} from '../../interface';
 import {getLogger} from '../util/logger';
-import {nextArchive} from './archive';
+import moveToArchive from './archive';
 
 const logger = getLogger('openMultiple');
 
@@ -20,7 +20,8 @@ const execute: CommandHandler<string[]> = async (context, sender, archiveList) =
 
     logger.silly('Open the first selected archive');
 
-    await nextArchive(context, sender, undefined);
+    const currentIndex = context.archiveList.currentIndex();
+    await moveToArchive(context, sender, {index: currentIndex + 1, moveToLast: false});
 };
 
 export default execute;

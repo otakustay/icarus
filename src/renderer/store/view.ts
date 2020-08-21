@@ -9,7 +9,7 @@ import {
 } from '../actions/panel';
 import {noMore} from '../actions/notice';
 import {receiveImage, requestNextImage, requestPreviousImage} from '../actions/image';
-import {requestNextArchive, requestPreviousArchive} from '../actions/archive';
+import {requestArchive} from '../actions/archive';
 import {confirmFilter} from '../actions/app';
 import {opening} from '../actions/open';
 
@@ -35,10 +35,7 @@ export default createReducer(
         [requestPreviousImage.type](state) {
             state.isLoading = true;
         },
-        [requestNextArchive.type](state) {
-            state.isLoading = true;
-        },
-        [requestPreviousArchive.type](state) {
+        [requestArchive.type](state) {
             state.isLoading = true;
         },
         [receiveImage.type](state) {

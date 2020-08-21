@@ -2,7 +2,7 @@ import {map} from 'lodash';
 import {getLogger} from '../util/logger';
 import {CommandHandler} from '../../interface';
 import {bareName} from '../util';
-import {nextArchive} from './archive';
+import moveToArchive from './archive';
 import restore from './restore';
 
 const logger = getLogger('filter');
@@ -29,7 +29,7 @@ const execute: CommandHandler<string[]> = async (context, sender, tags) => {
 
         logger.info('Move to first archive');
 
-        await nextArchive(context, sender, undefined);
+        moveToArchive(context, sender, {index: 1, moveToLast: false});
     }
     else {
         logger.info('Remove filter from saved state');

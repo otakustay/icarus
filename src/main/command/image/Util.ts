@@ -5,7 +5,7 @@ import {uniqueId} from 'lodash';
 import {Logger} from 'winston';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
 import {datauri} from '../../util';
-import {previousArchive, nextArchive} from '../archive';
+import moveToArchive from '../archive';
 
 interface Size {
     width: number;
@@ -162,13 +162,14 @@ export default class Util {
     }
 
     async moveToArchive(type: 'previous' | 'next'): Promise<void> {
+        const currentIndex = this.context.archiveList.currentIndex();
         if (type === 'previous') {
             this.logger.info('Already at the first image, move to previous archive');
-            await previousArchive(this.context, this.sender, {moveToLast: true});
+            await moveToArchive(this.context, this.sender, {index: currentIndex - 1, moveToLast: true});
         }
         else {
             this.logger.info('Already at the last image, move to next archive');
-            await nextArchive(this.context, this.sender, undefined);
+            await moveToArchive(this.context, this.sender, {index: currentIndex + 1, moveToLast: false});
         }
     }
 }

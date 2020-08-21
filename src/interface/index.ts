@@ -37,8 +37,7 @@ export interface TagState {
 
 export type CommandName = 'open'
     | 'open-multiple'
-    | 'next-archive'
-    | 'previous-archive'
+    | 'move-to-archive'
     | 'next-image'
     | 'previous-image'
     | 'restore'
