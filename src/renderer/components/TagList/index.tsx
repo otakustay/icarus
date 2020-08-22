@@ -87,7 +87,7 @@ const TagList: FC<Props> = ({className, visible, selected, newTag, showTagWithCo
     };
 
     const renderCategory = ({key, tags}) => (
-        <div key={key}>
+        <div key={key} className={c.category}>
             <h3 className={c.categoryKey}>{key.toUpperCase()}</h3>
             <ul className={c.itemList}>
                 {tags.map(item)}
