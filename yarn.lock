@@ -4983,10 +4983,10 @@ electron-webpack@^2.7.4:
     webpack-merge "^4.2.2"
     yargs "^15.3.1"
 
-electron@9.0.0:
-  version "9.0.0"
-  resolved "https://registry.npm.taobao.org/electron/download/electron-9.0.0.tgz#335cd426a8a542ad8d4c96c0c40a8668ab5527b8"
-  integrity sha1-M1zUJqilQq2NTJbAxAqGaKtVJ7g=
+electron@9.3.0:
+  version "9.3.0"
+  resolved "https://registry.npm.taobao.org/electron/download/electron-9.3.0.tgz#a4f3dc17f31acc6797eb4c2c4bd0d0e25efb939b"
+  integrity sha1-pPPcF/MazGeX60wsS9DQ4l77k5s=
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"

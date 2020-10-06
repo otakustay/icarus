@@ -57,7 +57,7 @@
     "@types/nedb": "^1.8.10",
     "@types/react-redux": "^7.1.7",
     "@types/sharp": "^0.25.1",
-    "electron": "9.0.0",
+    "electron": "9.3.0",
     "electron-builder": "^22.8.0",
     "electron-rebuild": "^1.10.0",
     "electron-webpack": "^2.7.4",
