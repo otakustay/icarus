@@ -5,6 +5,9 @@ module.exports = {
         output: 'dist/packages',
     },
     mac: {
-        target: 'dmg',
+        target: {
+            target: 'dir',
+            arch: ['arm64', 'x64'],
+        },
     },
 };
