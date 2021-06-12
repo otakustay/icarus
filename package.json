@@ -1,0 +1,32 @@
+{
+  "name": "icarus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "otakustay <otakustay@gmail.com>",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "lint": "pnpm run --recursive lint",
+    "build": "pnpm run --recursive build",
+    "test": "pnpm run --recursive test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otakustay/icarus.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/otakustay/icarus/issues"
+  },
+  "homepage": "https://github.com/otakustay/icarus#readme",
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "husky": "^6.0.0",
+    "typescript": "^4.3.2"
+  }
+}
