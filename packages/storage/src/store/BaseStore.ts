@@ -37,20 +37,6 @@ export default abstract class BaseStore<T> {
         await this.persistence.close();
     }
 
-    async readData(): Promise<T> {
-        if (this.transaction) {
-            return this.transaction.readCurrent();
-        }
-
-        const content = await this.persistence.read();
-
-        if (!content) {
-            throw new Error('Persisted data empty');
-        }
-
-        return this.serializer.deserialize(content);
-    }
-
     async beginTransaction(): Promise<void> {
         if (this.transaction) {
             throw new Error('Previous transaction not committed or rollbacked');
@@ -96,6 +82,20 @@ export default abstract class BaseStore<T> {
         }
 
         return nextData;
+    }
+
+    protected async readData(): Promise<T> {
+        if (this.transaction) {
+            return this.transaction.readCurrent();
+        }
+
+        const content = await this.persistence.read();
+
+        if (!content) {
+            throw new Error('Persisted data empty');
+        }
+
+        return this.serializer.deserialize(content);
     }
 
     private async writeData(data: T): Promise<void> {

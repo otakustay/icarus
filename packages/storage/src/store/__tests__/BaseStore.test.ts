@@ -26,6 +26,9 @@ class TestStore extends BaseStore<number> {
     decrement() {
         return this.updateData(v => v - 1);
     }
+    read() {
+        return this.readData();
+    }
     readPersisted() {
         return this.inMemory.read();
     }
@@ -34,7 +37,7 @@ class TestStore extends BaseStore<number> {
 test('open to default value', async () => {
     const store = new TestStore();
     await store.open();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(0);
     await store.close();
 });
@@ -42,7 +45,7 @@ test('open to default value', async () => {
 test('open to restore value', async () => {
     const store = new TestStore(123);
     await store.open();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(123);
     await store.close();
 });
@@ -58,14 +61,14 @@ test('write on close', async () => {
 test('read data', async () => {
     const store = new TestStore();
     await store.open();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(0);
     await store.close();
 });
 
 test('throw when closed', async () => {
     const store = new TestStore();
-    expect(() => store.readData()).rejects.toThrow();
+    expect(() => store.read()).rejects.toThrow();
     expect(() => store.increment()).rejects.toThrow();
     expect(() => store.beginTransaction()).rejects.toThrow();
 });
@@ -74,7 +77,7 @@ test('update value', async () => {
     const store = new TestStore();
     await store.open();
     await store.increment();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(1);
     await store.close();
 });
@@ -84,7 +87,7 @@ test('in transaction', async () => {
     await store.open();
     await store.beginTransaction();
     await store.increment();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(1);
     await store.close();
 });
@@ -95,7 +98,7 @@ test('commit transaction', async () => {
     await store.beginTransaction();
     await store.increment();
     await store.commitTransaction();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(1);
     await store.close();
 });
@@ -107,7 +110,7 @@ test('rollback transaction', async () => {
     await store.increment();
     await store.increment();
     await store.rollbackTransaction();
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(0);
     await store.close();
 });
@@ -154,7 +157,7 @@ test('transaction auto commit', async () => {
             await store.increment();
         }
     );
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(2);
     await store.close();
 });
@@ -175,7 +178,7 @@ test('transaction auto rollback', async () => {
     catch (ex) {
         expect(ex.message).toBe('test fail');
     }
-    const data = await store.readData();
+    const data = await store.read();
     expect(data).toBe(0);
     await store.close();
 });
@@ -191,9 +194,9 @@ test('batch transaction auto commit', async () => {
             await storeY.increment();
         }
     );
-    const dataX = await storeX.readData();
+    const dataX = await storeX.read();
     expect(dataX).toBe(1);
-    const dataY = await storeY.readData();
+    const dataY = await storeY.read();
     expect(dataY).toBe(2);
     await Promise.all([storeX.close(), storeY.close()]);
 });
@@ -215,9 +218,9 @@ test('batch transaction auto rollback', async () => {
     catch (ex) {
         expect(ex.message).toBe('test fail');
     }
-    const dataX = await storeX.readData();
+    const dataX = await storeX.read();
     expect(dataX).toBe(0);
-    const dataY = await storeY.readData();
+    const dataY = await storeY.read();
     expect(dataY).toBe(0);
     await Promise.all([storeX.close(), storeY.close()]);
 });
