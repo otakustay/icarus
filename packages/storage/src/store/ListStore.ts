@@ -7,31 +7,27 @@ export default class ListStore<T> extends BaseStore<T[]> {
         super([], persistence, transactionPersistence, new DefaultSerializer());
     }
 
-    async insert(item: T) {
+    protected async insert(item: T) {
         await this.updateData(list => [...list, item]);
     }
 
-    async size() {
-        const list = await this.readData();
-        return list.length;
+    protected async removeBy(predicate: (item: T) => boolean) {
+        await this.updateData(list => list.filter(v => !predicate(v)));
     }
 
-    async at(index: number) {
-        if (index < 0) {
-            throw new Error('index is negative');
-        }
-
-        const list = await this.readData();
-
-        if (index >= list.length) {
-            throw new Error('index out of bound');
-        }
-
-        return list[index];
-    }
-
-    async find<K extends keyof T>(property: K, value: T[K]) {
+    protected async find<K extends keyof T>(property: K, value: T[K]) {
         const list = await this.readData();
         return list.find(v => v[property] === value);
+    }
+
+    protected async filter<K extends keyof T>(property: K, value: T[K]) {
+        const list = await this.readData();
+        return list.filter(v => v[property] === value);
+    }
+
+    protected async filterIn<K extends keyof T>(property: K, values: Array<T[K]>) {
+        const list = await this.readData();
+        const valuesSet = new Set(values);
+        return list.filter(v => valuesSet.has(v[property]));
     }
 }
