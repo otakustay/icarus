@@ -14,15 +14,13 @@ const TEST_STATE: ReadingState = {
     },
 };
 
-const newStore = () => new ReadingStateStore(
-    new MemoryPersistence(JSON.stringify(TEST_STATE)),
-    new MemoryPersistence()
-);
+const newStore = () => new ReadingStateStore(new MemoryPersistence(JSON.stringify(TEST_STATE)));
 
-const newStoreWithCursor = (bookIndex: number, imageIndex: number) => new ReadingStateStore(
-    new MemoryPersistence(JSON.stringify({...TEST_STATE, cursor: {bookIndex, imageIndex}})),
-    new MemoryPersistence()
-);
+const newStoreWithCursor = (bookIndex: number, imageIndex: number) => {
+    const initialContent = JSON.stringify({...TEST_STATE, cursor: {bookIndex, imageIndex}});
+
+    return new ReadingStateStore(new MemoryPersistence(initialContent));
+};
 
 test('reset locations', async () => {
     const store = newStoreWithCursor(1, 2);

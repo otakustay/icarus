@@ -67,8 +67,8 @@ const reducers = {
 };
 
 export default class ReadingStateStore extends BaseStore<ReadingState> {
-    constructor(persistence: Persistence, transactionPersistence: Persistence) {
-        super(DEFAULT_STATE, persistence, transactionPersistence, new DefaultSerializer());
+    constructor(persistence: Persistence) {
+        super(DEFAULT_STATE, persistence, new DefaultSerializer());
     }
 
     read(): Promise<ReadingState> {

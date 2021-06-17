@@ -1,7 +1,7 @@
 import MemoryPersistence from '../../persistence/MemoryPersistence';
 import BookStore from '../BookStore';
 
-const newStore = () => new BookStore(new MemoryPersistence(), new MemoryPersistence());
+const newStore = () => new BookStore(new MemoryPersistence());
 
 test('save', async () => {
     const store = newStore();

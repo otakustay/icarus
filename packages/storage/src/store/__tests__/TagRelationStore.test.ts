@@ -2,10 +2,10 @@ import {TagRelation} from 'packages/shared/dist';
 import MemoryPersistence from '../../persistence/MemoryPersistence';
 import TagRelationStore from '../TagRelationStore';
 
-const newStore = (defaultValue?: TagRelation[]) => new TagRelationStore(
-    new MemoryPersistence(defaultValue && JSON.stringify(defaultValue)),
-    new MemoryPersistence()
-);
+const newStore = (defaultValue?: TagRelation[]) => {
+    const initialContent = defaultValue && JSON.stringify(defaultValue);
+    return new TagRelationStore(new MemoryPersistence(initialContent));
+};
 
 test('attach', async () => {
     const store = newStore();

@@ -3,8 +3,8 @@ import DefaultSerializer from '../serializer/DefaultSerializer';
 import BaseStore from './BaseStore';
 
 export default class ListStore<T> extends BaseStore<T[]> {
-    constructor(persistence: Persistence, transactionPersistence: Persistence) {
-        super([], persistence, transactionPersistence, new DefaultSerializer());
+    constructor(persistence: Persistence) {
+        super([], persistence, new DefaultSerializer());
     }
 
     protected async insert(item: T) {
