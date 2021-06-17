@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@icarus/shared": "1.0.0"
+    "@icarus/shared": "1.0.0",
+    "ramda": "^0.27.1"
   },
   "devDependencies": {
     "@reskript/cli": "^1.6.0",
@@ -20,6 +21,7 @@
     "@reskript/config-lint": "^1.6.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
+    "@types/ramda": "^0.27.40",
     "eslint": "^7.28.0",
     "jest": "^27.0.4",
     "ts-jest": "^27.0.3",

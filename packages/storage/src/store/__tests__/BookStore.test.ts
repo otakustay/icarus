@@ -14,7 +14,7 @@ test('find not existing', async () => {
     const store = newStore();
     await store.open();
     const book = await store.findByName('test');
-    expect(book).toBeUndefined();
+    expect(book).toBe(null);
     await store.close();
 });
 

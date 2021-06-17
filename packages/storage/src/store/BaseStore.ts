@@ -24,12 +24,10 @@ export default abstract class BaseStore<T> {
         await this.persistence.close();
     }
 
-    protected async updateData(next: (current: T) => T): Promise<T> {
+    protected async updateData(next: (current: T) => T): Promise<void> {
         const currentData = await this.readData();
         const nextData = next(currentData);
         await this.writeData(nextData);
-
-        return nextData;
     }
 
     protected async readData(): Promise<T> {

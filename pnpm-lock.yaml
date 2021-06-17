@@ -42,18 +42,22 @@ importers:
       '@reskript/config-lint': ^1.6.0
       '@types/jest': ^26.0.23
       '@types/node': ^15.12.2
+      '@types/ramda': ^0.27.40
       eslint: ^7.28.0
       jest: ^27.0.4
+      ramda: ^0.27.1
       ts-jest: ^27.0.3
       typescript: ^4.3.2
     dependencies:
       '@icarus/shared': link:../shared
+      ramda: 0.27.1
     devDependencies:
       '@reskript/cli': 1.6.0
       '@reskript/cli-lint': 1.6.0_typescript@4.3.2
       '@reskript/config-lint': 1.6.0_eslint@7.28.0+typescript@4.3.2
       '@types/jest': 26.0.23
       '@types/node': 15.12.2
+      '@types/ramda': 0.27.40
       eslint: 7.28.0
       jest: 27.0.4
       ts-jest: 27.0.3_jest@27.0.4+typescript@4.3.2
@@ -2050,6 +2054,12 @@ packages:
 
   /@types/prettier/2.3.0:
     resolution: {integrity: sha512-hkc1DATxFLQo4VxPDpMH1gCkPpBbpOoJ/4nhuXw4n63/0R6bCpQECj4+K226UJ4JO/eJQz+1mC2I7JsWanAdQw==}
+    dev: true
+
+  /@types/ramda/0.27.40:
+    resolution: {integrity: sha512-V99ZfTH2tqVYdLDAlgh2uT+N074HPgqnAsMjALKSBqogYd0HbuuGMqNukJ6fk9Ml/Htaus76fsc4Yh3p7q1VdQ==}
+    dependencies:
+      ts-toolbelt: 6.15.5
     dev: true
 
   /@types/stack-utils/2.0.0:
@@ -5203,6 +5213,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /ramda/0.27.1:
+    resolution: {integrity: sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==}
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
@@ -5845,6 +5859,10 @@ packages:
       semver: 7.3.5
       typescript: 4.3.2
       yargs-parser: 20.2.7
+    dev: true
+
+  /ts-toolbelt/6.15.5:
+    resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==}
     dev: true
 
   /tslib/1.14.1:

@@ -1,26 +1,30 @@
 import {TagRelation} from '@icarus/shared';
-import ListStore from './ListStore';
+import Persistence from '../persistence/Persistence';
+import DefaultSerializer from '../serializer/DefaultSerializer';
+import BaseStore from './BaseStore';
 
-const equalWith = (bookName: string, tagName: string) => (item: TagRelation) => {
-    return item.bookName === bookName && item.tagName === tagName;
-};
-
-export default class TagRelationStore extends ListStore<TagRelation> {
-    async attachTagToBook(bookName: string, tagName: string) {
-        await this.insert({bookName, tagName});
+export default class TagRelationStore extends BaseStore<TagRelation[]> {
+    constructor(persistence: Persistence) {
+        super([], persistence, new DefaultSerializer());
     }
 
-    async detachTagFromBook(bookName: string, tagName: string) {
-        await this.removeBy(equalWith(bookName, tagName));
+    async attachTagToBook(bookName: string, tagName: string): Promise<void> {
+        await this.updateData(s => [...s, {bookName, tagName}]);
     }
 
-    async listTagsByBook(bookName: string) {
-        const tags = await this.filter('bookName', bookName);
-        return tags;
+    async detachTagFromBook(bookName: string, tagName: string): Promise<void> {
+        await this.updateData(s => s.filter(v => v.bookName === bookName && v.tagName === tagName));
     }
 
-    async listBooksByTags(tagNames: string[]) {
-        const books = await this.filterIn('tagName', tagNames);
-        return books;
+    async listTagsByBook(bookName: string): Promise<string[]> {
+        const list = await this.readData();
+        const tagNames = list.filter(v => v.bookName === bookName).map(v => v.tagName);
+        return tagNames;
+    }
+
+    async listBooksByTags(tagNames: string[]): Promise<string[]> {
+        const list = await this.readData();
+        const bookNames = list.filter(v => tagNames.includes(v.tagName)).map(v => v.bookName);
+        return bookNames;
     }
 }
