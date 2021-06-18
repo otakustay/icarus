@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import {TagRelation} from '@icarus/shared';
 import Persistence from '../persistence/Persistence';
 import DefaultSerializer from '../serializer/DefaultSerializer';
@@ -25,6 +26,6 @@ export default class TagRelationStore extends BaseStore<TagRelation[]> {
     async listBooksByTags(tagNames: string[]): Promise<string[]> {
         const list = await this.readData();
         const bookNames = list.filter(v => tagNames.includes(v.tagName)).map(v => v.bookName);
-        return bookNames;
+        return R.uniq(bookNames);
     }
 }

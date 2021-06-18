@@ -41,6 +41,19 @@ test('find books single tag', async () => {
     await store.close();
 });
 
+test('find books duplicate', async () => {
+    const relations: TagRelation[] = [
+        {tagName: 'tag1', bookName: 'book1'},
+        {tagName: 'tag1', bookName: 'book2'},
+        {tagName: 'tag2', bookName: 'book1'},
+    ];
+    const store = newStore(relations);
+    await store.open();
+    const books = await store.listBooksByTags(['tag1', 'tag2']);
+    expect(books.length).toBe(2);
+    await store.close();
+});
+
 test('find tags', async () => {
     const relations: TagRelation[] = [
         {tagName: 'tag1', bookName: 'book1'},
