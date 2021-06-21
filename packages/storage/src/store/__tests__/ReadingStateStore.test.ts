@@ -42,59 +42,20 @@ test('apply filter', async () => {
     await store.close();
 });
 
-test('next image', async () => {
-    const store = newStoreWithCursor(0, 0);
+test('move cursor', async () => {
+    const store = newStore();
     await store.open();
-    await store.moveToNextImage();
-    const state = await store.read();
-    expect(state.cursor.imageIndex).toBe(1);
-    await store.close();
-});
-
-test('previous image', async () => {
-    const store = newStoreWithCursor(0, 2);
-    await store.open();
-    await store.moveToPreviousImage();
-    const state = await store.read();
-    expect(state.cursor.imageIndex).toBe(1);
-    await store.close();
-});
-
-test('previous image at first', async () => {
-    const store = newStoreWithCursor(0, 0);
-    await store.open();
-    expect(() => store.moveToPreviousImage()).rejects.toThrow();
-    await store.close();
-});
-
-test('next book', async () => {
-    const store = newStoreWithCursor(0, 0);
-    await store.open();
-    await store.moveToNextBook();
+    await store.moveCursor(1, 2);
     const state = await store.read();
     expect(state.cursor.bookIndex).toBe(1);
+    expect(state.cursor.imageIndex).toBe(2);
     await store.close();
 });
 
-test('next book at last', async () => {
-    const store = newStoreWithCursor(1, 0);
+test('move cursor negative reject', async () => {
+    const store = newStore();
     await store.open();
-    expect(() => store.moveToNextBook()).rejects.toThrow();
-    await store.close();
-});
-
-test('previous book', async () => {
-    const store = newStoreWithCursor(1, 0);
-    await store.open();
-    await store.moveToPreviousBook();
-    const state = await store.read();
-    expect(state.cursor.bookIndex).toBe(0);
-    await store.close();
-});
-
-test('previous book at first', async () => {
-    const store = newStoreWithCursor(0, 0);
-    await store.open();
-    expect(() => store.moveToPreviousBook()).rejects.toThrow();
+    expect(() => store.moveCursor(-1, 1)).rejects.toThrow();
+    expect(() => store.moveCursor(1, -1)).rejects.toThrow();
     await store.close();
 });

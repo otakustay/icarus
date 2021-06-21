@@ -24,6 +24,10 @@ export interface Book {
     imagesCount: number;
 }
 
+export interface ReadingBook extends Book {
+    location: string;
+}
+
 export interface Image {
     name: string;
     width: number;
