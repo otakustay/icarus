@@ -1,2 +1,2 @@
 export * from './interface';
-export * from './function';
+export {default as cached} from './cached';

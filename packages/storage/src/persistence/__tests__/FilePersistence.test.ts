@@ -69,7 +69,7 @@ test('write on close', async () => {
 
 test('throw when closed', async () => {
     const persistence = new TestPersistence();
-    expect(() => persistence.read()).rejects.toThrow();
-    expect(() => persistence.write('123')).rejects.toThrow();
-    expect(() => persistence.close()).rejects.toThrow();
+    await expect(() => persistence.read()).rejects.toThrow();
+    await expect(() => persistence.write('123')).rejects.toThrow();
+    await expect(() => persistence.close()).rejects.toThrow();
 });

@@ -57,7 +57,7 @@ test('move cursor', async () => {
 test('move cursor negative reject', async () => {
     const store = newStore();
     await store.open();
-    expect(() => store.moveCursor(-1, 1)).rejects.toThrow();
-    expect(() => store.moveCursor(1, -1)).rejects.toThrow();
+    await expect(() => store.moveCursor(-1, 1)).rejects.toThrow();
+    await expect(() => store.moveCursor(1, -1)).rejects.toThrow();
     await store.close();
 });

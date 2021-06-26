@@ -109,7 +109,7 @@ test('next image no more', async () => {
     await shelf.open();
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(1, 2);
-    expect(() => shelf.moveImageForward()).rejects.toThrow();
+    await expect(() => shelf.moveImageForward()).rejects.toThrow();
 });
 
 test('previous image', async () => {
@@ -136,7 +136,7 @@ test('previous image no more', async () => {
     const {shelf} = newShelf();
     await shelf.open();
     await shelf.openDirectory('/test');
-    expect(() => shelf.moveImageBackward()).rejects.toThrow();
+    await expect(() => shelf.moveImageBackward()).rejects.toThrow();
 });
 
 test('next book', async () => {
@@ -154,7 +154,7 @@ test('next book no more', async () => {
     await shelf.open();
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(1, 0);
-    expect(() => shelf.moveBookForward()).rejects.toThrow();
+    await expect(() => shelf.moveBookForward()).rejects.toThrow();
 });
 
 test('previous book', async () => {
@@ -172,7 +172,7 @@ test('previous book no more', async () => {
     await shelf.open();
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(0, 2);
-    expect(() => shelf.moveBookBackward()).rejects.toThrow();
+    await expect(() => shelf.moveBookBackward()).rejects.toThrow();
 });
 
 test('apply tag filter', async () => {

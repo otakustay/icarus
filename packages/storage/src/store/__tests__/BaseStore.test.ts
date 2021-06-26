@@ -63,8 +63,8 @@ test('read data', async () => {
 
 test('throw when closed', async () => {
     const store = new TestStore();
-    expect(() => store.read()).rejects.toThrow();
-    expect(() => store.increment()).rejects.toThrow();
+    await expect(() => store.read()).rejects.toThrow();
+    await expect(() => store.increment()).rejects.toThrow();
 });
 
 test('update value', async () => {
