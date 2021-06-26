@@ -175,6 +175,29 @@ test('previous book no more', async () => {
     await expect(() => shelf.moveBookBackward()).rejects.toThrow();
 });
 
+test('move cursor in range', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openDirectory('/test');
+    await shelf.moveCursor(1, 1);
+});
+
+test('move cursor book index out of range', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openDirectory('/test');
+    await expect(shelf.moveCursor(-1, 0)).rejects.toThrow();
+    await expect(shelf.moveCursor(3, 0)).rejects.toThrow();
+});
+
+test('move cursor image index out of range', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openDirectory('/test');
+    await expect(shelf.moveCursor(0, -1)).rejects.toThrow();
+    await expect(shelf.moveCursor(0, 3)).rejects.toThrow();
+});
+
 test('apply tag filter', async () => {
     const {shelf, tagRelationStore} = newShelf();
     await shelf.open();

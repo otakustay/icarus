@@ -104,6 +104,36 @@ export default class Shelf {
         }
     }
 
+    async moveCursor(bookIndex: number, imageIndex: number): Promise<void> {
+        const throwBookIndexError = () => {
+            throw new Error(`Cannot move to book at index ${bookIndex}`);
+        };
+        const throwImageIndexError = () => {
+            throw new Error(`Cannot move to image at index ${imageIndex}`);
+        };
+
+        if (bookIndex < 0) {
+            throwBookIndexError();
+        }
+        if (imageIndex < 0) {
+            throwImageIndexError();
+        }
+
+        const {bookLocations} = await this.readActiveReadingState();
+
+        if (bookIndex >= bookLocations.length) {
+            throwBookIndexError();
+        }
+
+        const {imagesCount} = await this.readBookInfo(bookLocations[bookIndex]);
+
+        if (imageIndex >= imagesCount) {
+            throwImageIndexError();
+        }
+
+        await this.readingStateStore.moveCursor(bookIndex, imageIndex);
+    }
+
     async applyFilter(filter: ReadingFilter): Promise<void> {
         await this.readingStateStore.applyFilter(filter);
     }
