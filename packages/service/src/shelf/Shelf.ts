@@ -1,8 +1,9 @@
-import {Book, ReadingFilter, ReadingState, ShelfState} from '@icarus/shared';
+import {Book, Image, ReadingFilter, ReadingState, ShelfState} from '@icarus/shared';
 import {BookStore, TagRelationStore, ReadingStateStore} from '@icarus/storage';
 import ShelfReader from '../reader/ShelfReader';
 import Extractor from '../extractor/Extractor';
-import {extractName} from '../utils/book';
+import {extractName} from '../utils/path';
+import {constructImageInfo} from '../utils/image';
 
 interface ActiveReadingState extends ReadingState {
     originalBookLocations: string[];
@@ -144,11 +145,11 @@ export default class Shelf {
         return this.readBookInfo(location);
     }
 
-    async readCurrentImage(): Promise<Buffer> {
+    async readCurrentImage(): Promise<Image> {
         const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
         const location = bookLocations[bookIndex];
         const content = await this.extractor.readEntryAt(location, imageIndex);
-        return content;
+        return constructImageInfo(content.entryName, content.contentBuffer);
     }
 
     async readState(): Promise<ShelfState> {

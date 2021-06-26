@@ -3,7 +3,9 @@ import fs from 'fs/promises';
 import globby from 'globby';
 import Zip from 'adm-zip';
 import {Book} from 'packages/shared/dist';
-import {extractName, isBookExtension, isImageExtension} from '../utils/book';
+import {isBookExtension} from '../utils/book';
+import {extractName} from '../utils/path';
+import {isImageExtension} from '../utils/image';
 import ShelfReader from './ShelfReader';
 
 export default class FileSystemReader implements ShelfReader {

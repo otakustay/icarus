@@ -81,8 +81,8 @@ test('read image', async () => {
     const {shelf} = newShelf();
     await shelf.open();
     await shelf.openBooks(['/test/book1.zip']);
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book1.zip/0');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book1.zip/0');
 });
 
 test('next image', async () => {
@@ -90,8 +90,8 @@ test('next image', async () => {
     await shelf.open();
     await shelf.openDirectory('/test');
     await shelf.moveImageForward();
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book1.zip/1');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book1.zip/1');
 });
 
 test('next image to next book', async () => {
@@ -100,8 +100,8 @@ test('next image to next book', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(0, 2);
     await shelf.moveImageForward();
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book2.zip/0');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book2.zip/0');
 });
 
 test('next image no more', async () => {
@@ -118,8 +118,8 @@ test('previous image', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(0, 2);
     await shelf.moveImageBackward();
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book1.zip/1');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book1.zip/1');
 });
 
 test('previous image to previous book', async () => {
@@ -128,8 +128,8 @@ test('previous image to previous book', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(1, 0);
     await shelf.moveImageBackward();
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book1.zip/2');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book1.zip/2');
 });
 
 test('previous image no more', async () => {
@@ -145,8 +145,8 @@ test('next book', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(0, 1);
     await shelf.moveBookForward();
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book2.zip/0');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book2.zip/0');
 });
 
 test('next book no more', async () => {
@@ -163,8 +163,8 @@ test('previous book', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(1, 2);
     await shelf.moveBookBackward();
-    const imageBuffer = await shelf.readCurrentImage();
-    expect(imageBuffer.toString()).toBe('/test/book1.zip/0');
+    const image = await shelf.readCurrentImage();
+    expect(image.name).toBe('/test/book1.zip/0');
 });
 
 test('previous book no more', async () => {

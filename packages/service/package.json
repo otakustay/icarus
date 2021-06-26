@@ -15,7 +15,9 @@
     "@icarus/shared": "1.0.0",
     "@icarus/storage": "1.0.0",
     "adm-zip": "^0.5.5",
-    "globby": "^11.0.4"
+    "globby": "^11.0.4",
+    "image-size": "^1.0.0",
+    "string-natural-compare": "^3.0.1"
   },
   "devDependencies": {
     "@reskript/cli": "^1.6.0",
@@ -23,6 +25,7 @@
     "@reskript/config-lint": "^1.6.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
+    "@types/string-natural-compare": "^3.0.0",
     "eslint": "^7.28.0",
     "file-type": "^16.5.0",
     "jest": "^27.0.4",
