@@ -30,10 +30,31 @@ test('reset on open files', async () => {
     const {shelf, readingStateStore} = newShelf();
     await readingStateStore.moveCursor(1, 1);
     await shelf.open();
-    await shelf.openBooks(['/test/book1', '/test/book2']);
+    await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
     const state = await readingStateStore.read();
     expect(state.cursor.bookIndex).toBe(0);
     expect(state.cursor.imageIndex).toBe(0);
+    await shelf.close();
+});
+
+test('read state', async () => {
+    const {shelf} = newShelf();
+    const state = await shelf.readState();
+    expect(state.activeBooksCount).toBe(0);
+    expect(state.totalBooksCount).toBe(0);
+    expect(state.cursor.bookIndex).toBe(0);
+    expect(state.cursor.imageIndex).toBe(0);
+    expect(state.filter.tagNames.length).toBe(0);
+});
+
+test('filter tag', async () => {
+    const {shelf, readingStateStore, tagRelationStore} = newShelf();
+    await shelf.open();
+    await tagRelationStore.attachTagToBook('book2', 'tag1');
+    await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
+    await readingStateStore.applyFilter({tagNames: ['tag1']});
+    const book = await shelf.readCurrentBook();
+    expect(book.name).toBe('book2');
     await shelf.close();
 });
 
@@ -112,7 +133,7 @@ test('previous image to previous book', async () => {
 });
 
 test('previous image no more', async () => {
-    const {shelf, readingStateStore} = newShelf();
+    const {shelf} = newShelf();
     await shelf.open();
     await shelf.openDirectory('/test');
     expect(() => shelf.moveImageBackward()).rejects.toThrow();
@@ -152,4 +173,27 @@ test('previous book no more', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(0, 2);
     expect(() => shelf.moveBookBackward()).rejects.toThrow();
+});
+
+test('apply tag filter', async () => {
+    const {shelf, tagRelationStore} = newShelf();
+    await shelf.open();
+    await tagRelationStore.attachTagToBook('book2', 'tag1');
+    await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
+    await shelf.applyFilter({tagNames: ['tag1']});
+    const book = await shelf.readCurrentBook();
+    expect(book.name).toBe('book2');
+    await shelf.close();
+});
+
+test('remove tag filter', async () => {
+    const {shelf, tagRelationStore, readingStateStore} = newShelf();
+    await shelf.open();
+    await tagRelationStore.attachTagToBook('book2', 'tag1');
+    await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
+    await readingStateStore.applyFilter({tagNames: ['tag1']});
+    await shelf.applyFilter({tagNames: []});
+    const book = await shelf.readCurrentBook();
+    expect(book.name).toBe('book1');
+    await shelf.close();
 });

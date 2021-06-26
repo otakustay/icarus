@@ -12,6 +12,7 @@ export default class TestReader implements ShelfReader {
             name: path.basename(location, path.extname(location)),
             size: 233,
             imagesCount: 12,
+            createTime: (new Date(2021, 0, 1)).toISOString(),
         };
     }
 }

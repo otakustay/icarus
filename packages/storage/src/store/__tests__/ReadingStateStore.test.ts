@@ -34,11 +34,13 @@ test('reset locations', async () => {
 });
 
 test('apply filter', async () => {
-    const store = newStore();
+    const store = newStoreWithCursor(1, 1);
     await store.open();
     await store.applyFilter({tagNames: ['1', '2']});
     const state = await store.read();
     expect(state.filter.tagNames).toEqual(['1', '2']);
+    expect(state.cursor.bookIndex).toBe(0);
+    expect(state.cursor.imageIndex).toBe(0);
     await store.close();
 });
 

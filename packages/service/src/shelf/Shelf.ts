@@ -1,8 +1,12 @@
-import path from 'path';
-import {Book} from '@icarus/shared';
+import {Book, ReadingFilter, ReadingState, ShelfState} from '@icarus/shared';
 import {BookStore, TagRelationStore, ReadingStateStore} from '@icarus/storage';
 import ShelfReader from '../reader/ShelfReader';
 import Extractor from '../extractor/Extractor';
+import {extractName} from '../utils/book';
+
+interface ActiveReadingState extends ReadingState {
+    originalBookLocations: string[];
+}
 
 export default class Shelf {
     private readonly bookStore: BookStore;
@@ -43,7 +47,7 @@ export default class Shelf {
     }
 
     async moveImageForward(): Promise<void> {
-        const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readingStateStore.read();
+        const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
         const currentBook = await this.readBookInfo(bookLocations[bookIndex]);
         // 还有下一张
         if (imageIndex < currentBook.imagesCount - 1) {
@@ -60,7 +64,7 @@ export default class Shelf {
     }
 
     async moveImageBackward(): Promise<void> {
-        const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readingStateStore.read();
+        const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
         // 有上一张
         if (imageIndex > 0) {
             await this.readingStateStore.moveCursor(bookIndex, imageIndex - 1);
@@ -77,7 +81,7 @@ export default class Shelf {
     }
 
     async moveBookForward(): Promise<void> {
-        const {bookLocations, cursor: {bookIndex}} = await this.readingStateStore.read();
+        const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
         // 有下一本
         if (bookIndex < bookLocations.length - 1) {
             await this.readingStateStore.moveCursor(bookIndex + 1, 0);
@@ -89,7 +93,7 @@ export default class Shelf {
     }
 
     async moveBookBackward(): Promise<void> {
-        const {cursor: {bookIndex}} = await this.readingStateStore.read();
+        const {cursor: {bookIndex}} = await this.readActiveReadingState();
         // 有上一本
         if (bookIndex > 0) {
             await this.readingStateStore.moveCursor(bookIndex - 1, 0);
@@ -100,21 +104,36 @@ export default class Shelf {
         }
     }
 
+    async applyFilter(filter: ReadingFilter): Promise<void> {
+        await this.readingStateStore.applyFilter(filter);
+    }
+
     async readCurrentBook(): Promise<Book> {
-        const {bookLocations, cursor: {bookIndex}} = await this.readingStateStore.read();
+        const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
         const location = bookLocations[bookIndex];
         return this.readBookInfo(location);
     }
 
     async readCurrentImage(): Promise<Buffer> {
-        const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readingStateStore.read();
+        const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
         const location = bookLocations[bookIndex];
         const content = await this.extractor.readEntryAt(location, imageIndex);
         return content;
     }
 
+    async readState(): Promise<ShelfState> {
+        const readingState = await this.readActiveReadingState();
+
+        return {
+            totalBooksCount: readingState.originalBookLocations.length,
+            activeBooksCount: readingState.bookLocations.length,
+            cursor: readingState.cursor,
+            filter: readingState.filter,
+        };
+    }
+
     private async readBookInfo(location: string): Promise<Book> {
-        const name = path.basename(location, path.extname(location));
+        const name = extractName(location);
         const infoInStore = await this.bookStore.findByName(name);
 
         if (infoInStore) {
@@ -124,5 +143,22 @@ export default class Shelf {
         const info = await this.reader.readBookInfo(location);
         await this.bookStore.save(info);
         return info;
+    }
+
+    private async readActiveReadingState(): Promise<ActiveReadingState> {
+        const readingState = await this.readingStateStore.read();
+
+        if (!readingState.filter.tagNames.length) {
+            return {...readingState, originalBookLocations: readingState.bookLocations};
+        }
+
+        const taggedBookNames = await this.tagRelationStore.listBooksByTags(readingState.filter.tagNames);
+        const shouldInclude = new Set(taggedBookNames);
+        const filteredBookLocations = readingState.bookLocations.filter(v => shouldInclude.has(extractName(v)));
+        return {
+            ...readingState,
+            bookLocations: filteredBookLocations,
+            originalBookLocations: readingState.bookLocations,
+        };
     }
 }

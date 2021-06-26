@@ -29,7 +29,7 @@ export default class ReadingStateStore extends BaseStore<ReadingState> {
     }
 
     async applyFilter(filter: ReadingFilter): Promise<void> {
-        await this.updateData(s => ({...s, filter}));
+        await this.updateData(s => ({...s, filter, cursor: {bookIndex: 0, imageIndex: 0}}));
     }
 
     async moveCursor(bookIndex: number, imageIndex: number) {

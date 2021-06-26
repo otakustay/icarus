@@ -6,7 +6,7 @@ const newStore = () => new BookStore(new MemoryPersistence());
 test('save', async () => {
     const store = newStore();
     await store.open();
-    await store.save({name: 'test', size: 0, imagesCount: 0});
+    await store.save({name: 'test', size: 0, imagesCount: 0, createTime: (new Date(2020, 0, 1)).toISOString()});
     await store.close();
 });
 
@@ -21,7 +21,7 @@ test('find not existing', async () => {
 test('save and find', async () => {
     const store = newStore();
     await store.open();
-    await store.save({name: 'test', size: 0, imagesCount: 0});
+    await store.save({name: 'test', size: 0, imagesCount: 0, createTime: (new Date(2020, 0, 1)).toISOString()});
     const book = await store.findByName('test');
     expect(book?.size).toBe(0);
     expect(book?.imagesCount).toBe(0);

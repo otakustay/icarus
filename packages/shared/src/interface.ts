@@ -18,14 +18,18 @@ export interface ReadingState {
     filter: ReadingFilter;
 }
 
+export interface ShelfState {
+    totalBooksCount: number;
+    activeBooksCount: number;
+    cursor: ReadingCursur;
+    filter: ReadingFilter;
+}
+
 export interface Book {
     name: string;
     size: number;
     imagesCount: number;
-}
-
-export interface ReadingBook extends Book {
-    location: string;
+    createTime: string;
 }
 
 export interface Image {
@@ -38,4 +42,9 @@ export interface Image {
 export interface TagRelation {
     bookName: string;
     tagName: string;
+}
+
+export interface Size {
+    width: number;
+    height: number;
 }

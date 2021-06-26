@@ -22,6 +22,7 @@ export default class TestBookStore extends BookStore {
             name,
             size: 12,
             imagesCount: 3,
+            createTime: (new Date(2021, 0, 1)).toISOString(),
         };
     }
 }
