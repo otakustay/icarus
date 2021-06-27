@@ -77,6 +77,12 @@ test('save to book store when not exists', async () => {
     expect(bookStore.saved.length).toBe(1);
 });
 
+test('read out of range error', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await expect(() => shelf.readCurrentBook()).rejects.toThrow();
+});
+
 test('read image', async () => {
     const {shelf} = newShelf();
     await shelf.open();

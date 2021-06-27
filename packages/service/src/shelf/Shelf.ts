@@ -141,6 +141,11 @@ export default class Shelf {
 
     async readCurrentBook(): Promise<Book> {
         const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
+
+        if (bookIndex < 0 || bookIndex >= bookLocations.length) {
+            throw new Error('Current book index out of range');
+        }
+
         const location = bookLocations[bookIndex];
         return this.readBookInfo(location);
     }
