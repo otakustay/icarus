@@ -2,7 +2,7 @@ export interface Shelf {
     booksCount: number;
 }
 
-export interface ReadingCursur {
+export interface ReadingCursor {
     bookIndex: number;
     imageIndex: number;
 }
@@ -14,14 +14,14 @@ export interface ReadingFilter {
 export interface ReadingState {
     appVersion: string;
     bookLocations: string[];
-    cursor: ReadingCursur;
+    cursor: ReadingCursor;
     filter: ReadingFilter;
 }
 
 export interface ShelfState {
     totalBooksCount: number;
     activeBooksCount: number;
-    cursor: ReadingCursur;
+    cursor: ReadingCursor;
     filter: ReadingFilter;
 }
 
