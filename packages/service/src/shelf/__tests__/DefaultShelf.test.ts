@@ -1,4 +1,4 @@
-import Shelf from '../Shelf';
+import DefaultShelf from '../DefaultShelf';
 import BookStore from './mocks/BookStore';
 import TagRelationStore from './mocks/TagRelationStore';
 import ReadingStateStore from './mocks/ReadingStateStore';
@@ -11,7 +11,7 @@ const newShelf = () => {
     const readingStateStore = new ReadingStateStore();
     const reader = new Reader();
     const extractor = new Extractor();
-    const shelf = new Shelf(bookStore, tagRelationStore, readingStateStore, reader, extractor);
+    const shelf = new DefaultShelf(bookStore, tagRelationStore, readingStateStore, reader, extractor);
     return {bookStore, tagRelationStore, readingStateStore, reader, extractor, shelf};
 };
 
