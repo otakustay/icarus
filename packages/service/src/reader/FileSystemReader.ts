@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import globby from 'globby';
 import Zip from 'adm-zip';
-import {Book} from 'packages/shared/dist';
+import {Book} from '@icarus/shared';
 import {isBookExtension} from '../utils/book';
 import {extractName} from '../utils/path';
 import {isImageExtension} from '../utils/image';

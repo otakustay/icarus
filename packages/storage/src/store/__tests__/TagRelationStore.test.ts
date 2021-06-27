@@ -1,4 +1,4 @@
-import {TagRelation} from 'packages/shared/dist';
+import {TagRelation} from '@icarus/shared';
 import MemoryPersistence from '../../persistence/MemoryPersistence';
 import TagRelationStore from '../TagRelationStore';
 

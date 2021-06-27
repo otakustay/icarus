@@ -1,50 +1,54 @@
+import path from 'path';
 import {existsSync} from 'fs';
-import fs, {FileHandle} from 'fs/promises';
+import fs from 'fs/promises';
 import Persistence from './Persistence';
 
 export default class FilePersistence implements Persistence {
     private readonly filename: string;
-    private fileHandle: FileHandle | null = null;
+    private opened = false;
 
     constructor(filename: string) {
         this.filename = filename;
     }
 
     async open(): Promise<void> {
-        if (existsSync(this.filename)) {
-            this.fileHandle = await fs.open(this.filename, 'r+');
+        const directory = path.dirname(this.filename);
+
+        if (!existsSync(directory)) {
+            throw new Error(`Containing diretory ${directory} not exits`);
         }
-        else {
-            this.fileHandle = await fs.open(this.filename, 'w+');
-        }
+
+        const handle = await fs.open(this.filename, 'a');
+        await handle.close();
+        this.opened = true;
     }
 
     async close(): Promise<void> {
-        await this.getFileHandle().sync();
-        await this.getFileHandle().close();
-        this.fileHandle = null;
+        if (!this.opened) {
+            throw new Error(`FilePersistence of ${this.filename} is closed`);
+        }
+
+        this.opened = false;
     }
 
     async read() {
-        const content = await this.getFileHandle().readFile('utf-8');
+        if (!this.opened) {
+            throw new Error(`FilePersistence of ${this.filename} is closed`);
+        }
+
+        const content = await fs.readFile(this.filename, 'utf-8');
         return content;
     }
 
     async write(content: string) {
-        const fileHandle = this.getFileHandle();
-        await fileHandle.truncate();
-        await fileHandle.write(content, 0);
+        if (!this.opened) {
+            throw new Error(`FilePersistence of ${this.filename} is closed`);
+        }
+
+        await fs.writeFile(this.filename, content);
     }
 
     async clear() {
-        await this.getFileHandle().truncate();
-    }
-
-    private getFileHandle(): FileHandle {
-        if (this.fileHandle === null) {
-            throw new Error('FilePersistence is closed');
-        }
-
-        return this.fileHandle;
+        await this.write('');
     }
 }

@@ -5,8 +5,8 @@ import FilePersistence from '../FilePersistence';
 const DATABSE_FILE = path.join(__dirname, 'fixtures', 'text.db');
 
 class TestPersistence extends FilePersistence {
-    constructor() {
-        super(DATABSE_FILE);
+    constructor(filename?: string) {
+        super(filename ?? DATABSE_FILE);
     }
 }
 
@@ -22,6 +22,11 @@ test('open no file', async () => {
     await persistence.close();
 });
 
+test('open no dir error', async () => {
+    const persistence = new TestPersistence(path.join(__dirname, 'must', 'not', 'exists'));
+    await expect(() => persistence.open()).rejects.toThrow();
+});
+
 test('open has file', async () => {
     fs.writeFileSync(DATABSE_FILE, '123');
     const persistence = new TestPersistence();
@@ -35,6 +40,15 @@ test('write and read', async () => {
     const persistence = new TestPersistence();
     await persistence.open();
     await persistence.write('123');
+    const data = await persistence.read();
+    expect(data).toBe('123');
+});
+
+test('multiple read', async () => {
+    const persistence = new TestPersistence();
+    await persistence.open();
+    await persistence.write('123');
+    await persistence.read();
     const data = await persistence.read();
     expect(data).toBe('123');
 });
