@@ -8,6 +8,10 @@ export default class TestReader implements ShelfReader {
     }
 
     async readBookInfo(location: string): Promise<Book> {
+        if (location.includes('error')) {
+            throw new Error(`Error extract file ${location}`);
+        }
+
         return {
             name: path.basename(location, path.extname(location)),
             size: 233,

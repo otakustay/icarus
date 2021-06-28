@@ -1,4 +1,4 @@
-import {Book, Image, ReadingFilter, ReadingState, ShelfState} from '@icarus/shared';
+import {ReadingContent, ReadingFilter, ReadingState} from '@icarus/shared';
 
 export interface ActiveReadingState extends ReadingState {
     originalBookLocations: string[];
@@ -15,7 +15,5 @@ export default interface Shelf {
     moveBookBackward(): Promise<void>;
     moveCursor(bookIndex: number, imageIndex: number): Promise<void>;
     applyFilter(filter: ReadingFilter): Promise<void>;
-    readCurrentBook(): Promise<Book>;
-    readCurrentImage(): Promise<Image>;
-    readState(): Promise<ShelfState>;
+    readCurrentContent(): Promise<ReadingContent>;
 }

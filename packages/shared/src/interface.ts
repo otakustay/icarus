@@ -39,6 +39,14 @@ export interface Image {
     content: string;
 }
 
+export interface ReadingContent {
+    state: ShelfState;
+    book: Book;
+    image: Image;
+}
+
+export type Direction = 'forward' | 'backward';
+
 export interface TagRelation {
     bookName: string;
     tagName: string;

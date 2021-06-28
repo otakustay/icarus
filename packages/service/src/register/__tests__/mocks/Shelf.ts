@@ -1,4 +1,4 @@
-import {ReadingFilter, Book, Image, ShelfState, ReadingCursor} from '@icarus/shared';
+import {ReadingFilter, Book, Image, ShelfState, ReadingCursor, ReadingContent} from '@icarus/shared';
 import {OpenByBooksBody, OpenByDirectoryBody, OpenByRestoreBody} from '../../index';
 import Shelf from '../../../shelf/Shelf';
 
@@ -50,7 +50,13 @@ export default class TestShelf implements Shelf {
         this.filter = filter;
     }
 
-    async readCurrentBook(): Promise<Book> {
+    async readCurrentContent(): Promise<ReadingContent> {
+        const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
+        const [state, book, image] = await Promise.all(parts);
+        return {state, book, image};
+    }
+
+    private async readCurrentBook(): Promise<Book> {
         if (this.opened.type === 'directory' && this.opened.location === '/error') {
             throw new Error('Out of range');
         }
@@ -63,7 +69,7 @@ export default class TestShelf implements Shelf {
         };
     }
 
-    async readCurrentImage(): Promise<Image> {
+    private async readCurrentImage(): Promise<Image> {
         return {
             name: 'image',
             width: 1,
@@ -72,7 +78,7 @@ export default class TestShelf implements Shelf {
         };
     }
 
-    async readState(): Promise<ShelfState> {
+    private async readState(): Promise<ShelfState> {
         return {
             totalBooksCount: 3,
             activeBooksCount: 1,

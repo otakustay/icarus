@@ -1,4 +1,4 @@
-import {Book, Image} from '@icarus/shared';
+import {Book, Image, ShelfState} from '@icarus/shared';
 import {RouteRegistry} from './interface';
 import * as urls from './urls';
 
@@ -19,6 +19,7 @@ export interface OpenByRestoreBody {
 export interface OpenResponse {
     book: Book;
     image: Image;
+    shelf: ShelfState;
 }
 
 type OpenBody = OpenByDirectoryBody | OpenByBooksBody | OpenByRestoreBody;
@@ -35,9 +36,8 @@ export default (registry: RouteRegistry) => registry.post(
         }
 
         try {
-            const book = await context.shelf.readCurrentBook();
-            const image = await context.shelf.readCurrentImage();
-            context.success({book, image});
+            const content = await context.shelf.readCurrentContent();
+            context.success(content);
         }
         catch (ex) {
             context.error('client', 'OPEN_FAIL', 'Unable to initialize reading state', ex);
