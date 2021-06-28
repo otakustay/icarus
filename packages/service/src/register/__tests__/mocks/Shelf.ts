@@ -30,6 +30,10 @@ export default class TestShelf implements Shelf {
     }
 
     async moveImageBackward(): Promise<void> {
+        if (this.cursor.imageIndex <= 0) {
+            throw new Error('Image index out of range');
+        }
+
         this.cursor.imageIndex--;
     }
 
@@ -38,6 +42,10 @@ export default class TestShelf implements Shelf {
     }
 
     async moveBookBackward(): Promise<void> {
+        if (this.cursor.bookIndex <= 0) {
+            throw new Error('Book index out of range');
+        }
+
         this.cursor.bookIndex--;
     }
 

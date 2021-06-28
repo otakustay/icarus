@@ -2,7 +2,7 @@ import type Shelf from '../shelf/Shelf';
 
 export type ErrorType = 'server' | 'client';
 
-export type ErrorCode = 'NO_ROUTE' | 'OPEN_FAIL';
+export type ErrorCode = 'NO_ROUTE' | 'OPEN_FAIL' | 'MOVE_FAIL';
 
 export interface ServiceContext {
     shelf: Shelf;

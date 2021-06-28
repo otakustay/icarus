@@ -15,6 +15,7 @@
     "@icarus/shared": "1.0.0",
     "@icarus/storage": "1.0.0",
     "adm-zip": "^0.5.5",
+    "change-case": "^4.1.2",
     "globby": "^11.0.4",
     "image-size": "^1.0.0",
     "string-natural-compare": "^3.0.1"

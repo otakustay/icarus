@@ -1,3 +1,4 @@
+import {ReadingCursor} from '@icarus/shared';
 import {RouteExecute, RouteRegistry} from '../../interface';
 import ServiceContext from './ServiceContext';
 import Shelf from './Shelf';
@@ -9,6 +10,7 @@ interface ExecuteInput {
 
 export default class TestRegistry implements RouteRegistry {
     routes: Map<string, RouteExecute> = new Map();
+    private cursor: ReadingCursor = {bookIndex: 0, imageIndex: 0};
 
     get(path: string, execute: RouteExecute) {
         this.routes.set(`GET ${path}`, execute);
@@ -22,6 +24,10 @@ export default class TestRegistry implements RouteRegistry {
         return this.routes.has(`${method} ${path}`);
     }
 
+    setStartCursor(bookIndex: number, imageIndex: number) {
+        this.cursor = {bookIndex, imageIndex};
+    }
+
     async execute(method: 'GET' | 'POST', path: string, {params, body}: ExecuteInput) {
         const execute = this.routes.get(`${method} ${path}`);
 
@@ -30,6 +36,7 @@ export default class TestRegistry implements RouteRegistry {
         }
 
         const shelf = new Shelf();
+        await shelf.moveCursor(this.cursor.bookIndex, this.cursor.imageIndex);
         const context = new ServiceContext(shelf, params, body);
         await execute(context);
         return context;
