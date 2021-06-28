@@ -4,6 +4,8 @@ import BackendService from '../BackendService';
 import {parseArgs} from './parse';
 import {printExecuteResult} from './print';
 import open from './open';
+import next from './next';
+import previous from './previous';
 
 const parseAndRoute = async (registry: BackendRegistry, input: string) => {
     const [command, ...args] = parseArgs(input);
@@ -12,8 +14,12 @@ const parseAndRoute = async (registry: BackendRegistry, input: string) => {
         case 'open':
         case 'restore':
             return open(registry, args);
+        case 'next':
+            return next(registry, args);
+        case 'previous':
+            return previous(registry, args);
         case 'print':
-            return registry.execute('GET', '/state');
+            return registry.execute('GET', '/content');
         default:
             return registry.execute('GET', '/404');
     }

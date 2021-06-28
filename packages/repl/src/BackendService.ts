@@ -20,10 +20,10 @@ export default class BackendService {
         await this.shelf.open();
         registerService(this.registry);
         this.registry.get(
-            '/state',
+            '/content',
             async context => {
-                const state = await context.shelf.readState();
-                await context.success(state);
+                const content = await context.shelf.readCurrentContent();
+                await context.success(content);
             }
         );
     }

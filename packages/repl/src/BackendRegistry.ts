@@ -1,4 +1,4 @@
-import {RouteExecute, RouteRegistry, Shelf} from '@icarus/service';
+import {ErrorType, RouteExecute, RouteRegistry, Shelf} from '@icarus/service';
 import {match} from 'path-to-regexp';
 import ServiceContext from './ServiceContext';
 
@@ -25,6 +25,12 @@ export default class BackendRegistry implements RouteRegistry {
         this.routes.push({path, execute, method: 'POST', match: match(path)});
     }
 
+    async error(type: ErrorType, message: string) {
+        const errorContext = new ServiceContext(this.shelf, {}, {});
+        await errorContext.error(type, 'NO_ROUTE', message);
+        return errorContext;
+    }
+
     async execute(method: 'GET' | 'POST', url: string, body?: unknown) {
         for (const route of this.routes) {
             const result = await this.executeRoute(route, method, url, body);
@@ -33,9 +39,7 @@ export default class BackendRegistry implements RouteRegistry {
             }
         }
 
-        const routeNotFound = new ServiceContext(this.shelf, {}, {});
-        await routeNotFound.error('client', 'NO_ROUTE', `No route on ${method} ${url}`);
-        return routeNotFound;
+        return this.error('client', `No route on ${method} ${url}`);
     }
 
     private async executeRoute(route: RegisteredRoute, method: 'GET' | 'POST', url: string, body?: unknown) {
