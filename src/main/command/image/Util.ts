@@ -1,20 +1,12 @@
 import {Worker} from 'worker_threads';
 import {imageSize as sizeOf} from 'image-size';
 import {WebContents, screen} from 'electron';
-import {uniqueId} from 'lodash';
 import {Logger} from 'winston';
 import {AppContext, ArchiveEntry, ClientImageInfo, BackendImageInfo} from '../../../interface';
 import {datauri} from '../../util';
 import moveToArchive from '../archive';
 
 interface Size {
-    width: number;
-    height: number;
-}
-
-interface WorkerData {
-    id: string;
-    content: SharedArrayBuffer;
     width: number;
     height: number;
 }
@@ -43,33 +35,6 @@ const computeResizeScale = (imageSize: Size, screenSize: Size): number => {
 };
 
 const workersPool = new Set<Worker>();
-
-const resizeInWorker = async (content: Buffer, width: number, height: number): Promise<Buffer> => {
-    const execute = (resolve: (resized: Buffer) => void) => {
-        const id = uniqueId();
-        // eslint-disable-next-line no-undef
-        const sharedMemory = new SharedArrayBuffer(content.byteLength);
-        content.copy(Buffer.from(sharedMemory));
-        const workerData: WorkerData = {
-            id,
-            width,
-            height,
-            content: sharedMemory,
-        };
-        const worker = new Worker(require.resolve('./shrink'), {workerData});
-        workersPool.add(worker);
-        worker.on(
-            'message',
-            (message: {size: number, id: string}) => {
-                workersPool.delete(worker);
-                if (message.id === id) {
-                    resolve(Buffer.from(sharedMemory));
-                }
-            }
-        );
-    };
-    return new Promise(execute);
-};
 
 export default class Util {
     private readonly context: AppContext;
@@ -111,11 +76,10 @@ export default class Util {
 
         this.logger.silly(`Resize image from ${imageSize.width}x${imageSize.height} to ${outputWidth}x${outputHeight}`);
 
-        const resizedBuffer = await resizeInWorker(buffer, outputWidth, outputHeight);
         return {
             archive: currentArchive,
             name: entry.entryName,
-            content: resizedBuffer,
+            content: buffer,
             width: outputWidth,
             height: outputHeight,
         };
