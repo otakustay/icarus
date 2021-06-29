@@ -1,5 +1,5 @@
 {
-  "name": "@icarus/layout",
+  "name": "@icarus/repl",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
@@ -22,15 +22,15 @@
     "treeify": "^1.1.0"
   },
   "devDependencies": {
-    "@reskript/cli": "^1.6.0",
-    "@reskript/cli-lint": "^1.6.0",
-    "@reskript/config-lint": "^1.6.0",
+    "@reskript/cli": "^1.6.2",
+    "@reskript/cli-lint": "^1.6.2",
+    "@reskript/config-lint": "^1.6.2",
     "@types/inquirer": "^7.3.2",
-    "@types/node": "^15.12.2",
+    "@types/node": "^15.12.5",
     "@types/treeify": "^1.0.0",
-    "eslint": "^7.28.0",
+    "eslint": "^7.29.0",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.4"
   }
 }

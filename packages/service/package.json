@@ -21,16 +21,16 @@
     "string-natural-compare": "^3.0.1"
   },
   "devDependencies": {
-    "@reskript/cli": "^1.6.0",
-    "@reskript/cli-lint": "^1.6.0",
-    "@reskript/config-lint": "^1.6.0",
+    "@reskript/cli": "^1.6.2",
+    "@reskript/cli-lint": "^1.6.2",
+    "@reskript/config-lint": "^1.6.2",
     "@types/jest": "^26.0.23",
-    "@types/node": "^15.12.2",
+    "@types/node": "^15.12.5",
     "@types/string-natural-compare": "^3.0.0",
-    "eslint": "^7.28.0",
+    "eslint": "^7.29.0",
     "file-type": "^16.5.0",
-    "jest": "^27.0.4",
+    "jest": "^27.0.6",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.4"
   }
 }

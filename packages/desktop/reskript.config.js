@@ -1,0 +1,3 @@
+exports.build = {
+    reportLintErrors: false,
+};
