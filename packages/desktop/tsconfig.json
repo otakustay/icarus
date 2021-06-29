@@ -1,5 +1,15 @@
 {
     "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ES2020",
+        "allowJs": false,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "declaration": true,
+        "baseUrl": ".",
         "rootDir": ".",
         "noEmit": true,
         "jsx": "react-jsx",

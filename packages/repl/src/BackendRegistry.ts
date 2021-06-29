@@ -1,6 +1,5 @@
-import {ErrorType, RouteExecute, RouteRegistry, Shelf} from '@icarus/service';
+import {ErrorType, RouteExecute, RouteRegistry, Shelf, DefaultServiceContext} from '@icarus/service';
 import {match} from 'path-to-regexp';
-import ServiceContext from './ServiceContext';
 
 interface RegisteredRoute {
     method: 'GET' | 'POST';
@@ -26,7 +25,7 @@ export default class BackendRegistry implements RouteRegistry {
     }
 
     async error(type: ErrorType, message: string) {
-        const errorContext = new ServiceContext(this.shelf, {}, {});
+        const errorContext = new DefaultServiceContext(this.shelf, {}, {});
         await errorContext.error(type, 'NO_ROUTE', message);
         return errorContext;
     }
@@ -53,7 +52,7 @@ export default class BackendRegistry implements RouteRegistry {
             return false;
         }
 
-        const context = new ServiceContext(this.shelf, matched.params, body);
+        const context = new DefaultServiceContext(this.shelf, matched.params, body);
         await route.execute(context);
         return context;
     }

@@ -1,4 +1,5 @@
-import {ErrorCode, ErrorType, ServiceContext, Shelf} from '@icarus/service';
+import Shelf from '../shelf/Shelf';
+import {ErrorCode, ErrorType, ServiceContext} from './interface';
 
 interface Pending {
     state: 'pending';

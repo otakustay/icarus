@@ -1,5 +1,9 @@
+import {useCallback} from 'react';
 import styled from 'styled-components';
 import DropZone from '@/components/DropZone';
+import ReadingContextProvider, {useReadingContent, useSetReadingContent} from '@/components/ReadingContextProvider';
+import ReadingLayout from '@/components/ReadingLayout';
+import ipc from '@/ipc/open';
 import GlobalStyle from './GlobalStyle';
 
 const Root = styled.div`
@@ -10,12 +14,30 @@ const Root = styled.div`
     right: 0;
 `;
 
+function AppContent() {
+    const readingContent = useReadingContent();
+    const setReadingContent = useSetReadingContent();
+    const openDirectory = useCallback(
+        async (location: string) => {
+            const content = await ipc.openDirectory(location);
+            setReadingContent(content);
+        },
+        [setReadingContent]
+    );
+
+    return readingContent.state.totalBooksCount
+        ? <ReadingLayout />
+        : <DropZone onOpenDirectory={openDirectory} />;
+}
+
 export default function App() {
     return (
         <>
             <GlobalStyle />
             <Root>
-                <DropZone />
+                <ReadingContextProvider>
+                    <AppContent />
+                </ReadingContextProvider>
             </Root>
         </>
     );

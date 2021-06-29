@@ -1,7 +1,6 @@
 const path = require('path');
 const {createWebpackConfig, createRuntimeBuildEnv} = require('@reskript/config-webpack');
 const {readProjectSettings} = require('@reskript/settings');
-const rules = require('./webpack.rules');
 
 const cwd = process.cwd();
 
@@ -37,13 +36,4 @@ const createBaseConfig = () => {
 
 const base = createBaseConfig();
 
-module.exports = {
-    ...base,
-    module: {
-        ...base.module,
-        rules: [
-            ...rules,
-            ...base.module.rules,
-        ],
-    },
-};
+module.exports = {...base, target: 'electron-renderer'};

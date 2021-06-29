@@ -19,18 +19,24 @@ importers:
       '@electron-forge/plugin-webpack': 6.0.0-beta.57
       '@huse/boolean': ^1.1.1
       '@huse/document-event': ^1.1.0
-      '@marshallofsound/webpack-asset-relocator-loader': ^0.5.0
+      '@icarus/service': 1.0.0
+      '@icarus/shared': 1.0.0
+      '@icarus/storage': 1.0.0
       '@reskript/cli': ^1.6.2
       '@reskript/cli-lint': ^1.6.2
       '@reskript/config-lint': ^1.6.2
       '@reskript/config-webpack': ^1.6.2
       '@reskript/settings': ^1.6.2
+      '@types/ramda': ^0.27.41
       '@types/react': ^17.0.11
       '@types/react-dom': ^17.0.8
       '@types/styled-components': ^5.1.10
+      '@vercel/webpack-asset-relocator-loader': ^1.5.0
       electron: 13.1.4
       eslint: ^7.29.0
       node-loader: ^2.0.0
+      path-to-regexp: ^6.2.0
+      ramda: ^0.27.1
       react: ^17.0.2
       react-dom: ^17.0.2
       react-icons: ^4.2.0
@@ -42,6 +48,11 @@ importers:
     dependencies:
       '@huse/boolean': 1.1.1_react@17.0.2
       '@huse/document-event': 1.1.0_react@17.0.2
+      '@icarus/service': link:../service
+      '@icarus/shared': link:../shared
+      '@icarus/storage': link:../storage
+      path-to-regexp: 6.2.0
+      ramda: 0.27.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-icons: 4.2.0_react@17.0.2
@@ -50,15 +61,16 @@ importers:
       '@electron-forge/cli': 6.0.0-beta.57
       '@electron-forge/maker-dmg': 6.0.0-beta.57
       '@electron-forge/plugin-webpack': 6.0.0-beta.57
-      '@marshallofsound/webpack-asset-relocator-loader': 0.5.0
       '@reskript/cli': 1.6.2
       '@reskript/cli-lint': 1.6.2_709e49096dad87bfaa4d5cbebcad582c
       '@reskript/config-lint': 1.6.2_64b46c01ad98610547537f7e4d045abc
       '@reskript/config-webpack': 1.6.2_d27ce6bfd1ff70fc06a76ccaf045032b
       '@reskript/settings': 1.6.2
+      '@types/ramda': 0.27.41
       '@types/react': 17.0.11
       '@types/react-dom': 17.0.8
       '@types/styled-components': 5.1.10
+      '@vercel/webpack-asset-relocator-loader': 1.5.0
       electron: 13.1.4
       eslint: 7.29.0
       node-loader: 2.0.0_webpack@5.41.0
@@ -140,6 +152,7 @@ importers:
       '@reskript/cli': ^1.6.2
       '@reskript/cli-lint': ^1.6.2
       '@reskript/config-lint': ^1.6.2
+      '@types/adm-zip': ^0.4.34
       '@types/jest': ^26.0.23
       '@types/node': ^15.12.5
       '@types/string-natural-compare': ^3.0.0
@@ -165,6 +178,7 @@ importers:
       '@reskript/cli': 1.6.2
       '@reskript/cli-lint': 1.6.2_typescript@4.3.4
       '@reskript/config-lint': 1.6.2_eslint@7.29.0+typescript@4.3.4
+      '@types/adm-zip': 0.4.34
       '@types/jest': 26.0.23
       '@types/node': 15.12.5
       '@types/string-natural-compare': 3.0.0
@@ -2463,12 +2477,6 @@ packages:
       cross-spawn: 7.0.3
     dev: true
 
-  /@marshallofsound/webpack-asset-relocator-loader/0.5.0:
-    resolution: {integrity: sha512-X50R97SiDNTpOckiplghBo63Vo8GxSsr98s3VTwEu3qyVr+TY4I91KRtKelEj2OAfgMnkTymw89+psFVq8aB1g==}
-    dependencies:
-      sourcemap-codec: 1.4.8
-    dev: true
-
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -3027,6 +3035,12 @@ packages:
     resolution: {integrity: sha512-FTgBI767POY/lKNDNbIzgAX6miIDBs6NTCbdlDb8TrWovHsSvaVIZDlTqym29C6UqhzwcJx4CYr+AlrMywA0cA==}
     dev: true
 
+  /@types/adm-zip/0.4.34:
+    resolution: {integrity: sha512-8ToYLLAYhkRfcmmljrKi22gT2pqu7hGMDtORP1emwIEGmgUTZOsaDjzWFzW5N2frcFRz/50CWt4zA1CxJ73pmQ==}
+    dependencies:
+      '@types/node': 15.12.5
+    dev: true
+
   /@types/babel__core/7.1.14:
     resolution: {integrity: sha512-zGZJzzBUVDo/eV6KgbE0f0ZI7dInEYvo12Rb70uNQDshC3SkRMb67ja0GgRHZgAX3Za6rhaWlvbDO8rrGyAb1g==}
     dependencies:
@@ -3423,6 +3437,10 @@ packages:
     dependencies:
       '@typescript-eslint/types': 4.28.1
       eslint-visitor-keys: 2.1.0
+    dev: true
+
+  /@vercel/webpack-asset-relocator-loader/1.5.0:
+    resolution: {integrity: sha512-O5pHMhMz4H8YhaRjsJYnZ818kHF7V4Uz0DIn4AnITpqAiW7shgEbjDlTFZBX8hHOx53jTfhF8dWKCe+ffK3aeg==}
     dev: true
 
   /@webassemblyjs/ast/1.11.0:

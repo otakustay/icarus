@@ -5,6 +5,7 @@ import registerNavigate from './navigate';
 export * as urls from './urls';
 export * from './interface';
 export {OpenByBooksBody, OpenByDirectoryBody, OpenByRestoreBody, OpenResponse} from './open';
+export {default as DefaultServiceContext} from './DefaultServiceContext';
 
 export const registerService = (registry: RouteRegistry) => {
     registerOpen(registry);

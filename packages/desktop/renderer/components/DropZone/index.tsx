@@ -23,15 +23,19 @@ const CenterArea = styled(FlexCenter)`
 `;
 
 const Hint = styled(FlexCenter)<HighlightProps>`
-    padding: 40px 80px;
-    font-size: 36px;
+    padding: 20px 40px;
+    font-size: 24px;
     gap: 12px;
     background-color:#15191c;
     border-radius: 12px;
     color: ${({highlight}) => (highlight ? '#fff' : '#ddd')};
 `;
 
-export default function DropZone() {
+interface Props {
+    onOpenDirectory: (location: string) => void;
+}
+
+export default function DropZone({onOpenDirectory}: Props) {
     const [accepting, addAccepting, removeAccepting] = useSwitch(false);
     useDocumentEvent('dragover', e => e.preventDefault());
     useDocumentEvent('dragenter', addAccepting);
@@ -52,9 +56,12 @@ export default function DropZone() {
                 return;
             }
 
+            const [file] = e.dataTransfer.files;
+            onOpenDirectory(file.path);
+
             removeAccepting();
         },
-        [removeAccepting]
+        [onOpenDirectory, removeAccepting]
     );
     useDocumentEvent('drop', drop);
 

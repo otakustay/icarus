@@ -24,6 +24,7 @@
     "@reskript/cli": "^1.6.2",
     "@reskript/cli-lint": "^1.6.2",
     "@reskript/config-lint": "^1.6.2",
+    "@types/adm-zip": "^0.4.34",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.5",
     "@types/string-natural-compare": "^3.0.0",
