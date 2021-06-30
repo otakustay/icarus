@@ -1,11 +1,11 @@
 import {noCase} from 'change-case';
 import {RouteRegistry} from './interface';
-import * as urls from './urls';
+import urls, {ServiceURL} from './urls';
 
 type MoveMethodName = 'moveImageForward' | 'moveImageBackward' | 'moveBookForward' | 'moveBookBackward';
 
 export default (registry: RouteRegistry) => {
-    const factory = (url: string, method: MoveMethodName) => {
+    const factory = (url: ServiceURL, method: MoveMethodName) => {
         const action = noCase(method);
 
         registry.get(

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import treeify from 'treeify';
-import ServiceContext from '../ServiceContext';
+import {DefaultServiceContext} from '@icarus/service';
 
 const printSingleValueWithIndent = (indent: number) => {
     const prefix = ' '.repeat(indent);
@@ -12,7 +12,7 @@ const printSingleValueWithIndent = (indent: number) => {
     };
 };
 
-export const printExecuteResult = (serviceContext: ServiceContext) => {
+export const printExecuteResult = (serviceContext: DefaultServiceContext) => {
     if (serviceContext.response.state === 'pending') {
         console.log(`State: ${chalk.bgGray.whiteBright(' PENDING ')}`);
     }

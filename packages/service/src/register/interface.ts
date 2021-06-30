@@ -1,4 +1,5 @@
 import type Shelf from '../shelf/Shelf';
+import {ServiceURL} from './urls';
 
 export type ErrorType = 'server' | 'client';
 
@@ -16,6 +17,6 @@ export interface ServiceContext {
 export type RouteExecute = (context: ServiceContext) => Promise<void>;
 
 export interface RouteRegistry {
-    get(this: RouteRegistry, path: string, execute: RouteExecute): void;
-    post(this: RouteRegistry, path: string, execute: RouteExecute): void;
+    get(this: RouteRegistry, path: ServiceURL, execute: RouteExecute): void;
+    post(this: RouteRegistry, path: ServiceURL, execute: RouteExecute): void;
 }

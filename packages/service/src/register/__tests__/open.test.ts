@@ -1,5 +1,5 @@
 import registerOpen, {OpenByBooksBody, OpenByDirectoryBody, OpenByRestoreBody} from '../open';
-import * as urls from '../urls';
+import urls from '../urls';
 import Registry from './mocks/Registry';
 
 const registerAndExecute = async (body: OpenByBooksBody | OpenByDirectoryBody | OpenByRestoreBody) => {

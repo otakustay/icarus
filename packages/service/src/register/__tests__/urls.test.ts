@@ -1,4 +1,4 @@
-import * as urls from '../urls';
+import urls from '../urls';
 
 test('shelf', () => {
     expect(typeof urls.shelf).toBe('string');

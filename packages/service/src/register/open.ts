@@ -1,6 +1,6 @@
 import {Book, Image, ShelfState} from '@icarus/shared';
 import {RouteRegistry} from './interface';
-import * as urls from './urls';
+import urls from './urls';
 
 export interface OpenByDirectoryBody {
     type: 'directory';

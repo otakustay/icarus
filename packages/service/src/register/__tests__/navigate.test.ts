@@ -1,6 +1,6 @@
 import {ReadingCursor} from '@icarus/shared';
 import registerNavigate from '../navigate';
-import * as urls from '../urls';
+import urls from '../urls';
 import Registry from './mocks/Registry';
 
 const registerAndExecute = async (start: ReadingCursor, url: string) => {
