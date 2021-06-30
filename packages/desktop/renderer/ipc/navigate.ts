@@ -11,4 +11,12 @@ export default {
         'GET',
         urls.previousImage
     ),
+    nextBook: createInterface<ReadingCursor, ReadingContent>(
+        'GET',
+        urls.nextBook
+    ),
+    previousBook: createInterface<ReadingCursor, ReadingContent>(
+        'GET',
+        urls.previousBook
+    ),
 };

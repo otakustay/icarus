@@ -1,7 +1,8 @@
-import {useState, useCallback} from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 import {useElementSize} from '@huse/element-size';
 import {topBottom, oneStep, ComputeLayout, LayoutTransform} from '@icarus/layout';
+import {useGlobalShortcut} from '@/hooks/shortcut';
 import {LayoutType} from '@/interface/layout';
 import {useLayoutType, useReadingBook, useReadingImage} from '../ReadingContextProvider';
 import {Direction} from '../../../../shared/dist';
@@ -56,7 +57,8 @@ interface LayoutProps extends LayoutContext {
 function ImageLayout({content, layoutType, onNavigateOut, ...layoutContext}: LayoutProps) {
     const [layout, setLayout] = useState(() => initialLayout(layoutType, layoutContext));
     const {scale, translateX, translateY} = layout.steps[layout.currentStep];
-    const nextStep = useCallback(
+    useGlobalShortcut(
+        ['J', 'D'],
         () => {
             if (layout.currentStep < layout.steps.length - 1) {
                 setLayout({...layout, currentStep: layout.currentStep + 1});
@@ -64,8 +66,18 @@ function ImageLayout({content, layoutType, onNavigateOut, ...layoutContext}: Lay
             else {
                 onNavigateOut('forward');
             }
-        },
-        [layout, onNavigateOut]
+        }
+    );
+    useGlobalShortcut(
+        ['K', 'A'],
+        () => {
+            if (layout.currentStep < layout.steps.length - 1) {
+                setLayout({...layout, currentStep: layout.currentStep + 1});
+            }
+            else {
+                onNavigateOut('backward');
+            }
+        }
     );
 
     return (
@@ -74,7 +86,6 @@ function ImageLayout({content, layoutType, onNavigateOut, ...layoutContext}: Lay
             width={layoutContext.width}
             height={layoutContext.height}
             src={content}
-            onClick={nextStep}
         />
     );
 }
@@ -88,6 +99,8 @@ export default function ImageView({onNavigate}: Props) {
     const image = useReadingImage();
     const layoutType = useLayoutType();
     const [containerRef, containerSize] = useElementSize();
+    useGlobalShortcut(['L', 'S'], () => onNavigate('forward'));
+    useGlobalShortcut(['H', 'W'], () => onNavigate('backward'));
 
     return (
         <Container ref={containerRef}>

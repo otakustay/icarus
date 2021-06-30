@@ -2,6 +2,7 @@ import {useCallback} from 'react';
 import {Direction} from '@icarus/shared';
 import ImageView from '@/components/ImageView';
 import ipc from '@/ipc/navigate';
+import {useGlobalShortcut} from '@/hooks/shortcut';
 import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '../ReadingContextProvider';
 
 export default function ReadingLayout() {
@@ -22,6 +23,20 @@ export default function ReadingLayout() {
             }
         },
         [bookIndex, imageIndex, setReadingContent]
+    );
+    useGlobalShortcut(
+        ['N', 'E'],
+        async () => {
+            const content = await ipc.nextBook({bookIndex, imageIndex});
+            setReadingContent(content);
+        }
+    );
+    useGlobalShortcut(
+        ['P', 'Q'],
+        async () => {
+            const content = await ipc.previousBook({bookIndex, imageIndex});
+            setReadingContent(content);
+        }
     );
 
     return (
