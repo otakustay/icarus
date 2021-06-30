@@ -1,11 +1,12 @@
-import {useReadingContent} from '@/components/ReadingContextProvider';
+import {useReadingBook, useReadingImage} from '@/components/ReadingContextProvider';
 
 export default function ReadingLayout() {
-    const readingContent = useReadingContent();
+    const book = useReadingBook();
+    const image = useReadingImage();
 
     return (
-        <pre style={{color: '#fff'}}>
-            {JSON.stringify(readingContent.state, null, '    ')}
+        <pre style={{color: '#fff', padding: 40}}>
+            {JSON.stringify({book, image}, null, '    ')}
         </pre>
     );
 }

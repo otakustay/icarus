@@ -17,6 +17,5 @@
           "@/*": ["./renderer/*"]
         },
     },
-    "include": ["renderer", "main"],
-    "exclude": ["node_modules"]
+    "include": ["renderer", "main"]
 }
