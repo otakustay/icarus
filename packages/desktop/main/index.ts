@@ -4,10 +4,12 @@ import {app, BrowserWindow, BrowserWindowConstructorOptions} from 'electron';
 import installExtension, {REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 import {setup as setupShelf, ShelfSetupOptions} from './shelf';
 import {setup as setupRouter} from './router';
+import {setupLogging} from './log';
 
 // `electron-forge`自动生成的
-// eslint-disable-next-line init-declarations
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string; // eslint-disable-line init-declarations
+
+setupLogging(app.getPath('userData'));
 
 const prepareElectron = async () => {
     await installExtension(REACT_DEVELOPER_TOOLS);
@@ -21,13 +23,12 @@ const forceDirectory = (directory: string) => {
 
 const prepareApplication = async () => {
     const setupOptions: ShelfSetupOptions = {
-        // TODO: 增加正式环境的地址
         stateStorageDirectory: process.env.NODE_ENV === 'development'
             ? path.join(__dirname, '..', 'storage')
-            : path.join(__dirname, '..', 'storage'),
+            : path.join(app.getPath('userData')),
         dataStorageDirectory: process.env.NODE_ENV === 'development'
             ? path.join(__dirname, '..', 'storage')
-            : path.join(__dirname, '..', 'storage'),
+            : path.join(app.getPath('documents'), 'Icarus'),
     };
     forceDirectory(setupOptions.dataStorageDirectory);
     forceDirectory(setupOptions.stateStorageDirectory);
@@ -57,6 +58,7 @@ const createWindow = async () => {
     }
 };
 
+app.setName('Icarus Comic Reader');
 app.on('ready', createWindow);
 app.on('window-all-closed', () => app.quit());
 app.on(

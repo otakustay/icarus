@@ -1,7 +1,8 @@
 {
   "name": "@icarus/desktop",
+  "productName": "Icarus Comic Reader",
   "version": "1.0.0",
-  "description": "",
+  "description": "小薄本 - 单手看漫画",
   "main": ".webpack/main",
   "scripts": {
     "start": "NODE_ENV=development electron-forge start",
@@ -23,6 +24,7 @@
     "@icarus/service": "1.0.0",
     "@icarus/shared": "1.0.0",
     "@icarus/storage": "1.0.0",
+    "bunyan": "^1.8.15",
     "electron-devtools-installer": "^3.2.0",
     "path-to-regexp": "^6.2.0",
     "ramda": "^0.27.1",
@@ -40,6 +42,7 @@
     "@reskript/config-lint": "^1.6.2",
     "@reskript/config-webpack": "^1.6.2",
     "@reskript/settings": "^1.6.2",
+    "@types/bunyan": "^1.8.6",
     "@types/ramda": "^0.27.41",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
