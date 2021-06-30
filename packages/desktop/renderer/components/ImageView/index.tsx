@@ -102,7 +102,7 @@ export default function ImageView({onNavigate}: Props) {
     return (
         <Container ref={containerRef}>
             {
-                containerSize && (
+                containerSize && image.name && (
                     <ImageLayout
                         key={`${book.name}/${image.name}:${layoutType}`}
                         layoutType={layoutType}

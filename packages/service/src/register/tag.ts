@@ -5,6 +5,11 @@ interface Params {
     bookName: string;
 }
 
+interface Body {
+    tagName: string;
+    active: boolean;
+}
+
 export default (registry: RouteRegistry) => {
     registry.get(
         urls.tags,
@@ -30,6 +35,37 @@ export default (registry: RouteRegistry) => {
             }
             catch (ex) {
                 await context.error('server', 'TAG_READ_FAIL', `Unable to find tags for ${bookName}`, ex);
+            }
+        }
+    );
+    registry.post(
+        urls.tagsByBook,
+        async context => {
+            const {bookName} = context.params as Params;
+            const {tagName, active} = context.body as Body;
+
+            if (!bookName) {
+                await context.error('client', 'TAG_WRITE_FAIL', 'Book name is empty');
+                return;
+            }
+            if (!tagName) {
+                await context.error('client', 'TAG_WRITE_FAIL', 'Tag name is empty');
+                return;
+            }
+
+            try {
+                await context.shelf.applyTagToBook(bookName, tagName, active);
+                await context.success();
+            }
+            catch (ex) {
+                await context.error(
+                    'server',
+                    'TAG_WRITE_FAIL',
+                    active
+                        ? `Unable to attach tag ${tagName} to ${bookName}`
+                        : `Unable to detach tag ${tagName} from ${bookName}`,
+                    ex
+                );
             }
         }
     );

@@ -10,7 +10,7 @@ import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '.
 const Layout = styled.div`
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr mimax(30%, 700);
+    grid-template-columns: 1fr 30%;
     width: 100%;
     height: 100%;
 `;

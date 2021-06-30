@@ -317,3 +317,31 @@ test('find tags', async () => {
     expect(tagNames).toEqual(['tag1', 'tag2']);
     await shelf.close();
 });
+
+test('add tag to book', async () => {
+    const {shelf, tagRelationStore} = newShelf();
+    await shelf.open();
+    await shelf.applyTagToBook('book1', 'tag1', true);
+    const tagNames = await tagRelationStore.listTagsByBook('book1');
+    expect(tagNames).toEqual(['tag1']);
+    await shelf.close();
+});
+
+test('remove tag from book', async () => {
+    const {shelf, tagRelationStore} = newShelf();
+    await shelf.open();
+    await tagRelationStore.attachTagToBook('book1', 'tag1');
+    await shelf.applyTagToBook('book1', 'tag1', false);
+    const tagNames = await tagRelationStore.listTagsByBook('book1');
+    expect(tagNames.length).toBe(0);
+    await shelf.close();
+});
+
+test('remove tag empty', async () => {
+    const {shelf, tagRelationStore} = newShelf();
+    await shelf.open();
+    await shelf.applyTagToBook('book1', 'tag1', false);
+    const tagNames = await tagRelationStore.listTagsByBook('book1');
+    expect(tagNames.length).toBe(0);
+    await shelf.close();
+});

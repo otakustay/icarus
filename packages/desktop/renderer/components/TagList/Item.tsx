@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import styled from 'styled-components';
 import {TagState} from './interface';
 
@@ -9,16 +10,26 @@ const Layout = styled.li<ActiveProps>`
     padding: 4px 8px;
     font-size: 12px;
     border-radius: 4px;
-    background-color: ${({active}) => (active ? 'xxx' : '#444')};
-    color: #cacaca;
+    background-color: ${({active}) => (active ? '#74a201' : '#444')};
+    color: ${({active}) => (active ? '#fff' : '#cacaca')};
     cursor: default;
 
     &:hover {
         background-color: #525252;
+        background-color: ${({active}) => (active ? '#abc600' : '#444')};
         color: #fff;
     }
 `;
 
-export default function TagItem({name, active}: TagState) {
-    return <Layout active={active}>{name}</Layout>;
+interface Props extends TagState {
+    onClick: (name: string) => void;
+}
+
+export default function TagItem({name, active, onClick}: Props) {
+    const click = useCallback(
+        () => onClick(name),
+        [name, onClick]
+    );
+
+    return <Layout active={active} onClick={click}>{name}</Layout>;
 }

@@ -10,21 +10,36 @@ const newStore = (defaultValue?: TagRelation[]) => {
 test('attach', async () => {
     const store = newStore();
     await store.open();
-    await store.attachTagToBook('test', 'test');
+    await store.attachTagToBook('book1', 'tag1');
+    const tagNames = await store.listTagsByBook('book1');
+    expect(tagNames).toEqual(['tag1']);
+    await store.close();
+});
+
+test('attach duplicate', async () => {
+    const store = newStore([{tagName: 'tag1', bookName: 'book1'}]);
+    await store.open();
+    await store.attachTagToBook('book1', 'tag1');
+    const tagNames = await store.listTagsByBook('book1');
+    expect(tagNames).toEqual(['tag1']);
     await store.close();
 });
 
 test('detach non existing', async () => {
     const store = newStore();
     await store.open();
-    await store.detachTagFromBook('test', 'test');
+    await store.detachTagFromBook('book1', 'tag1');
+    const tagNames = await store.listTagsByBook('book1');
+    expect(tagNames.length).toBe(0);
     await store.close();
 });
 
 test('detach existing', async () => {
-    const store = newStore([{tagName: 'test', bookName: 'test'}]);
+    const store = newStore([{tagName: 'tag1', bookName: 'book1'}]);
     await store.open();
-    await store.detachTagFromBook('test', 'test');
+    await store.detachTagFromBook('book1', 'tag1');
+    const tagNames = await store.listTagsByBook('book1');
+    expect(tagNames.length).toBe(0);
     await store.close();
 });
 

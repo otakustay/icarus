@@ -10,11 +10,18 @@ export default class TagRelationStore extends BaseStore<TagRelation[]> {
     }
 
     async attachTagToBook(bookName: string, tagName: string): Promise<void> {
-        await this.updateData(s => [...s, {bookName, tagName}]);
+        const tryAddRow = (state: TagRelation[]) => {
+            if (state.find(v => v.bookName === bookName && v.tagName === tagName)) {
+                return state;
+            }
+
+            return [...state, {bookName, tagName}];
+        };
+        await this.updateData(tryAddRow);
     }
 
     async detachTagFromBook(bookName: string, tagName: string): Promise<void> {
-        await this.updateData(s => s.filter(v => v.bookName === bookName && v.tagName === tagName));
+        await this.updateData(s => s.filter(v => !(v.bookName === bookName && v.tagName === tagName)));
     }
 
     async listAllTags(): Promise<string[]> {

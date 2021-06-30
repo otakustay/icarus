@@ -6,7 +6,7 @@ import Item from './Item';
 const Layout = styled.div`
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr 40px;
+    grid-template-columns: 1fr 30px;
 `;
 
 const List = styled.ol`
@@ -21,16 +21,20 @@ const List = styled.ol`
 
 const Letter = styled(FlexCenter)`
     height: 100%;
-    font-size: 24px;
+    font-size: 20px;
     background-color: #4b545d;
     color: #fff;
 `;
 
-export default function TagRow({letter, tags}: TagStateGroup) {
+interface Props extends TagStateGroup {
+    onItemClick: (name: string) => void;
+}
+
+export default function TagRow({letter, tags, onItemClick}: Props) {
     return (
         <Layout>
             <List>
-                {tags.map(v => <Item key={v.name} {...v} />)}
+                {tags.map(v => <Item key={v.name} {...v} onClick={onItemClick} />)}
             </List>
             <Letter>{letter}</Letter>
         </Layout>

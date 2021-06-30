@@ -29,3 +29,65 @@ test('list tags', async () => {
     expect(context.hasError).toBe(false);
     expect(context.response).toEqual(['tag1', 'tag2', 'tag3']);
 });
+
+test('add tag', async () => {
+    const context = await registerAndExecute(
+        'POST',
+        urls.tagsByBook,
+        {bookName: 'book1'}, {tagName: 'tag1', active: true}
+    );
+    expect(context.hasError).toBe(false);
+});
+
+test('remove tag', async () => {
+    const context = await registerAndExecute(
+        'POST',
+        urls.tagsByBook,
+        {bookName: 'book1'}, {tagName: 'tag1', active: false}
+    );
+    expect(context.hasError).toBe(false);
+});
+
+test('apply tag empty book name', async () => {
+    const context = await registerAndExecute(
+        'POST',
+        urls.tagsByBook,
+        {bookName: ''}, {tagName: 'tag1', active: false}
+    );
+    expect(context.hasError).toBe(true);
+    expect(context.errorType).toBe('client');
+    expect(context.errorCode).toBe('TAG_WRITE_FAIL');
+});
+
+test('apply tag empty tag name', async () => {
+    const context = await registerAndExecute(
+        'POST',
+        urls.tagsByBook,
+        {bookName: 'book1'}, {tagName: '', active: false}
+    );
+    expect(context.hasError).toBe(true);
+    expect(context.errorType).toBe('client');
+    expect(context.errorCode).toBe('TAG_WRITE_FAIL');
+});
+
+test('apply tag error', async () => {
+    const context = await registerAndExecute(
+        'POST',
+        urls.tagsByBook,
+        {bookName: 'book1'}, {tagName: 'error', active: true}
+    );
+    expect(context.hasError).toBe(true);
+    expect(context.errorType).toBe('server');
+    expect(context.errorCode).toBe('TAG_WRITE_FAIL');
+});
+
+test('remove tag error', async () => {
+    const context = await registerAndExecute(
+        'POST',
+        urls.tagsByBook,
+        {bookName: 'book1'}, {tagName: 'error', active: false}
+    );
+    expect(context.hasError).toBe(true);
+    expect(context.errorType).toBe('server');
+    expect(context.errorCode).toBe('TAG_WRITE_FAIL');
+});

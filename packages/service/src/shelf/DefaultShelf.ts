@@ -181,6 +181,15 @@ export default class DefaultShelf {
         return tagNames;
     }
 
+    async applyTagToBook(bookName: string, tagName: string, active: boolean): Promise<void> {
+        if (active) {
+            await this.tagRelationStore.attachTagToBook(bookName, tagName);
+        }
+        else {
+            await this.tagRelationStore.detachTagFromBook(bookName, tagName);
+        }
+    }
+
     async readCurrentContent(): Promise<ReadingContent> {
         // 因为有可能刚打开的时候就有本子或图片有问题，此时是没有一个“向前”或者“向后”的操作的，所以要读一下试试，不行往后走
         try {

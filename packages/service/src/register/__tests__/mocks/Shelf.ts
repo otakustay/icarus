@@ -70,6 +70,12 @@ export default class TestShelf implements Shelf {
         return [`${bookName}:tag1`, `${bookName}:tag2`];
     }
 
+    async applyTagToBook(bookName: string, tagName: string, active: boolean): Promise<void> {
+        if (tagName.includes('error')) {
+            throw new Error(`Failed to apply tag ${tagName} to book ${bookName} as ${active}`);
+        }
+    }
+
     async readCurrentContent(): Promise<ReadingContent> {
         const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
         const [state, book, image] = await Promise.all(parts);

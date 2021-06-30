@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef, useMemo} from 'react';
+import {useEffect, useState, useRef, useMemo, useCallback} from 'react';
 import styled from 'styled-components';
 import ipc from '@/ipc/tag';
 import {useReadingBook} from '../ReadingContextProvider';
@@ -8,12 +8,9 @@ import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
 
 const Layout = styled.div`
-    width: 340px;
-    min-width: 340px;
     overflow: auto;
     display: flex;
     flex-direction: column;
-    padding: 8px 0;
     background-color: #353535;
 `;
 
@@ -27,6 +24,17 @@ export default function TagList() {
     const latestBookNameRef = useRef(book.name);
     const [allTagNames, setAllTagNames] = useState<string[]>([]);
     const [activeTagNames, setActiveTagNames] = useState(new Set<string>());
+    const request = useCallback(
+        async () => {
+            latestBookNameRef.current = book.name;
+            const [activeTagNames, allTagNames] = await Promise.all([ipc.tagsByBook(book.name), ipc.listAll()]);
+            if (book.name === latestBookNameRef.current) {
+                setAllTagNames(allTagNames);
+                setActiveTagNames(new Set(activeTagNames));
+            }
+        },
+        [book.name]
+    );
     const groups = useMemo(
         () => {
             const groups = groupTagsByLetter(allTagNames);
@@ -40,18 +48,18 @@ export default function TagList() {
         },
         [activeTagNames, allTagNames]
     );
+    const toggleTagActive = useCallback(
+        async (name: string) => {
+            await ipc.applyToBook({bookName: book.name, tagName: name, active: !activeTagNames.has(name)});
+            await request();
+        },
+        [activeTagNames, book.name, request]
+    );
     useEffect(
         () => {
-            latestBookNameRef.current = book.name;
-            (async () => {
-                const [activeTagNames, allTagNames] = await Promise.all([ipc.tagsByBook(book.name), ipc.listAll()]);
-                if (book.name === latestBookNameRef.current) {
-                    setAllTagNames(allTagNames);
-                    setActiveTagNames(new Set(activeTagNames));
-                }
-            })();
+            request();
         },
-        [book.name]
+        [request]
     );
 
     if (!allTagNames.length) {
@@ -64,7 +72,7 @@ export default function TagList() {
 
     return (
         <Layout>
-            {groups.map(v => <Row key={v.letter} {...v} />)}
+            {groups.map(v => <Row key={v.letter} {...v} onItemClick={toggleTagActive} />)}
         </Layout>
     );
 }
