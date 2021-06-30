@@ -1,12 +1,17 @@
 import fs from 'fs';
 import path from 'path';
 import {app, BrowserWindow, BrowserWindowConstructorOptions} from 'electron';
+import installExtension, {REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 import {setup as setupShelf, ShelfSetupOptions} from './shelf';
 import {setup as setupRouter} from './router';
 
 // `electron-forge`自动生成的
 // eslint-disable-next-line init-declarations
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+
+const prepareElectron = async () => {
+    await installExtension(REACT_DEVELOPER_TOOLS);
+};
 
 const forceDirectory = (directory: string) => {
     if (!fs.existsSync(directory)) {
@@ -32,11 +37,12 @@ const prepareApplication = async () => {
 };
 
 const createWindow = async () => {
+    await prepareElectron();
     await prepareApplication();
 
     const windowOptions: BrowserWindowConstructorOptions = {
-        width: 800,
-        height: 600,
+        width: process.env.NODE_ENV === 'development' ? 1000 : 800,
+        height: process.env.NODE_ENV === 'development' ? 800 : 600,
         backgroundColor: '#000',
         webPreferences: {
             nodeIntegration: true,
@@ -47,7 +53,7 @@ const createWindow = async () => {
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
     if (process.env.NODE_ENV === 'development') {
-        mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools({mode: 'bottom'});
     }
 };
 
