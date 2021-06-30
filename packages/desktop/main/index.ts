@@ -1,21 +1,33 @@
 import fs from 'fs';
 import path from 'path';
 import {app, BrowserWindow, BrowserWindowConstructorOptions} from 'electron';
-import {setup as setupShelf} from './shelf';
+import {setup as setupShelf, ShelfSetupOptions} from './shelf';
 import {setup as setupRouter} from './router';
 
 // `electron-forge`自动生成的
 // eslint-disable-next-line init-declarations
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
-const prepareApplication = async () => {
-    const storageDirectory = process.env.NODE_ENV === 'development'
-        ? path.join(__dirname, '..', 'storage')
-        : path.join(__dirname, '..', 'storage'); // TODO: 改为正式环境的地址
-    if (!fs.existsSync(storageDirectory)) {
-        fs.mkdirSync(storageDirectory, {recursive: true});
+const forceDirectory = (directory: string) => {
+    if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, {recursive: true});
     }
-    await setupShelf(storageDirectory);
+};
+
+const prepareApplication = async () => {
+    const setupOptions: ShelfSetupOptions = {
+        // TODO: 增加正式环境的地址
+        stateStorageDirectory: process.env.NODE_ENV === 'development'
+            ? path.join(__dirname, '..', 'storage')
+            : path.join(__dirname, '..', 'storage'),
+        dataStorageDirectory: process.env.NODE_ENV === 'development'
+            ? path.join(__dirname, '..', 'storage')
+            : path.join(__dirname, '..', 'storage'),
+    };
+    forceDirectory(setupOptions.dataStorageDirectory);
+    forceDirectory(setupOptions.stateStorageDirectory);
+    await setupShelf(setupOptions);
+
     setupRouter();
 };
 

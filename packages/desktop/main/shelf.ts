@@ -1,6 +1,12 @@
 import path from 'path';
 import {DefaultShelf, FileSystemReader, Shelf, ZipExtractor} from '@icarus/service';
-import {BookStore, FilePersistence, TagRelationStore, ReadingStateStore} from '@icarus/storage';
+import {
+    BookStore,
+    FilePersistence,
+    MemoryCachedPersistence,
+    TagRelationStore,
+    ReadingStateStore,
+} from '@icarus/storage';
 
 interface Container {
     current: Shelf | null;
@@ -8,13 +14,36 @@ interface Container {
 
 const shelf: Container = {current: null};
 
-export const setup = async (storageDirectory: string) => {
-    const storage = (name: string) => path.join(storageDirectory, `${name}.json`);
+export interface ShelfSetupOptions {
+    stateStorageDirectory: string;
+    dataStorageDirectory: string;
+}
+
+export const setup = async (options: ShelfSetupOptions) => {
+    const {stateStorageDirectory, dataStorageDirectory} = options;
 
     shelf.current = new DefaultShelf(
-        new BookStore(new FilePersistence(storage('book'))),
-        new TagRelationStore(new FilePersistence(storage('tag'))),
-        new ReadingStateStore(new FilePersistence(storage('state'))),
+        new BookStore(
+            new MemoryCachedPersistence(
+                new FilePersistence(
+                    path.join(dataStorageDirectory, 'book.json')
+                )
+            )
+        ),
+        new TagRelationStore(
+            new MemoryCachedPersistence(
+                new FilePersistence(
+                    path.join(dataStorageDirectory, 'tag.json')
+                )
+            )
+        ),
+        new ReadingStateStore(
+            new MemoryCachedPersistence(
+                new FilePersistence(
+                    path.join(stateStorageDirectory, 'state.json')
+                )
+            )
+        ),
         new FileSystemReader(),
         new ZipExtractor()
     );
