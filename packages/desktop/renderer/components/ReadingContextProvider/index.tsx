@@ -1,6 +1,7 @@
 import {useState, useCallback, createContext, ReactNode, useContext} from 'react';
 import * as R from 'ramda';
 import {ReadingContent, Book, Image, ReadingFilter} from '@icarus/shared';
+import {LayoutType} from '@/interface/layout';
 
 const DEFAULT_FILTER: ReadingFilter = {
     tagNames: [],
@@ -44,6 +45,12 @@ ImageContext.displayName = 'ImageContext';
 const SetContext = createContext<(value: ReadingContent) => void>(R.always(undefined));
 SetContext.displayName = 'SetReadingContentContext';
 
+const LayoutTypeContext = createContext<LayoutType>('topBottom');
+LayoutTypeContext.displayName = 'LayoutTypeContext';
+
+const SetLayoutTypeContext = createContext<(value: LayoutType) => void>(R.always(undefined));
+SetLayoutTypeContext.displayName = 'SetLayoutTypeContext';
+
 interface Props {
     children: ReactNode;
 }
@@ -56,6 +63,7 @@ export default function ReadingContextProvider({children}: Props) {
     const [readingFilter, setReadingFilter] = useState(DEFAULT_FILTER);
     const [book, setBook] = useState(DEFAULT_BOOK);
     const [image, setImage] = useState(DEFAULT_IMAGE);
+    const [layoutType, setLayoutType] = useState<LayoutType>('topBottom');
     const setReadingContent = useCallback(
         (content: ReadingContent) => {
             setTotalCount(content.state.totalBooksCount);
@@ -71,21 +79,25 @@ export default function ReadingContextProvider({children}: Props) {
 
     return (
         <SetContext.Provider value={setReadingContent}>
-            <TotalCountContext.Provider value={totalCount}>
-                <ActiveCountContext.Provider value={activeCount}>
-                    <BookIndexContext.Provider value={bookIndex}>
-                        <ImageIndexContext.Provider value={imageIndex}>
-                            <ReadingFilterContext.Provider value={readingFilter}>
-                                <BookContext.Provider value={book}>
-                                    <ImageContext.Provider value={image}>
-                                        {children}
-                                    </ImageContext.Provider>
-                                </BookContext.Provider>
-                            </ReadingFilterContext.Provider>
-                        </ImageIndexContext.Provider>
-                    </BookIndexContext.Provider>
-                </ActiveCountContext.Provider>
-            </TotalCountContext.Provider>
+            <SetLayoutTypeContext.Provider value={setLayoutType}>
+                <LayoutTypeContext.Provider value={layoutType}>
+                    <TotalCountContext.Provider value={totalCount}>
+                        <ActiveCountContext.Provider value={activeCount}>
+                            <BookIndexContext.Provider value={bookIndex}>
+                                <ImageIndexContext.Provider value={imageIndex}>
+                                    <ReadingFilterContext.Provider value={readingFilter}>
+                                        <BookContext.Provider value={book}>
+                                            <ImageContext.Provider value={image}>
+                                                {children}
+                                            </ImageContext.Provider>
+                                        </BookContext.Provider>
+                                    </ReadingFilterContext.Provider>
+                                </ImageIndexContext.Provider>
+                            </BookIndexContext.Provider>
+                        </ActiveCountContext.Provider>
+                    </TotalCountContext.Provider>
+                </LayoutTypeContext.Provider>
+            </SetLayoutTypeContext.Provider>
         </SetContext.Provider>
     );
 }
@@ -105,3 +117,7 @@ export const useReadingBook = () => useContext(BookContext);
 export const useReadingImage = () => useContext(ImageContext);
 
 export const useSetReadingContent = () => useContext(SetContext);
+
+export const useLayoutType = () => useContext(LayoutTypeContext);
+
+export const useSetLayoutType = () => useContext(SetLayoutTypeContext);

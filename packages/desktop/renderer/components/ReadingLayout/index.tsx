@@ -1,12 +1,30 @@
-import {useReadingBook, useReadingImage} from '@/components/ReadingContextProvider';
+import {useCallback} from 'react';
+import {Direction} from '@icarus/shared';
+import ImageView from '@/components/ImageView';
+import ipc from '@/ipc/navigate';
+import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '../ReadingContextProvider';
 
 export default function ReadingLayout() {
-    const book = useReadingBook();
-    const image = useReadingImage();
+    const bookIndex = useReadingBookIndex();
+    const imageIndex = useReadingImageIndex();
+    const setReadingContent = useSetReadingContent();
+    const navigateImage = useCallback(
+        async (direction: Direction) => {
+            const request = direction === 'forward' ? ipc.nextImage : ipc.previousImage;
+            try {
+                const content = await request({bookIndex, imageIndex});
+                setReadingContent(content);
+            }
+            catch (ex) {
+                // TODO: 需要错误处理
+                // eslint-disable-next-line no-console
+                console.log(ex.message);
+            }
+        },
+        [bookIndex, imageIndex, setReadingContent]
+    );
 
     return (
-        <pre style={{color: '#fff', padding: 40}}>
-            {JSON.stringify({book, image}, null, '    ')}
-        </pre>
+        <ImageView onNavigate={navigateImage} />
     );
 }

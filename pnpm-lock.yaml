@@ -19,6 +19,8 @@ importers:
       '@electron-forge/plugin-webpack': 6.0.0-beta.57
       '@huse/boolean': ^1.1.1
       '@huse/document-event': ^1.1.0
+      '@huse/element-size': ^1.1.0
+      '@icarus/layout': 1.0.0
       '@icarus/service': 1.0.0
       '@icarus/shared': 1.0.0
       '@icarus/storage': 1.0.0
@@ -48,6 +50,8 @@ importers:
     dependencies:
       '@huse/boolean': 1.1.1_react@17.0.2
       '@huse/document-event': 1.1.0_react@17.0.2
+      '@huse/element-size': 1.1.0_react@17.0.2
+      '@icarus/layout': link:../layout
       '@icarus/service': link:../service
       '@icarus/shared': link:../shared
       '@icarus/storage': link:../storage
@@ -2229,6 +2233,24 @@ packages:
       react: '>=16.8.0'
     dependencies:
       react: 17.0.2
+    dev: false
+
+  /@huse/effect-ref/1.1.0_react@17.0.2:
+    resolution: {integrity: sha512-hTqPhNuS9nxMlbTcVVw3URb1zjwnHhRIzI9yNoqv/TUKckjvklHn6JJrR1mAxRTreB8ifGjwCOGmR/Yt+d9sIQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
+  /@huse/element-size/1.1.0_react@17.0.2:
+    resolution: {integrity: sha512-XnnHE67FehXgJ8WVBUYQ7cOgqDKFyWPjITAH2tCeJl4VPE97VtkGYhDG6KgI513D4xHBnu+aRlvHIFj3U4TchA==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      '@huse/effect-ref': 1.1.0_react@17.0.2
+      react: 17.0.2
+      resize-detector: 0.2.2
     dev: false
 
   /@huse/methods/1.2.1_react@17.0.2:
@@ -10605,6 +10627,10 @@ packages:
   /reselect/4.0.0:
     resolution: {integrity: sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==}
     dev: true
+
+  /resize-detector/0.2.2:
+    resolution: {integrity: sha512-X07ADfFqXoyfbx4/PSzr7EBF9e/RwrcS9UoPBMbau11agg5uad39ysMmXFCu0o5C3hhKbs0X/cSl85OwPIpZLQ==}
+    dev: false
 
   /resolve-alpn/1.1.2:
     resolution: {integrity: sha512-8OyfzhAtA32LVUsJSke3auIyINcwdh5l3cvYKdKO0nvsYSKuiLfTM5i78PJswFPT8y6cPW+L1v6/hE95chcpDA==}
