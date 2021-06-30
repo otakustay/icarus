@@ -28,6 +28,20 @@ test('detach existing', async () => {
     await store.close();
 });
 
+test('list tags', async () => {
+    const content = [
+        {tagName: 'test1', bookName: 'test'},
+        {tagName: 'test2', bookName: 'test'},
+        {tagName: 'test2', bookName: 'test1'},
+        {tagName: 'test3', bookName: 'test1'},
+    ];
+    const store = newStore(content);
+    await store.open();
+    const tagNames = await store.listAllTags();
+    expect(tagNames).toEqual(['test1', 'test2', 'test3']);
+    await store.close();
+});
+
 test('find books single tag', async () => {
     const relations: TagRelation[] = [
         {tagName: 'tag1', bookName: 'book1'},

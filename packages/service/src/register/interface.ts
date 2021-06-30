@@ -3,7 +3,7 @@ import {ServiceURL} from './urls';
 
 export type ErrorType = 'server' | 'client';
 
-export type ErrorCode = 'NO_ROUTE' | 'OPEN_FAIL' | 'MOVE_FAIL';
+export type ErrorCode = 'NO_ROUTE' | 'OPEN_FAIL' | 'MOVE_FAIL' | 'TAG_READ_FAIL' | 'TAG_LIST_FAIL' | 'TAG_WRITE_FAIL';
 
 export interface ServiceContext {
     shelf: Shelf;

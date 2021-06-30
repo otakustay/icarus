@@ -18,6 +18,10 @@ export default class TestTagRelationStore extends TagRelationStore {
         this.saved.splice(index, 1);
     }
 
+    async listAllTags(): Promise<string[]> {
+        return ['tag1', 'tag2', 'tag3'];
+    }
+
     async listTagsByBook(bookName: string): Promise<string[]> {
         return this.saved.filter(v => v.bookName === bookName).map(v => v.tagName);
     }

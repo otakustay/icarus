@@ -6,6 +6,8 @@ const urls = {
     nextBook: '/books/:bookIndex/siblings/NEXT',
     previousBook: '/books/:bookIndex/siblings/PREVIOUS',
     filter: '/filter',
+    tags: '/tags',
+    tagsByBook: '/tags/:bookName',
 } as const;
 
 export default urls;

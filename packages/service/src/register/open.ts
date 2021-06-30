@@ -37,10 +37,10 @@ export default (registry: RouteRegistry) => registry.post(
 
         try {
             const content = await context.shelf.readCurrentContent();
-            context.success(content);
+            await context.success(content);
         }
         catch (ex) {
-            context.error('client', 'OPEN_FAIL', 'Unable to initialize reading state', ex);
+            await context.error('client', 'OPEN_FAIL', 'Unable to initialize reading state', ex);
         }
     }
 );

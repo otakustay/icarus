@@ -58,6 +58,18 @@ export default class TestShelf implements Shelf {
         this.filter = filter;
     }
 
+    async listTags(): Promise<string[]> {
+        return ['tag1', 'tag2', 'tag3'];
+    }
+
+    async findTagsByBook(bookName: string): Promise<string[]> {
+        if (bookName.includes('error')) {
+            throw new Error('Unable to open tag store');
+        }
+
+        return [`${bookName}:tag1`, `${bookName}:tag2`];
+    }
+
     async readCurrentContent(): Promise<ReadingContent> {
         const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
         const [state, book, image] = await Promise.all(parts);

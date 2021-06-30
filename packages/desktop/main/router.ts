@@ -18,8 +18,8 @@ const registerRoute = (method: 'GET' | 'POST', path: string, execute: RouteExecu
         }
 
         if (context.response.state === 'hasError') {
-            const {type, code, message} = context.response;
-            log.error({method, path, stage: 'error', params, body, type, code, message});
+            const {type, code, message, cause} = context.response;
+            log.error({method, path, stage: 'error', params, body, type, code, message, cause: cause?.message ?? ''});
             throw new Error(`[${type.toUpperCase()}:${code}] ${message}`);
         }
 

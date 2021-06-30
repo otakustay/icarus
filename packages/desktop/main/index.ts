@@ -24,10 +24,10 @@ const forceDirectory = (directory: string) => {
 const prepareApplication = async () => {
     const setupOptions: ShelfSetupOptions = {
         stateStorageDirectory: process.env.NODE_ENV === 'development'
-            ? path.join(__dirname, '..', 'storage')
+            ? path.join(__dirname, '..', '..', 'storage')
             : path.join(app.getPath('userData')),
         dataStorageDirectory: process.env.NODE_ENV === 'development'
-            ? path.join(__dirname, '..', 'storage')
+            ? path.join(__dirname, '..', '..', 'storage')
             : path.join(app.getPath('documents'), 'Icarus'),
     };
     forceDirectory(setupOptions.dataStorageDirectory);

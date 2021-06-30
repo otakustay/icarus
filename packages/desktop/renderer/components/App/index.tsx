@@ -7,11 +7,8 @@ import ipc from '@/ipc/open';
 import GlobalStyle from './GlobalStyle';
 
 const Root = styled.div`
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100vw;
+    height: 100vh;
 `;
 
 function AppContent() {

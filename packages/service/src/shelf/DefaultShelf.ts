@@ -171,6 +171,16 @@ export default class DefaultShelf {
         await this.readingStateStore.applyFilter(filter);
     }
 
+    async listTags(): Promise<string[]> {
+        const tagNames = await this.tagRelationStore.listAllTags();
+        return tagNames;
+    }
+
+    async findTagsByBook(bookName: string): Promise<string[]> {
+        const tagNames = await this.tagRelationStore.listTagsByBook(bookName);
+        return tagNames;
+    }
+
     async readCurrentContent(): Promise<ReadingContent> {
         // 因为有可能刚打开的时候就有本子或图片有问题，此时是没有一个“向前”或者“向后”的操作的，所以要读一下试试，不行往后走
         try {

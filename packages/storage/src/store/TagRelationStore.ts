@@ -17,6 +17,11 @@ export default class TagRelationStore extends BaseStore<TagRelation[]> {
         await this.updateData(s => s.filter(v => v.bookName === bookName && v.tagName === tagName));
     }
 
+    async listAllTags(): Promise<string[]> {
+        const list = await this.readData();
+        return [...new Set(list.map(v => v.tagName))];
+    }
+
     async listTagsByBook(bookName: string): Promise<string[]> {
         const list = await this.readData();
         const tagNames = list.filter(v => v.bookName === bookName).map(v => v.tagName);

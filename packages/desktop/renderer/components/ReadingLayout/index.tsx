@@ -1,9 +1,19 @@
 import {useCallback} from 'react';
+import styled from 'styled-components';
 import {Direction} from '@icarus/shared';
 import ImageView from '@/components/ImageView';
+import TagList from '@/components/TagList';
 import ipc from '@/ipc/navigate';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '../ReadingContextProvider';
+
+const Layout = styled.div`
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr mimax(30%, 700);
+    width: 100%;
+    height: 100%;
+`;
 
 export default function ReadingLayout() {
     const bookIndex = useReadingBookIndex();
@@ -40,6 +50,9 @@ export default function ReadingLayout() {
     );
 
     return (
-        <ImageView onNavigate={navigateImage} />
+        <Layout>
+            <ImageView onNavigate={navigateImage} />
+            <TagList />
+        </Layout>
     );
 }

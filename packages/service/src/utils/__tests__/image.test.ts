@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs/promises';
 import {isImageExtension, constructImageInfo} from '../image';
 
 test('image extension allow', () => {
@@ -19,6 +21,13 @@ test('construct image', () => {
     expect(image.width).toBe(1);
     expect(image.height).toBe(1);
     expect(image.content).toBe(`data:image/png;base64,${data}`);
+});
+
+test('rotate image', async () => {
+    const buffer = await fs.readFile(path.join(__dirname, 'fixtures', 'rotated.jpg'));
+    const image = constructImageInfo('foo/bar.jpeg', buffer);
+    expect(image.width).toBe(2);
+    expect(image.height).toBe(1);
 });
 
 test('invalid image construct error', () => {

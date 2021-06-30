@@ -277,6 +277,14 @@ test('move cursor image index out of range', async () => {
     await expect(shelf.moveCursor(0, 12)).rejects.toThrow();
 });
 
+test('list tags', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    const tagNames = await shelf.listTags();
+    expect(tagNames).toEqual(['tag1', 'tag2', 'tag3']);
+    await shelf.close();
+});
+
 test('apply tag filter', async () => {
     const {shelf, tagRelationStore} = newShelf();
     await shelf.open();
@@ -297,5 +305,15 @@ test('remove tag filter', async () => {
     await shelf.applyFilter({tagNames: []});
     const {book} = await shelf.readCurrentContent();
     expect(book.name).toBe('book1');
+    await shelf.close();
+});
+
+test('find tags', async () => {
+    const {shelf, tagRelationStore} = newShelf();
+    await shelf.open();
+    await tagRelationStore.attachTagToBook('book1', 'tag1');
+    await tagRelationStore.attachTagToBook('book1', 'tag2');
+    const tagNames = await shelf.findTagsByBook('book1');
+    expect(tagNames).toEqual(['tag1', 'tag2']);
     await shelf.close();
 });

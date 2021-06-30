@@ -8,12 +8,9 @@ import {useLayoutType, useReadingBook, useReadingImage} from '../ReadingContextP
 import {Direction} from '../../../../shared/dist';
 
 const Container = styled.div`
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 20;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
 `;
 
 const TransformableImage = styled.img`
@@ -71,8 +68,8 @@ function ImageLayout({content, layoutType, onNavigateOut, ...layoutContext}: Lay
     useGlobalShortcut(
         ['K', 'A'],
         () => {
-            if (layout.currentStep < layout.steps.length - 1) {
-                setLayout({...layout, currentStep: layout.currentStep + 1});
+            if (layout.currentStep > 0) {
+                setLayout({...layout, currentStep: layout.currentStep - 1});
             }
             else {
                 onNavigateOut('backward');

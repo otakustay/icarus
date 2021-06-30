@@ -21,7 +21,7 @@ export const createInterface = <I, O>(method: 'GET' | 'POST', url: string, optio
 
     const request = async (paramsAndBody: I) => {
         const input = processInput(paramsAndBody);
-        const [params, body] = Object.entries(input).reduce(
+        const [params, body] = Object.entries(input ?? {}).reduce(
             ([params, body], [key, value]) => {
                 if (paramNames.has(key)) {
                     params[key] = value;

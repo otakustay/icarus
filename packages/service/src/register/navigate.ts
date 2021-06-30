@@ -14,10 +14,10 @@ export default (registry: RouteRegistry) => {
                 try {
                     await context.shelf[method]();
                     const content = await context.shelf.readCurrentContent();
-                    context.success(content);
+                    await context.success(content);
                 }
                 catch (ex) {
-                    context.error('server', 'MOVE_FAIL', `Unable to ${action}`, ex);
+                    await context.error('server', 'MOVE_FAIL', `Unable to ${action}`, ex);
                 }
             }
         );
