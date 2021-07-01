@@ -17,4 +17,11 @@ export default {
             },
         }
     ),
+    restore: createInterface<void, ReadingContent>(
+        'POST',
+        urls.shelf,
+        {
+            processInput: () => ({type: 'restore'}),
+        }
+    ),
 };

@@ -4,6 +4,8 @@ import DropZone from '@/components/DropZone';
 import ReadingContextProvider, {useSetReadingContent, useTotalBooksCount} from '@/components/ReadingContextProvider';
 import ReadingLayout from '@/components/ReadingLayout';
 import ipc from '@/ipc/open';
+import {useGlobalShortcut} from '@/hooks/shortcut';
+import {KEY_RESTORE} from '@/dicts/keyboard';
 import GlobalStyle from './GlobalStyle';
 
 const Root = styled.div`
@@ -20,6 +22,13 @@ function AppContent() {
             setReadingContent(content);
         },
         [setReadingContent]
+    );
+    useGlobalShortcut(
+        KEY_RESTORE,
+        async () => {
+            const content = await ipc.restore();
+            setReadingContent(content);
+        }
     );
 
     return totalCount

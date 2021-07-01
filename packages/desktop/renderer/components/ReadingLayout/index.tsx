@@ -4,8 +4,8 @@ import {Direction} from '@icarus/shared';
 import ImageView from '@/components/ImageView';
 import TagList from '@/components/TagList';
 import ipc from '@/ipc/navigate';
-import {useGlobalShortcut} from '@/hooks/shortcut';
 import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '../ReadingContextProvider';
+import BookReadableGuard from './BookReadableGuard';
 
 const Layout = styled.div`
     display: grid;
@@ -34,25 +34,13 @@ export default function ReadingLayout() {
         },
         [bookIndex, imageIndex, setReadingContent]
     );
-    useGlobalShortcut(
-        ['N', 'E'],
-        async () => {
-            const content = await ipc.nextBook({bookIndex, imageIndex});
-            setReadingContent(content);
-        }
-    );
-    useGlobalShortcut(
-        ['P', 'Q'],
-        async () => {
-            const content = await ipc.previousBook({bookIndex, imageIndex});
-            setReadingContent(content);
-        }
-    );
 
     return (
-        <Layout>
-            <ImageView onNavigate={navigateImage} />
-            <TagList />
-        </Layout>
+        <BookReadableGuard>
+            <Layout>
+                <ImageView onNavigate={navigateImage} />
+                <TagList />
+            </Layout>
+        </BookReadableGuard>
     );
 }

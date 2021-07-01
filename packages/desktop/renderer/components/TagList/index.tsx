@@ -1,8 +1,9 @@
 import {useEffect, useState, useRef, useMemo, useCallback} from 'react';
 import styled from 'styled-components';
+import {IoFileTrayOutline} from 'react-icons/io5';
 import ipc from '@/ipc/tag';
+import FullSizeWarn from '@/components/FullSizeWarn';
 import {useReadingBook} from '../ReadingContextProvider';
-import Empty from './Empty';
 import Row from './Row';
 import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
@@ -65,7 +66,7 @@ export default function TagList() {
     if (!allTagNames.length) {
         return (
             <Layout>
-                <Empty />
+                <FullSizeWarn icon={<IoFileTrayOutline />} description="还没有任何标签" />
             </Layout>
         );
     }

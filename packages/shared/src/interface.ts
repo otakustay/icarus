@@ -41,8 +41,8 @@ export interface Image {
 
 export interface ReadingContent {
     state: ShelfState;
-    book: Book;
-    image: Image;
+    book: Book | null;
+    image: Image | null;
 }
 
 export type Direction = 'forward' | 'backward';

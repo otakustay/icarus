@@ -2,7 +2,7 @@ import {ipcRenderer} from 'electron';
 import * as R from 'ramda';
 import {parse, Key} from 'path-to-regexp';
 
-const requestBase = (method: 'GET' | 'POST', url: string, params: unknown, body: unknown) => {
+const requestBase = async (method: 'GET' | 'POST', url: string, params: unknown, body: unknown) => {
     return ipcRenderer.invoke(`${method} ${url}`, params, body);
 };
 

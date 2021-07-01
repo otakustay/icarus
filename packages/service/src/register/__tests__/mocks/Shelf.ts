@@ -49,11 +49,6 @@ export default class TestShelf implements Shelf {
         this.cursor.bookIndex--;
     }
 
-    async moveCursor(bookIndex: number, imageIndex: number): Promise<void> {
-        this.cursor.bookIndex = bookIndex;
-        this.cursor.imageIndex = imageIndex;
-    }
-
     async applyFilter(filter: ReadingFilter): Promise<void> {
         this.filter = filter;
     }
@@ -80,6 +75,11 @@ export default class TestShelf implements Shelf {
         const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
         const [state, book, image] = await Promise.all(parts);
         return {state, book, image};
+    }
+
+    async moveCursor(bookIndex: number, imageIndex: number): Promise<void> {
+        this.cursor.bookIndex = bookIndex;
+        this.cursor.imageIndex = imageIndex;
     }
 
     private async readCurrentBook(): Promise<Book> {

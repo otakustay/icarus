@@ -59,7 +59,7 @@ test('filter tag', async () => {
     expect(state.filter.tagNames).toEqual(['tag1']);
     expect(state.activeBooksCount).toBe(1);
     expect(state.totalBooksCount).toBe(2);
-    expect(book.name).toBe('book2');
+    expect(book?.name).toBe('book2');
     await shelf.close();
 });
 
@@ -68,8 +68,8 @@ test('read book info from store', async () => {
     await shelf.open();
     await shelf.openBooks(['/test/book1.zip']);
     const {book: currentBook} = await shelf.readCurrentContent();
-    expect(currentBook.imagesCount).toBe(12);
-    expect(currentBook.size).toBe(233);
+    expect(currentBook?.imagesCount).toBe(12);
+    expect(currentBook?.size).toBe(233);
 });
 
 test('save to book store when not exists', async () => {
@@ -77,8 +77,8 @@ test('save to book store when not exists', async () => {
     await shelf.open();
     await shelf.openBooks(['/test/book-null.zip']);
     const {book: currentBook} = await shelf.readCurrentContent();
-    expect(currentBook.imagesCount).toBe(12);
-    expect(currentBook.size).toBe(233);
+    expect(currentBook?.imagesCount).toBe(12);
+    expect(currentBook?.size).toBe(233);
     expect(bookStore.saved.length).toBe(1);
 });
 
@@ -88,13 +88,20 @@ test('read out of range error', async () => {
     await expect(() => shelf.readCurrentContent()).rejects.toThrow();
 });
 
-test('read initial error move forward', async () => {
+test('read lost book', async () => {
     const {shelf} = newShelf();
     await shelf.open();
-    await shelf.openBooks(['/test/error.zip']);
-    const {state} = await shelf.readCurrentContent();
-    expect(state.cursor.bookIndex).toBe(0);
-    expect(state.cursor.imageIndex).toBe(2);
+    await shelf.openBooks(['/test/text.txt']);
+    const {book} = await shelf.readCurrentContent();
+    expect(book).toBe(null);
+});
+
+test('read book error', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openBooks(['/test/error-null.zip']);
+    const {book} = await shelf.readCurrentContent();
+    expect(book).toBe(null);
 });
 
 test('read image', async () => {
@@ -102,7 +109,15 @@ test('read image', async () => {
     await shelf.open();
     await shelf.openBooks(['/test/book1.zip']);
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book1.zip/0');
+    expect(image?.name).toBe('/test/book1.zip/0');
+});
+
+test('read image error', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openBooks(['/test/broken.zip']);
+    const {image} = await shelf.readCurrentContent();
+    expect(image).toBe(null);
 });
 
 test('next image', async () => {
@@ -111,37 +126,38 @@ test('next image', async () => {
     await shelf.openDirectory('/test');
     await shelf.moveImageForward();
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book1.zip/1');
-});
-
-test('next image skip error', async () => {
-    const {shelf, readingStateStore} = newShelf();
-    await shelf.open();
-    await shelf.openBooks(['/test/error.zip']);
-    await readingStateStore.moveCursor(0, 4);
-    await shelf.moveImageForward();
-    const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/error.zip/7');
+    expect(image?.name).toBe('/test/book1.zip/1');
 });
 
 test('next image to next book', async () => {
     const {shelf, readingStateStore} = newShelf();
     await shelf.open();
-    await shelf.openDirectory('/test');
+    await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
     await readingStateStore.moveCursor(0, 11);
     await shelf.moveImageForward();
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book2.zip/0');
+    expect(image?.name).toBe('/test/book2.zip/0');
 });
 
-test('next image skip error to next book', async () => {
+test('next image current book error', async () => {
     const {shelf, readingStateStore} = newShelf();
     await shelf.open();
-    await shelf.openBooks(['/test/error1.zip', '/test/error2.zip']);
-    await readingStateStore.moveCursor(0, 9);
+    await shelf.openBooks(['/test/error-null.zip', '/test/book1.zip']);
     await shelf.moveImageForward();
-    const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/error2.zip/2');
+    const state = await readingStateStore.read();
+    expect(state.cursor.bookIndex).toBe(1);
+    expect(state.cursor.imageIndex).toBe(0);
+});
+
+test('next image to next errored book', async () => {
+    const {shelf, readingStateStore} = newShelf();
+    await shelf.open();
+    await shelf.openBooks(['/test/book1.zip', '/test/error-null.zip']);
+    await readingStateStore.moveCursor(0, 11);
+    await shelf.moveImageForward();
+    const state = await readingStateStore.read();
+    expect(state.cursor.bookIndex).toBe(1);
+    expect(state.cursor.imageIndex).toBe(0);
 });
 
 test('next image no more', async () => {
@@ -159,37 +175,39 @@ test('previous image', async () => {
     await readingStateStore.moveCursor(0, 2);
     await shelf.moveImageBackward();
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book1.zip/1');
-});
-
-test('previous image skip error', async () => {
-    const {shelf, readingStateStore} = newShelf();
-    await shelf.open();
-    await shelf.openBooks(['/test/error.zip']);
-    await readingStateStore.moveCursor(0, 7);
-    await shelf.moveImageBackward();
-    const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/error.zip/4');
+    expect(image?.name).toBe('/test/book1.zip/1');
 });
 
 test('previous image to previous book', async () => {
     const {shelf, readingStateStore} = newShelf();
     await shelf.open();
-    await shelf.openDirectory('/test');
+    await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
     await readingStateStore.moveCursor(1, 0);
     await shelf.moveImageBackward();
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book1.zip/11');
+    expect(image?.name).toBe('/test/book1.zip/11');
 });
 
-test('previous image skip error to previous book', async () => {
+test('previous image to previous errored book', async () => {
     const {shelf, readingStateStore} = newShelf();
     await shelf.open();
-    await shelf.openBooks(['/test/error1.zip', '/test/error2.zip']);
-    await readingStateStore.moveCursor(1, 2);
+    await shelf.openBooks(['/test/error-null.zip', '/test/book1.zip']);
+    await readingStateStore.moveCursor(1, 0);
     await shelf.moveImageBackward();
-    const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/error1.zip/9');
+    const state = await readingStateStore.read();
+    expect(state.cursor.bookIndex).toBe(0);
+    expect(state.cursor.imageIndex).toBe(0);
+});
+
+test('next previous image current book error', async () => {
+    const {shelf, readingStateStore} = newShelf();
+    await shelf.open();
+    await shelf.openBooks(['/test/error.zip']);
+    await readingStateStore.moveCursor(0, 3);
+    await shelf.moveImageBackward();
+    const state = await readingStateStore.read();
+    expect(state.cursor.bookIndex).toBe(0);
+    expect(state.cursor.imageIndex).toBe(2);
 });
 
 test('previous image no more', async () => {
@@ -206,16 +224,7 @@ test('next book', async () => {
     await readingStateStore.moveCursor(0, 1);
     await shelf.moveBookForward();
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book2.zip/0');
-});
-
-test('next book skip error', async () => {
-    const {shelf} = newShelf();
-    await shelf.open();
-    await shelf.openBooks(['/test/book1.zip', '/test/error-null.zip', '/test/book2.zip']);
-    await shelf.moveBookForward();
-    const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book2.zip/0');
+    expect(image?.name).toBe('/test/book2.zip/0');
 });
 
 test('next book no more', async () => {
@@ -233,17 +242,7 @@ test('previous book', async () => {
     await readingStateStore.moveCursor(1, 2);
     await shelf.moveBookBackward();
     const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book1.zip/0');
-});
-
-test('previous book skip error', async () => {
-    const {shelf, readingStateStore} = newShelf();
-    await shelf.open();
-    await shelf.openBooks(['/test/book1.zip', '/test/error-null.zip', '/test/book2.zip']);
-    await readingStateStore.moveCursor(2, 1);
-    await shelf.moveBookBackward();
-    const {image} = await shelf.readCurrentContent();
-    expect(image.name).toBe('/test/book1.zip/0');
+    expect(image?.name).toBe('/test/book1.zip/0');
 });
 
 test('previous book no more', async () => {
@@ -252,29 +251,6 @@ test('previous book no more', async () => {
     await shelf.openDirectory('/test');
     await readingStateStore.moveCursor(0, 2);
     await expect(() => shelf.moveBookBackward()).rejects.toThrow();
-});
-
-test('move cursor in range', async () => {
-    const {shelf} = newShelf();
-    await shelf.open();
-    await shelf.openDirectory('/test');
-    await shelf.moveCursor(1, 1);
-});
-
-test('move cursor book index out of range', async () => {
-    const {shelf} = newShelf();
-    await shelf.open();
-    await shelf.openDirectory('/test');
-    await expect(shelf.moveCursor(-1, 0)).rejects.toThrow();
-    await expect(shelf.moveCursor(3, 0)).rejects.toThrow();
-});
-
-test('move cursor image index out of range', async () => {
-    const {shelf} = newShelf();
-    await shelf.open();
-    await shelf.openDirectory('/test');
-    await expect(shelf.moveCursor(0, -1)).rejects.toThrow();
-    await expect(shelf.moveCursor(0, 12)).rejects.toThrow();
 });
 
 test('list tags', async () => {
@@ -292,7 +268,7 @@ test('apply tag filter', async () => {
     await shelf.openBooks(['/test/book1.zip', '/test/book2.zip']);
     await shelf.applyFilter({tagNames: ['tag1']});
     const {book} = await shelf.readCurrentContent();
-    expect(book.name).toBe('book2');
+    expect(book?.name).toBe('book2');
     await shelf.close();
 });
 
@@ -304,7 +280,7 @@ test('remove tag filter', async () => {
     await readingStateStore.applyFilter({tagNames: ['tag1']});
     await shelf.applyFilter({tagNames: []});
     const {book} = await shelf.readCurrentContent();
-    expect(book.name).toBe('book1');
+    expect(book?.name).toBe('book1');
     await shelf.close();
 });
 

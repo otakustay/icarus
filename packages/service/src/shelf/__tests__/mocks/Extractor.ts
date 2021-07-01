@@ -10,6 +10,10 @@ export default class TestExtractor implements Extractor {
             throw new Error(`Error extract file ${file}`);
         }
 
+        if (file.includes('broken') && ERROR_IMAGE_INDEX.has(index)) {
+            throw new Error(`Error read image from ${file}`);
+        }
+
         return {
             entryName: `${file}/${index}`,
             contentBuffer: Buffer.from(EMPTY_PNG_BASE64, 'base64'),

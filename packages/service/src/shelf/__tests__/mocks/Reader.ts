@@ -3,6 +3,10 @@ import {Book} from '@icarus/shared';
 import ShelfReader from '../../../reader/ShelfReader';
 
 export default class TestReader implements ShelfReader {
+    async isLocationAvailable(location: string): Promise<boolean> {
+        return location.endsWith('.zip');
+    }
+
     async readListAtLocation(location: string): Promise<string[]> {
         return [`${location}/book1.zip`, `${location}/book2.zip`];
     }

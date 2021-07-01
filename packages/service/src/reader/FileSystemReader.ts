@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs/promises';
+import FileType from 'file-type';
 import globby from 'globby';
 import Zip from 'adm-zip';
 import {Book} from '@icarus/shared';
@@ -9,6 +10,16 @@ import {isImageExtension} from '../utils/image';
 import ShelfReader from './ShelfReader';
 
 export default class FileSystemReader implements ShelfReader {
+    async isLocationAvailable(location: string): Promise<boolean> {
+        try {
+            const fileType = await FileType.fromFile(location);
+            return fileType?.mime === 'application/zip';
+        }
+        catch {
+            return false;
+        }
+    }
+
     async readListAtLocation(location: string): Promise<string[]> {
         const list = await globby(`${location}/*.zip`);
         return list;

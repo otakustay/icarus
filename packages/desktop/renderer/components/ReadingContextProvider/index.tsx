@@ -7,20 +7,6 @@ const DEFAULT_FILTER: ReadingFilter = {
     tagNames: [],
 };
 
-const DEFAULT_BOOK: Book = {
-    name: '',
-    imagesCount: 0,
-    size: 0,
-    createTime: (new Date(0)).toISOString(),
-};
-
-const DEFAULT_IMAGE: Image = {
-    name: '',
-    width: 0,
-    height: 0,
-    content: '',
-};
-
 const TotalCountContext = createContext(0);
 TotalCountContext.displayName = 'TotalCountContext';
 
@@ -36,10 +22,10 @@ ImageIndexContext.displayName = 'ImageIndexContext';
 const ReadingFilterContext = createContext(DEFAULT_FILTER);
 ReadingFilterContext.displayName = 'ReadingFilterContext';
 
-const BookContext = createContext(DEFAULT_BOOK);
+const BookContext = createContext<Book | null>(null);
 BookContext.displayName = 'BookContext';
 
-const ImageContext = createContext(DEFAULT_IMAGE);
+const ImageContext = createContext<Image | null>(null);
 ImageContext.displayName = 'ImageContext';
 
 const SetContext = createContext<(value: ReadingContent) => void>(R.always(undefined));
@@ -61,8 +47,8 @@ export default function ReadingContextProvider({children}: Props) {
     const [bookIndex, setBookIndex] = useState(0);
     const [imageIndex, setImageIndex] = useState(0);
     const [readingFilter, setReadingFilter] = useState(DEFAULT_FILTER);
-    const [book, setBook] = useState(DEFAULT_BOOK);
-    const [image, setImage] = useState(DEFAULT_IMAGE);
+    const [book, setBook] = useState<Book | null>(null);
+    const [image, setImage] = useState<Image | null>(null);
     const [layoutType, setLayoutType] = useState<LayoutType>('topBottom');
     const setReadingContent = useCallback(
         (content: ReadingContent) => {
@@ -112,9 +98,29 @@ export const useReadingImageIndex = () => useContext(ImageIndexContext);
 
 export const useReadingFilter = () => useContext(ReadingFilterContext);
 
-export const useReadingBook = () => useContext(BookContext);
+export const useReadingBookUnsafe = () => useContext(BookContext);
 
-export const useReadingImage = () => useContext(ImageContext);
+export const useReadingBook = () => {
+    const book = useReadingBookUnsafe();
+
+    if (!book) {
+        throw new Error('No currently reading book');
+    }
+
+    return book;
+};
+
+export const useReadingImageUnsafe = () => useContext(ImageContext);
+
+export const useReadingImage = () => {
+    const image = useReadingImageUnsafe();
+
+    if (!image) {
+        throw new Error('No currently reading image');
+    }
+
+    return image;
+};
 
 export const useSetReadingContent = () => useContext(SetContext);
 

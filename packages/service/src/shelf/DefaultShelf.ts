@@ -49,122 +49,68 @@ export default class DefaultShelf {
 
     async moveImageForward(): Promise<void> {
         const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
-        const move = async (bookIndex: number, imageIndex: number): Promise<void> => {
-            const bookLocation = bookLocations[bookIndex];
+        const bookLocation = bookLocations[bookIndex];
+        try {
             const currentBook = await this.readBookInfo(bookLocation);
-
-            // 当前的本子里没有下一张图片了，换到下一本试试，这里可能`moveBookForward`就因为没有下一本而抛异常
-            if (imageIndex >= currentBook.imagesCount) {
-                await this.moveBookForward();
-                const {cursor} = await this.readActiveReadingState();
-                await move(cursor.bookIndex, 0);
-                return;
+            if (imageIndex < currentBook.imagesCount - 1) {
+                await this.readingStateStore.moveCursor(bookIndex, imageIndex + 1);
             }
-
-            // 试着读一下图片，能读出来就成功，不然再往后走
-            try {
-                await this.extractor.readEntryAt(bookLocation, imageIndex);
-                await this.readingStateStore.moveCursor(bookIndex, imageIndex);
+            else {
+                throw new Error('No previosu image');
             }
-            catch {
-                await move(bookIndex, imageIndex + 1);
+        }
+        catch {
+            if (bookIndex < bookLocations.length - 1) {
+                await this.readingStateStore.moveCursor(bookIndex + 1, 0);
             }
-        };
-        await move(bookIndex, imageIndex + 1);
+            else {
+                throw new Error('No more image to read');
+            }
+        }
     }
 
     async moveImageBackward(): Promise<void> {
         const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
-        const move = async (bookIndex: number, imageIndex: number): Promise<void> => {
-            const bookLocation = bookLocations[bookIndex];
 
-            // 当前的本子里没有上一张图片了，换到上一本试试，这里可能`moveBookBackward`就因为没有上一本而抛异常
-            if (imageIndex < 0) {
-                await this.moveBookBackward();
-                const {cursor} = await this.readActiveReadingState();
-                const book = await this.readCurrentBook();
-                await move(cursor.bookIndex, book.imagesCount - 1);
-                return;
-            }
-
-            // 试着读一下图片，能读出来就成功，不然再往前走
+        if (imageIndex > 0) {
+            await this.readingStateStore.moveCursor(bookIndex, imageIndex - 1);
+        }
+        else if (bookIndex > 0) {
+            const previousBookIndex = bookIndex - 1;
+            const previousBookLoation = bookLocations[previousBookIndex];
             try {
-                await this.extractor.readEntryAt(bookLocation, imageIndex);
-                await this.readingStateStore.moveCursor(bookIndex, imageIndex);
+                const previousBook = await this.readBookInfo(previousBookLoation);
+                await this.readingStateStore.moveCursor(previousBookIndex, previousBook.imagesCount - 1);
             }
             catch {
-                await move(bookIndex, imageIndex - 1);
+                await this.readingStateStore.moveCursor(previousBookIndex, 0);
             }
-        };
-        await move(bookIndex, imageIndex - 1);
+        }
+        else {
+            throw new Error('No more image to read');
+        }
     }
 
     async moveBookForward(): Promise<void> {
         const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
-        const move = async (index: number): Promise<void> => {
-            if (index < 0 || index >= bookLocations.length) {
-                throw new Error(`Cannot move book forward to index ${index}`);
-            }
+        const nextBookIndex = bookIndex + 1;
 
-            const location = bookLocations[index];
-            try {
-                await this.readBookInfo(location);
-                await this.readingStateStore.moveCursor(index, 0);
-            }
-            catch {
-                await move(index + 1);
-            }
-        };
-        await move(bookIndex + 1);
+        if (nextBookIndex < 0 || nextBookIndex >= bookLocations.length) {
+            throw new Error(`Cannot move to book at index ${nextBookIndex}`);
+        }
+
+        await this.readingStateStore.moveCursor(nextBookIndex, 0);
     }
 
     async moveBookBackward(): Promise<void> {
         const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
-        const move = async (index: number): Promise<void> => {
-            if (index < 0 || index >= bookLocations.length) {
-                throw new Error(`Cannot move book backward to index ${index}`);
-            }
+        const nextBookIndex = bookIndex - 1;
 
-            const location = bookLocations[index];
-            try {
-                await this.readBookInfo(location);
-                await this.readingStateStore.moveCursor(index, 0);
-            }
-            catch {
-                await move(index - 1);
-            }
-        };
-        await move(bookIndex - 1);
-    }
-
-    async moveCursor(bookIndex: number, imageIndex: number): Promise<void> {
-        const throwBookIndexError = () => {
-            throw new Error(`Cannot move to book at index ${bookIndex}`);
-        };
-        const throwImageIndexError = () => {
-            throw new Error(`Cannot move to image at index ${imageIndex}`);
-        };
-
-        if (bookIndex < 0) {
-            throwBookIndexError();
-        }
-        if (imageIndex < 0) {
-            throwImageIndexError();
+        if (nextBookIndex < 0 || nextBookIndex >= bookLocations.length) {
+            throw new Error(`Cannot move to book at index ${nextBookIndex}`);
         }
 
-        const {bookLocations} = await this.readActiveReadingState();
-
-        if (bookIndex >= bookLocations.length) {
-            throwBookIndexError();
-        }
-
-        const {imagesCount} = await this.readBookInfo(bookLocations[bookIndex]);
-
-        if (imageIndex >= imagesCount) {
-            throwImageIndexError();
-        }
-
-        await this.readingStateStore.moveCursor(bookIndex, imageIndex);
+        await this.readingStateStore.moveCursor(nextBookIndex, 0);
     }
 
     async applyFilter(filter: ReadingFilter): Promise<void> {
@@ -191,19 +137,12 @@ export default class DefaultShelf {
     }
 
     async readCurrentContent(): Promise<ReadingContent> {
-        // 因为有可能刚打开的时候就有本子或图片有问题，此时是没有一个“向前”或者“向后”的操作的，所以要读一下试试，不行往后走
-        try {
-            const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
-            const [state, book, image] = await Promise.all(parts);
-            return {state, book, image};
-        }
-        catch {
-            await this.moveImageForward();
-            return this.readCurrentContent();
-        }
+        const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
+        const [state, book, image] = await Promise.all(parts);
+        return {state, book, image};
     }
 
-    private async readCurrentBook(): Promise<Book> {
+    private async readCurrentBook(): Promise<Book | null> {
         const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
 
         if (bookIndex < 0 || bookIndex >= bookLocations.length) {
@@ -211,14 +150,31 @@ export default class DefaultShelf {
         }
 
         const location = bookLocations[bookIndex];
-        return this.readBookInfo(location);
+        const isAvailable = await this.reader.isLocationAvailable(location);
+
+        if (!isAvailable) {
+            return null;
+        }
+
+        try {
+            const book = await this.readBookInfo(location);
+            return book;
+        }
+        catch {
+            return null;
+        }
     }
 
-    private async readCurrentImage(): Promise<Image> {
+    private async readCurrentImage(): Promise<Image | null> {
         const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
         const location = bookLocations[bookIndex];
-        const content = await this.extractor.readEntryAt(location, imageIndex);
-        return constructImageInfo(content.entryName, content.contentBuffer);
+        try {
+            const content = await this.extractor.readEntryAt(location, imageIndex);
+            return constructImageInfo(content.entryName, content.contentBuffer);
+        }
+        catch {
+            return null;
+        }
     }
 
     private async readState(): Promise<ShelfState> {

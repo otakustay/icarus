@@ -3,6 +3,18 @@ import FileSystemReader from '../FileSystemReader';
 
 const fixture = (name: string, extension = '.zip') => path.join(__dirname, 'fixtures', name + extension);
 
+test('available pass zip', async () => {
+    const reader = new FileSystemReader();
+    const available = await reader.isLocationAvailable(fixture('empty'));
+    expect(available).toBe(true);
+});
+
+test('available forbid non zip', async () => {
+    const reader = new FileSystemReader();
+    const available = await reader.isLocationAvailable(fixture('text', '.txt'));
+    expect(available).toBe(false);
+});
+
 test('list', async () => {
     const reader = new FileSystemReader();
     const list = await reader.readListAtLocation(path.join(__dirname, 'fixtures'));

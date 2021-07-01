@@ -12,7 +12,7 @@ const Layout = styled.li<ActiveProps>`
     border-radius: 4px;
     background-color: ${({active}) => (active ? '#74a201' : '#444')};
     color: ${({active}) => (active ? '#fff' : '#cacaca')};
-    cursor: default;
+    cursor: cursor;
 
     &:hover {
         background-color: #525252;
