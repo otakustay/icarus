@@ -1,7 +1,6 @@
 import {ReactNode} from 'react';
 import {IoImagesOutline} from 'react-icons/io5';
 import FullSizeWarn from '@/components/FullSizeWarn';
-import ipc from '@/ipc/navigate';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {
     KEY_NEXT_BOOK,
@@ -17,11 +16,13 @@ import {
     useReadingImageIndex,
     useSetReadingContent,
 } from '../ReadingContextProvider';
+import {useRemote} from '../RemoteContextProvider';
 
 function BookBroken() {
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();
     const setReadingContent = useSetReadingContent();
+    const {navigate: ipc} = useRemote();
     // 代替图片阅读的功能，要把前后移动的快捷键绑好。因为这里没有图片，所以快捷键均绑到图片粒度
     useGlobalShortcut(
         [...KEY_NEXT_IMAGE, ...KEY_NEXT_STEP],
@@ -51,6 +52,7 @@ export default function BookReadableGuard({children}: Props) {
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();
     const setReadingContent = useSetReadingContent();
+    const {navigate: ipc} = useRemote();
     // 如果不能读本子，就把所有往后阅读的快捷键都绑到移本子上去
     useGlobalShortcut(
         KEY_NEXT_BOOK,

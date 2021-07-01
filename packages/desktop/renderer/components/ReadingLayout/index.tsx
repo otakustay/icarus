@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import {Direction} from '@icarus/shared';
 import ImageView from '@/components/ImageView';
 import TagList from '@/components/TagList';
-import ipc from '@/ipc/navigate';
 import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '../ReadingContextProvider';
+import {useRemote} from '../RemoteContextProvider';
 import BookReadableGuard from './BookReadableGuard';
 
 const Layout = styled.div`
@@ -19,6 +19,7 @@ export default function ReadingLayout() {
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();
     const setReadingContent = useSetReadingContent();
+    const {navigate: ipc} = useRemote();
     const navigateImage = useCallback(
         async (direction: Direction) => {
             const request = direction === 'forward' ? ipc.nextImage : ipc.previousImage;
@@ -32,7 +33,7 @@ export default function ReadingLayout() {
                 console.log(ex.message);
             }
         },
-        [bookIndex, imageIndex, setReadingContent]
+        [bookIndex, imageIndex, ipc.nextImage, ipc.previousImage, setReadingContent]
     );
 
     return (

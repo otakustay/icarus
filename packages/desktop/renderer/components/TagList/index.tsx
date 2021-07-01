@@ -1,9 +1,9 @@
 import {useEffect, useState, useRef, useMemo, useCallback} from 'react';
 import styled from 'styled-components';
 import {IoFileTrayOutline} from 'react-icons/io5';
-import ipc from '@/ipc/tag';
 import FullSizeWarn from '@/components/FullSizeWarn';
 import {useReadingBook} from '../ReadingContextProvider';
+import {useRemote} from '../RemoteContextProvider';
 import Row from './Row';
 import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
@@ -25,6 +25,7 @@ export default function TagList() {
     const latestBookNameRef = useRef(book.name);
     const [allTagNames, setAllTagNames] = useState<string[]>([]);
     const [activeTagNames, setActiveTagNames] = useState(new Set<string>());
+    const {tag: ipc} = useRemote();
     const request = useCallback(
         async () => {
             latestBookNameRef.current = book.name;
@@ -34,7 +35,7 @@ export default function TagList() {
                 setActiveTagNames(new Set(activeTagNames));
             }
         },
-        [book.name]
+        [book.name, ipc]
     );
     const groups = useMemo(
         () => {
@@ -54,7 +55,7 @@ export default function TagList() {
             await ipc.applyToBook({bookName: book.name, tagName: name, active: !activeTagNames.has(name)});
             await request();
         },
-        [activeTagNames, book.name, request]
+        [activeTagNames, book.name, ipc, request]
     );
     useEffect(
         () => {

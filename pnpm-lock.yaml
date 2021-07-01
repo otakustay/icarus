@@ -20,6 +20,7 @@ importers:
       '@huse/boolean': ^1.1.1
       '@huse/document-event': ^1.1.0
       '@huse/element-size': ^1.1.0
+      '@huse/intended-lazy': ^1.1.1
       '@icarus/layout': 1.0.0
       '@icarus/service': 1.0.0
       '@icarus/shared': 1.0.0
@@ -56,6 +57,7 @@ importers:
       '@huse/boolean': 1.1.1_react@17.0.2
       '@huse/document-event': 1.1.0_react@17.0.2
       '@huse/element-size': 1.1.0_react@17.0.2
+      '@huse/intended-lazy': 1.1.1_react@17.0.2
       '@icarus/layout': link:../layout
       '@icarus/service': link:../service
       '@icarus/shared': link:../shared
@@ -2269,6 +2271,14 @@ packages:
       '@huse/effect-ref': 1.1.0_react@17.0.2
       react: 17.0.2
       resize-detector: 0.2.2
+    dev: false
+
+  /@huse/intended-lazy/1.1.1_react@17.0.2:
+    resolution: {integrity: sha512-/wRDhEZ70MC1rihMrETJ1jJsV71sbcTWo8c1D/WC+WC3jv53PqVVtDnHf3SE/BZgpZM/Pt7n2XkEB12wqYCgvQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /@huse/methods/1.2.1_react@17.0.2:

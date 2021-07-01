@@ -2,8 +2,11 @@ import {useCallback} from 'react';
 import styled from 'styled-components';
 import DropZone from '@/components/DropZone';
 import ReadingContextProvider, {useSetReadingContent, useTotalBooksCount} from '@/components/ReadingContextProvider';
+import FailureContextProvider from '@/components/FailureContextProvider';
+import RemoteContextProvider, {useRemote} from '@/components/RemoteContextProvider';
 import ReadingLayout from '@/components/ReadingLayout';
-import ipc from '@/ipc/open';
+import FailureToast from '@/components/FailureToast';
+import PendingIndicator from '@/components/PendingIndicator';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_RESTORE} from '@/dicts/keyboard';
 import GlobalStyle from './GlobalStyle';
@@ -16,12 +19,13 @@ const Root = styled.div`
 function AppContent() {
     const totalCount = useTotalBooksCount();
     const setReadingContent = useSetReadingContent();
+    const {open: ipc} = useRemote();
     const openDirectory = useCallback(
         async (location: string) => {
             const content = await ipc.openDirectory(location);
             setReadingContent(content);
         },
-        [setReadingContent]
+        [ipc, setReadingContent]
     );
     useGlobalShortcut(
         KEY_RESTORE,
@@ -41,9 +45,15 @@ export default function App() {
         <>
             <GlobalStyle />
             <Root>
-                <ReadingContextProvider>
-                    <AppContent />
-                </ReadingContextProvider>
+                <FailureContextProvider>
+                    <ReadingContextProvider>
+                        <RemoteContextProvider>
+                            <AppContent />
+                            <PendingIndicator />
+                        </RemoteContextProvider>
+                    </ReadingContextProvider>
+                    <FailureToast />
+                </FailureContextProvider>
             </Root>
         </>
     );
