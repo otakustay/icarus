@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Layout = styled.div`
     position: fixed;
     background-color: #525252;
-    z-index: 10;
+    z-index: 20;
 
     @media (orientation: portrait) {
         bottom: 0;

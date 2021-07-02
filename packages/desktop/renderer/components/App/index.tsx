@@ -19,7 +19,6 @@ const Root = styled.div`
 // TODO: 全屏功能
 // TODO: 打开指定文件
 // TODO: 打开、恢复功能始终有效
-// TODO: 本子、图片进度显示，包括当前时间
 // TODO: 无本子时的界面显示
 
 function AppContent() {
