@@ -1,6 +1,8 @@
 import {ComputeLayout} from './interface';
 import {calculateOneStepTransform, calculateCenteredTranslate} from './utils';
 
+// TODO: 如果缩放到不考虑`overlap`可以一屏放下，就放一屏
+
 // 智能上下两步式布局
 //
 // 此布局目标为采用1-2步完成一页漫画的阅读，其逻辑如下：
