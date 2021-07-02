@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import FlexCenter from '@/components/FlexCenter';
 import {TagStateGroup} from './interface';
 import Item from './Item';
+import {INITIAL_LETTER_BACKGROUND_COLOR, INITIAL_LETTER_WIDTH} from './dicts';
 
 const Layout = styled.div`
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr 30px;
+    grid-template-columns: 1fr ${INITIAL_LETTER_WIDTH};
 `;
 
 const List = styled.ol`
@@ -22,7 +23,7 @@ const List = styled.ol`
 const Letter = styled(FlexCenter)`
     height: 100%;
     font-size: 20px;
-    background-color: #4b545d;
+    background-color: ${INITIAL_LETTER_BACKGROUND_COLOR};
     color: #fff;
 `;
 

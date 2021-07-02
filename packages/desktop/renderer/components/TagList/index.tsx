@@ -6,11 +6,19 @@ import StatusContextProvider from './StatusContextProvider';
 import Row from './Row';
 import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
+import {INITIAL_LETTER_BACKGROUND_COLOR, INITIAL_LETTER_WIDTH} from './dicts';
 
+// 背景色保持和`Row`右边放首字母的一条一样的背景色和宽度
 const Layout = styled.div`
     width: 100%;
     height: 100%;
     overflow: auto;
+    background-image: linear-gradient(
+        to left,
+        ${INITIAL_LETTER_BACKGROUND_COLOR},
+        ${INITIAL_LETTER_BACKGROUND_COLOR} ${INITIAL_LETTER_WIDTH},
+        transparent  ${INITIAL_LETTER_WIDTH}
+    );
 `;
 
 interface TagStateGroup {
@@ -41,7 +49,6 @@ export default function TagList({disabled = false, showEmpty, tagNames, activeTa
         [activeTagNames, tagNames]
     );
 
-    // TODO: 前缀不多的话占不满高度，右边的色条会比较奇怪的
     return (
         <Layout>
             <StatusContextProvider disabled={disabled}>
