@@ -8,10 +8,9 @@ import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
 
 const Layout = styled.div`
+    width: 100%;
+    height: 100%;
     overflow: auto;
-    display: flex;
-    flex-direction: column;
-    background-color: #353535;
 `;
 
 interface TagStateGroup {
@@ -42,6 +41,7 @@ export default function TagList({disabled, showEmpty, tagNames, activeTagNames, 
         [activeTagNames, tagNames]
     );
 
+    // TODO: 前缀不多的话占不满高度，右边的色条会比较奇怪的
     return (
         <Layout>
             <StatusContextProvider disabled={disabled}>

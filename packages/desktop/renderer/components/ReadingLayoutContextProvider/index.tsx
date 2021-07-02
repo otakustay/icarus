@@ -11,7 +11,7 @@ const ReadContext = createContext<ReadingLayout>(DEFAULT_VALUE);
 ReadContext.displayName = 'LayoutContext';
 
 interface WriteContextValue {
-    toggleTagList: () => void;
+    toggleTagList: (value?: boolean) => void;
 }
 
 const DEFAULT_WRITE_VALUE: WriteContextValue = {
@@ -30,8 +30,8 @@ export default function LayoutContextProvider({children}: Props) {
     const [layout, setLayout] = useState<ReadingLayout>(() => ({...DEFAULT_VALUE, timingStart: Date.now()}));
     const methods = useMemo(
         () => {
-            const toggleBy = (key: keyof ReadingLayout) => {
-                return () => setLayout(s => ({...s, [key]: !s[key]}));
+            const toggleBy = (key: keyof ReadingLayout) => (value?: boolean) => {
+                setLayout(s => ({...s, [key]: typeof value === 'boolean' ? value : !s[key]}));
             };
             const methods: WriteContextValue = {
                 toggleTagList: toggleBy('hasTagList'),

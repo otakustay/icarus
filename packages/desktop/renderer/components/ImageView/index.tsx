@@ -9,7 +9,6 @@ import FullSizeWarn from '@/components/FullSizeWarn';
 import Content from './Content';
 
 const Container = styled.div`
-    flex: 1;
     height: 100%;
     overflow: hidden;
 `;

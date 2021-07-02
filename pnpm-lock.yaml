@@ -18,6 +18,7 @@ importers:
       '@electron-forge/maker-dmg': ^6.0.0-beta.57
       '@electron-forge/plugin-webpack': 6.0.0-beta.57
       '@huse/boolean': ^1.1.1
+      '@huse/click-outside': ^1.1.0
       '@huse/document-event': ^1.1.0
       '@huse/element-size': ^1.1.0
       '@huse/intended-lazy': ^1.1.1
@@ -35,6 +36,7 @@ importers:
       '@types/ramda': ^0.27.41
       '@types/react': ^17.0.11
       '@types/react-dom': ^17.0.8
+      '@types/react-transition-group': ^4.4.1
       '@types/styled-components': ^5.1.10
       '@vercel/webpack-asset-relocator-loader': ^1.5.0
       bunyan: ^1.8.15
@@ -47,6 +49,7 @@ importers:
       react: ^17.0.2
       react-dom: ^17.0.2
       react-icons: ^4.2.0
+      react-transition-group: ^4.4.2
       styled-components: ^5.3.0
       stylelint: ^13.13.1
       ts-loader: ^9.2.2
@@ -56,6 +59,7 @@ importers:
       winston-daily-rotate-file: ^4.5.5
     dependencies:
       '@huse/boolean': 1.1.1_react@17.0.2
+      '@huse/click-outside': 1.1.0_react@17.0.2
       '@huse/document-event': 1.1.0_react@17.0.2
       '@huse/element-size': 1.1.0_react@17.0.2
       '@huse/intended-lazy': 1.1.1_react@17.0.2
@@ -71,6 +75,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-icons: 4.2.0_react@17.0.2
+      react-transition-group: 4.4.2_react-dom@17.0.2+react@17.0.2
       styled-components: 5.3.0_react-dom@17.0.2+react@17.0.2
       winston: 3.3.3
       winston-daily-rotate-file: 4.5.5_winston@3.3.3
@@ -87,6 +92,7 @@ importers:
       '@types/ramda': 0.27.41
       '@types/react': 17.0.11
       '@types/react-dom': 17.0.8
+      '@types/react-transition-group': 4.4.1
       '@types/styled-components': 5.1.10
       '@vercel/webpack-asset-relocator-loader': 1.5.0
       electron: 13.1.4
@@ -1657,7 +1663,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.7
-    dev: true
 
   /@babel/template/7.14.5:
     resolution: {integrity: sha512-6Z3Po85sfxRGachLULUhOmvAaOo7xCvqGQtxINai2mEGPFm6pQ4z5QInFnUrRpfoSV60BnjyF5F3c+15fxFV1g==}
@@ -2246,6 +2251,15 @@ packages:
       react: '>=16.8.0'
     dependencies:
       '@huse/methods': 1.2.1_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@huse/click-outside/1.1.0_react@17.0.2:
+    resolution: {integrity: sha512-y25pTEaUdOXBNckr/C8pJ7xNhXf9+WLhxmfxc3dZ76rP0LifBbPf0rLBKx0hmH2XY9d/AOLSoQ6ot+UrihGCpg==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      '@huse/document-event': 1.1.0_react@17.0.2
       react: 17.0.2
     dev: false
 
@@ -3306,8 +3320,22 @@ packages:
       '@types/react': 17.0.11
     dev: true
 
+  /@types/react-transition-group/4.4.1:
+    resolution: {integrity: sha512-vIo69qKKcYoJ8wKCJjwSgCTM+z3chw3g18dkrDfVX665tMH7tmbDxEAnPdey4gTlwZz5QuHGzd+hul0OVZDqqQ==}
+    dependencies:
+      '@types/react': 17.0.13
+    dev: true
+
   /@types/react/17.0.11:
     resolution: {integrity: sha512-yFRQbD+whVonItSk7ZzP/L+gPTJVBkL/7shLEF+i9GC/1cV3JmUxEQz6+9ylhUpWSDuqo1N9qEvqS6vTj4USUA==}
+    dependencies:
+      '@types/prop-types': 15.7.3
+      '@types/scheduler': 0.16.1
+      csstype: 3.0.8
+    dev: true
+
+  /@types/react/17.0.13:
+    resolution: {integrity: sha512-D/G3PiuqTfE3IMNjLn/DCp6umjVCSvtZTPdtAFy5+Ved6CsdRvivfKeCzw79W4AatShtU4nGqgvOv5Gro534vQ==}
     dependencies:
       '@types/prop-types': 15.7.3
       '@types/scheduler': 0.16.1
@@ -5074,7 +5102,6 @@ packages:
 
   /csstype/3.0.8:
     resolution: {integrity: sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==}
-    dev: true
 
   /currently-unhandled/0.4.1:
     resolution: {integrity: sha1-mI3zP+qxke95mmE2nddsF635V+o=}
@@ -5333,6 +5360,13 @@ packages:
     dependencies:
       utila: 0.4.0
     dev: true
+
+  /dom-helpers/5.2.1:
+    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
+    dependencies:
+      '@babel/runtime': 7.14.6
+      csstype: 3.0.8
+    dev: false
 
   /dom-serializer/0.2.2:
     resolution: {integrity: sha512-2/xPb3ORsQ42nHYiSunXkDjPLBaEj/xTwUO4B7XCZQTRk7EBtTOPaygh10YAAh2OI1Qrp6NWfpAhzswj0ydt9g==}
@@ -10378,7 +10412,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /proto-list/1.2.4:
     resolution: {integrity: sha1-IS1b/hMYMGpCD2QCuOJv85ZHqEk=}
@@ -10536,6 +10569,20 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /react-transition-group/4.4.2_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==}
+    peerDependencies:
+      react: '>=16.6.0'
+      react-dom: '>=16.6.0'
+    dependencies:
+      '@babel/runtime': 7.14.6
+      dom-helpers: 5.2.1
+      loose-envify: 1.4.0
+      prop-types: 15.7.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
   /react/17.0.2:
     resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
     engines: {node: '>=0.10.0'}
@@ -10669,7 +10716,6 @@ packages:
 
   /regenerator-runtime/0.13.7:
     resolution: {integrity: sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==}
-    dev: true
 
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}

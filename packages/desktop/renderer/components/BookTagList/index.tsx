@@ -1,16 +1,11 @@
-import styled from 'styled-components';
-import {IoFileTrayOutline} from 'react-icons/io5';
-import FullSizeWarn from '@/components/FullSizeWarn';
+import {useRef} from 'react';
+import {CSSTransition} from 'react-transition-group';
+import {useClickOutside} from '@huse/click-outside';
 import {useReadingBookUnsafe} from '@/components/ReadingContextProvider';
 import TagList from '@/components/TagList';
+import {useTagListVisible, useToggleTagList} from '@/components/ReadingLayoutContextProvider';
 import {useBookTagData, useToggleTagActive} from './hooks';
-
-const Layout = styled.div`
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    background-color: #353535;
-`;
+import Layout from './Layout';
 
 // TODO: 标签推荐功能
 // TODO: 新建标签
@@ -20,25 +15,25 @@ interface Props {
 }
 
 export default function BookTagList({disabled}: Props) {
+    const tagListVisible = useTagListVisible();
+    const setTagListVisible = useToggleTagList();
     const book = useReadingBookUnsafe();
+    const ref = useRef<HTMLDivElement>(null);
     const [{allTagNames, activeTagNames}, reloadTagData, pending] = useBookTagData(book?.name);
     const toggleTagActive = useToggleTagActive(book?.name, reloadTagData);
+    useClickOutside(ref, () => setTagListVisible(false));
 
     return (
-        <Layout>
-            {
-                allTagNames.length || pending
-                    ? (
-                        <TagList
-                            disabled={disabled}
-                            showEmpty={!pending}
-                            tagNames={allTagNames}
-                            activeTagNames={activeTagNames}
-                            onTagActiveChange={toggleTagActive}
-                        />
-                    )
-                    : <FullSizeWarn icon={<IoFileTrayOutline />} description="还没有任何标签" />
-            }
-        </Layout>
+        <CSSTransition in={tagListVisible} timeout={300} classNames="book-tag-list">
+            <Layout ref={ref}>
+                <TagList
+                    disabled={disabled}
+                    showEmpty={!pending}
+                    tagNames={allTagNames}
+                    activeTagNames={activeTagNames}
+                    onTagActiveChange={toggleTagActive}
+                />
+            </Layout>
+        </CSSTransition>
     );
 }
