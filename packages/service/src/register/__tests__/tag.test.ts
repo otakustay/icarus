@@ -91,3 +91,23 @@ test('remove tag error', async () => {
     expect(context.errorType).toBe('server');
     expect(context.errorCode).toBe('TAG_WRITE_FAIL');
 });
+
+test('suggest tags', async () => {
+    const context = await registerAndExecute(
+        'GET',
+        urls.tagSuggestion,
+        {bookName: 'book1'}
+    );
+    expect(context.hasError).toBe(false);
+    expect(context.response).toEqual(['tag1', 'tag2', 'tag3', 'tag4', 'tag5']);
+});
+
+test('suggest tags error', async () => {
+    const context = await registerAndExecute(
+        'GET',
+        urls.tagSuggestion,
+        {bookName: 'error'}
+    );
+    expect(context.hasError).toBe(false);
+    expect(context.response).toEqual([]);
+});

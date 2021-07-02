@@ -290,6 +290,27 @@ test('list tags', async () => {
     await shelf.close();
 });
 
+test('suggest tags', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    const suggested = await shelf.suggestTags('book2', 5);
+    expect(suggested).toEqual(['tag2']);
+});
+
+test('suggest tags trim', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    const suggested = await shelf.suggestTags('book2', 0);
+    expect(suggested.length).toBe(0);
+});
+
+test('suggest tags book not found', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    const suggested = await shelf.suggestTags('book4', 5);
+    expect(suggested.length).toBe(0);
+});
+
 test('apply tag filter', async () => {
     const {shelf, tagRelationStore} = newShelf();
     await shelf.open();

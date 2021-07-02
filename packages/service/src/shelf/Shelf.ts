@@ -15,6 +15,7 @@ export default interface Shelf {
     moveBookBackward(): Promise<void>;
     applyFilter(filter: ReadingFilter): Promise<void>;
     listTags(): Promise<string[]>;
+    suggestTags(bookName: string, maxCount: number): Promise<string[]>;
     findTagsByBook(bookName: string): Promise<string[]>;
     applyTagToBook(bookName: string, tagName: string, active: boolean): Promise<void>;
     readCurrentContent(): Promise<ReadingContent>;

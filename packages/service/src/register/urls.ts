@@ -7,7 +7,8 @@ const urls = {
     previousBook: '/books/:bookIndex/siblings/PREVIOUS',
     filter: '/filter',
     tags: '/tags',
-    tagsByBook: '/tags/:bookName',
+    tagsByBook: '/books/:bookName/tags',
+    tagSuggestion: '/books/:bookName/tags/suggests',
 } as const;
 
 export default urls;

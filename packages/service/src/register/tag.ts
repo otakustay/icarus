@@ -1,6 +1,8 @@
 import {RouteRegistry} from './interface';
 import urls from './urls';
 
+const MAX_SUGGESTED_TAG = 10;
+
 interface Params {
     bookName: string;
 }
@@ -66,6 +68,19 @@ export default (registry: RouteRegistry) => {
                         : `Unable to detach tag ${tagName} from ${bookName}`,
                     ex
                 );
+            }
+        }
+    );
+    registry.get(
+        urls.tagSuggestion,
+        async context => {
+            const {bookName} = context.params as Params;
+            try {
+                const suggests = await context.shelf.suggestTags(bookName, MAX_SUGGESTED_TAG);
+                context.success(suggests);
+            }
+            catch {
+                context.success([]);
             }
         }
     );

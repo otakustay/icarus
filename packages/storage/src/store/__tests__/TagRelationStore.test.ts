@@ -109,3 +109,29 @@ test('find tags no book', async () => {
     await store.close();
 });
 
+test('matrix', async () => {
+    const relations: TagRelation[] = [
+        {tagName: 'tag1', bookName: 'book1'},
+        {tagName: 'tag1', bookName: 'book2'},
+        {tagName: 'tag2', bookName: 'book1'},
+    ];
+    const store = newStore(relations);
+    await store.open();
+    const {bookNames, tagNames, matrix} = await store.buildMatrix();
+    expect(bookNames).toEqual(['book1', 'book2']);
+    expect(tagNames).toEqual(['tag1', 'tag2']);
+    const expectedMatrix = [
+        [1, 1],
+        [1, 0],
+    ];
+    expect(matrix).toEqual(expectedMatrix);
+});
+
+test('matrix empty', async () => {
+    const store = newStore();
+    await store.open();
+    const {bookNames, tagNames, matrix} = await store.buildMatrix();
+    expect(bookNames.length).toBe(0);
+    expect(tagNames.length).toBe(0);
+    expect(matrix.length).toBe(0);
+});

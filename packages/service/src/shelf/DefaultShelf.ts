@@ -4,6 +4,7 @@ import ShelfReader from '../reader/ShelfReader';
 import Extractor from '../extractor/Extractor';
 import {extractName} from '../utils/path';
 import {constructImageInfo} from '../utils/image';
+import CollabrativeMatrix from './CollabrativeMatrix';
 
 interface ActiveReadingState extends ReadingState {
     originalBookLocations: string[];
@@ -120,6 +121,19 @@ export default class DefaultShelf {
     async listTags(): Promise<string[]> {
         const tagNames = await this.tagRelationStore.listAllTags();
         return tagNames;
+    }
+
+    async suggestTags(bookName: string, maxCount: number): Promise<string[]> {
+        const {tagNames, bookNames, matrix} = await this.tagRelationStore.buildMatrix();
+        const bookIndex = bookNames.indexOf(bookName);
+
+        if (bookIndex < 0) {
+            return [];
+        }
+
+        const collabrativeMatrix = new CollabrativeMatrix(matrix);
+        const ratings = collabrativeMatrix.filterByUser(bookIndex);
+        return ratings.slice(0, maxCount).map(v => tagNames[v.item]);
     }
 
     async findTagsByBook(bookName: string): Promise<string[]> {

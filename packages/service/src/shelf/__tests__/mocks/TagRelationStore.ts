@@ -1,4 +1,4 @@
-import {TagRelation} from '@icarus/shared';
+import {RelationMatrix, TagRelation} from '@icarus/shared';
 import {TagRelationStore} from '@icarus/storage';
 import NullPersistence from './NullPersistence';
 
@@ -29,5 +29,18 @@ export default class TestTagRelationStore extends TagRelationStore {
     async listBooksByTags(tagNames: string[]): Promise<string[]> {
         const bookNames = this.saved.filter(v => tagNames.includes(v.tagName)).map(v => v.bookName);
         return [...new Set(bookNames)];
+    }
+
+    async buildMatrix(): Promise<RelationMatrix> {
+        return {
+            tagNames: ['tag1', 'tag2', 'tag3'],
+            bookNames: ['book1', 'book2', 'book3'],
+            matrix: [
+                [1, 1, 1],
+                [1, 0, 1],
+                [1, 0, 1],
+                [0, 0, 0],
+            ],
+        };
     }
 }

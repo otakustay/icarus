@@ -56,3 +56,9 @@ export interface Size {
     width: number;
     height: number;
 }
+
+export interface RelationMatrix {
+    bookNames: string[];
+    tagNames: string[];
+    matrix: number[][];
+}

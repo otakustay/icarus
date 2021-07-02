@@ -61,6 +61,14 @@ export default class TestShelf implements Shelf {
         return ['tag1', 'tag2', 'tag3'];
     }
 
+    async suggestTags(bookName: string, maxCount: number): Promise<string[]> {
+        if (bookName.includes('error')) {
+            throw new Error('Unable to suggest tags');
+        }
+
+        return ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'].slice(0, maxCount);
+    }
+
     async findTagsByBook(bookName: string): Promise<string[]> {
         if (bookName.includes('error')) {
             throw new Error('Unable to open tag store');
@@ -116,6 +124,4 @@ export default class TestShelf implements Shelf {
             filter: this.filter,
         };
     }
-
-
 }
