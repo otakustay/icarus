@@ -31,22 +31,31 @@ interface Props {
     showEmpty: boolean;
     tagNames: string[];
     activeTagNames: string[];
+    suggestedTagNames?: string[];
     onTagActiveChange: (tagName: string, active: boolean) => void;
 }
 
-export default function TagList({disabled = false, showEmpty, tagNames, activeTagNames, onTagActiveChange}: Props) {
+export default function TagList(props: Props) {
+    const {disabled = false, showEmpty, tagNames, activeTagNames, suggestedTagNames = [], onTagActiveChange} = props;
     const groups = useMemo(
         () => {
             const groups = groupTagsByLetter(tagNames);
             const injectActiveState = (group: TagGroup): TagStateGroup => {
+                const toTagState = (name: string): TagState => {
+                    return {
+                        name,
+                        active: activeTagNames.includes(name),
+                        suggested: suggestedTagNames.includes(name),
+                    };
+                };
                 return {
                     letter: group.letter,
-                    tags: group.tagNames.map(name => ({name, active: activeTagNames.includes(name)})),
+                    tags: group.tagNames.map(toTagState),
                 };
             };
             return groups.map(injectActiveState);
         },
-        [activeTagNames, tagNames]
+        [activeTagNames, suggestedTagNames, tagNames]
     );
 
     return (

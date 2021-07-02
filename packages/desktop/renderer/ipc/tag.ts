@@ -23,4 +23,11 @@ export default {
         'POST',
         urls.tagsByBook
     ),
+    suggestTags: createInterface<string, string[]>(
+        'GET',
+        urls.tagSuggestion,
+        {
+            processInput: bookName => ({bookName}),
+        }
+    ),
 };

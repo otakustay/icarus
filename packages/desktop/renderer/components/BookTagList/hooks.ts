@@ -7,7 +7,7 @@ export interface BookTagData {
     activeTagNames: string[];
 }
 
-export const useBookTagData = (bookName: string | undefined): [BookTagData, () => Promise<void>, boolean] => {
+export const useBookTagData = (bookName: string | undefined): [BookTagData, () => void, boolean] => {
     const [pendingCount, {inc: startRequest, dec: endRequest}] = useCounter();
     const latestBookNameRef = useRef(bookName);
     const [allTagNames, setAllTagNames] = useState<string[]>([]);
@@ -15,6 +15,11 @@ export const useBookTagData = (bookName: string | undefined): [BookTagData, () =
     const {tag: ipc} = useRemote();
     const request = useCallback(
         async () => {
+            // 换本子的时候把选中的去掉。但这里不能把所有标签给干掉，不然标签列表会有闪烁
+            if (bookName !== latestBookNameRef.current) {
+                setActiveTagNames([]);
+            }
+
             latestBookNameRef.current = bookName;
             const listActive = () => (bookName ? ipc.tagsByBook(bookName) : Promise.resolve([]));
             startRequest();
@@ -25,7 +30,7 @@ export const useBookTagData = (bookName: string | undefined): [BookTagData, () =
                     setActiveTagNames(activeTagNames);
                 }
             }
-            catch {
+            finally {
                 endRequest();
             }
         },
@@ -45,16 +50,46 @@ export const useBookTagData = (bookName: string | undefined): [BookTagData, () =
     ];
 };
 
-export const useToggleTagActive = (bookName: string | undefined, onComplete: () => Promise<void>) => {
+export const useToggleTagActive = (bookName: string | undefined, onComplete: () => void) => {
     const {tag: ipc} = useRemote();
     const toggleTagActive = useCallback(
         async (tagName: string, active: boolean) => {
             if (bookName) {
                 await ipc.applyToBook({bookName, tagName, active});
-                await onComplete();
+                onComplete();
             }
         },
         [bookName, ipc, onComplete]
     );
     return toggleTagActive;
+};
+
+export const useSuggestedTagNames = (bookName: string | undefined): [string[], () => void] => {
+    const latestBookNameRef = useRef(bookName);
+    const [suggestedTagNames, setSuggestedTagNames] = useState<string[]>([]);
+    const {tag: ipc} = useRemote();
+    const request = useCallback(
+        async () => {
+            // 换本子的时候把推荐的去掉
+            if (bookName !== latestBookNameRef.current) {
+                setSuggestedTagNames([]);
+            }
+
+            latestBookNameRef.current = bookName;
+            const listSuggested = () => (bookName ? ipc.suggestTags(bookName) : Promise.resolve([]));
+            const suggestedTagNames = await listSuggested();
+            if (bookName === latestBookNameRef.current) {
+                setSuggestedTagNames(suggestedTagNames);
+            }
+        },
+        [bookName, ipc]
+    );
+    useEffect(
+        () => {
+            request();
+        },
+        [request]
+    );
+
+    return [suggestedTagNames, request];
 };
