@@ -1,8 +1,6 @@
 import {createElement, useEffect, useRef} from 'react';
-import {IoSkullOutline} from 'react-icons/io5';
 import styled from 'styled-components';
-import {useGlobalFailure, useSetGlobalFailure} from '../FailureContextProvider';
-import knownErrors from './knownErrors';
+import {useToast, useSetToast} from '@/components/ToastContextProvider';
 
 const FAILURE_NOTIFY_TIME_MS = 1000 * 3;
 
@@ -16,18 +14,19 @@ const Layout = styled.aside`
     height: 48px;
     padding: 0 24px;
     font-size: 16px;
-    background-color: #353535;
+    border-radius: 8px;
+    background-color: rgba(53, 53, 53, .7);
     color: #fff;
     transition: opacity .6s linear;
 `;
 
-export default function FailureToast() {
-    const failure = useGlobalFailure();
-    const setFailure = useSetGlobalFailure();
+export default function Toast() {
+    const {icon, message} = useToast();
+    const setToast = useSetToast();
     const ref = useRef<HTMLDivElement>(null);
     useEffect(
         () => {
-            if (!failure) {
+            if (!message) {
                 return;
             }
 
@@ -41,7 +40,7 @@ export default function FailureToast() {
                         ],
                         {duration: 150}
                     );
-                    animation.current?.addEventListener('finish', () => setFailure(null));
+                    animation.current?.addEventListener('finish', () => setToast(icon, ''));
                 },
                 FAILURE_NOTIFY_TIME_MS
             );
@@ -50,19 +49,16 @@ export default function FailureToast() {
                 animation.current?.cancel();
             };
         },
-        [failure, setFailure]
+        [setToast, icon, message]
     );
 
-    if (!failure) {
+    if (!message) {
         return null;
     }
 
-    const formatted = knownErrors(failure) ?? '虽然不知道发生了什么，总之有个错误';
-    const [iconType, message] = typeof formatted === 'string' ? [IoSkullOutline, formatted] : formatted;
-
     return (
         <Layout ref={ref}>
-            {createElement(iconType)}
+            {createElement(icon)}
             <span>{message}</span>
         </Layout>
     );

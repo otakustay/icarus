@@ -1,5 +1,5 @@
 import styled, {keyframes} from 'styled-components';
-import {useRemotePending} from '../RemoteContextProvider';
+import {useRemotePending} from '@/components/RemoteContextProvider';
 
 const loadingKeyframes = keyframes`
     from {

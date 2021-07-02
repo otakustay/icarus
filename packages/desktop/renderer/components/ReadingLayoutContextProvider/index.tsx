@@ -2,7 +2,12 @@ import {useState, useMemo, useContext, createContext, ReactNode} from 'react';
 import * as R from 'ramda';
 import {ReadingLayout} from '@/interface/layout';
 
-const ReadContext = createContext<ReadingLayout>({hasTagList: false});
+const DEFAULT_VALUE: ReadingLayout = {
+    hasTagList: false,
+    timingStart: Date.now(),
+};
+
+const ReadContext = createContext<ReadingLayout>(DEFAULT_VALUE);
 ReadContext.displayName = 'LayoutContext';
 
 interface WriteContextValue {
@@ -21,7 +26,8 @@ interface Props {
 }
 
 export default function LayoutContextProvider({children}: Props) {
-    const [layout, setLayout] = useState<ReadingLayout>({hasTagList: false});
+    // 从可以阅读的时刻开始重置计时
+    const [layout, setLayout] = useState<ReadingLayout>(() => ({...DEFAULT_VALUE, timingStart: Date.now()}));
     const methods = useMemo(
         () => {
             const toggleBy = (key: keyof ReadingLayout) => {
@@ -45,5 +51,7 @@ export default function LayoutContextProvider({children}: Props) {
 }
 
 export const useTagListVisible = () => useContext(ReadContext).hasTagList;
+
+export const useTimingStart = () => useContext(ReadContext).timingStart;
 
 export const useToggleTagList = () => useContext(WriteContext).toggleTagList;

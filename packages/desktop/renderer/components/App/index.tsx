@@ -2,10 +2,10 @@ import {useCallback} from 'react';
 import styled from 'styled-components';
 import DropZone from '@/components/DropZone';
 import ReadingContextProvider, {useSetReadingContent, useTotalBooksCount} from '@/components/ReadingContextProvider';
-import FailureContextProvider from '@/components/FailureContextProvider';
+import ToastContextProvider from '@/components/ToastContextProvider';
 import RemoteContextProvider, {useRemote} from '@/components/RemoteContextProvider';
 import ReadingLayout from '@/components/ReadingLayout';
-import FailureToast from '@/components/FailureToast';
+import Toast from '@/components/Toast';
 import PendingIndicator from '@/components/PendingIndicator';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_RESTORE} from '@/dicts/keyboard';
@@ -19,8 +19,7 @@ const Root = styled.div`
 // TODO: 全屏功能
 // TODO: 打开指定文件
 // TODO: 打开、恢复功能始终有效
-// TODO: 计时器
-// TODO: 本子、图片进度显示
+// TODO: 本子、图片进度显示，包括当前时间
 // TODO: 标签过滤
 
 function AppContent() {
@@ -52,15 +51,15 @@ export default function App() {
         <>
             <GlobalStyle />
             <Root>
-                <FailureContextProvider>
+                <ToastContextProvider>
                     <ReadingContextProvider>
                         <RemoteContextProvider>
                             <AppContent />
                             <PendingIndicator />
                         </RemoteContextProvider>
                     </ReadingContextProvider>
-                    <FailureToast />
-                </FailureContextProvider>
+                    <Toast />
+                </ToastContextProvider>
             </Root>
         </>
     );

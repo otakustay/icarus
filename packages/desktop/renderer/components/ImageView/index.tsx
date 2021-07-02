@@ -4,8 +4,8 @@ import {Direction} from '@icarus/shared';
 import {useElementSize} from '@huse/element-size';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_NEXT_IMAGE, KEY_PREVIOUS_IMAGE} from '@/dicts/keyboard';
-import {useLayoutType, useReadingBook, useReadingImageUnsafe} from '../ReadingContextProvider';
-import FullSizeWarn from '../FullSizeWarn';
+import {useLayoutType, useReadingBook, useReadingImageUnsafe} from '@/components/ReadingContextProvider';
+import FullSizeWarn from '@/components/FullSizeWarn';
 import Content from './Content';
 
 const Container = styled.div`
