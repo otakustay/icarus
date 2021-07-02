@@ -11,6 +11,7 @@ import {
     KEY_PREVIOUS_STEP,
 } from '@/dicts/keyboard';
 import {
+    useActiveBooksCount,
     useReadingBookIndex,
     useReadingBookUnsafe,
     useReadingImageIndex,
@@ -53,6 +54,7 @@ interface Props {
 }
 
 export default function BookReadableGuard({children}: Props) {
+    const activeBooksCount = useActiveBooksCount();
     const readingBook = useReadingBookUnsafe();
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();
@@ -76,11 +78,11 @@ export default function BookReadableGuard({children}: Props) {
     );
 
     return (
-        <BookLayout isBookReadable={!!readingBook}>
+        <BookLayout isBookReadable={!!readingBook && !!activeBooksCount}>
             {
                 readingBook
                     ? (readingBook.imagesCount ? children : <BookBroken description="当前本子没有任何图片" />)
-                    : <BookBroken description="当前本子无法访问或已损坏" />
+                    : <BookBroken description={activeBooksCount ? '当前本子无法访问或已损坏' : '没有任何可看的本子'} />
             }
         </BookLayout>
     );

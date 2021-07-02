@@ -49,6 +49,33 @@ test('read state', async () => {
     expect(state.filter.tagNames.length).toBe(0);
 });
 
+test('read state no book', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openBooks([]);
+    const {state, book, image} = await shelf.readCurrentContent();
+    expect(state.activeBooksCount).toBe(0);
+    expect(state.totalBooksCount).toBe(0);
+    expect(state.cursor.bookIndex).toBe(0);
+    expect(state.cursor.imageIndex).toBe(0);
+    expect(book).toBe(null);
+    expect(image).toBe(null);
+});
+
+test('read state no active book', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openBooks(['/test/book1.zip']);
+    await shelf.applyFilter({tagNames: ['tag1']});
+    const {state, book, image} = await shelf.readCurrentContent();
+    expect(state.activeBooksCount).toBe(0);
+    expect(state.totalBooksCount).toBe(1);
+    expect(state.cursor.bookIndex).toBe(0);
+    expect(state.cursor.imageIndex).toBe(0);
+    expect(book).toBe(null);
+    expect(image).toBe(null);
+});
+
 test('filter tag', async () => {
     const {shelf, readingStateStore, tagRelationStore} = newShelf();
     await shelf.open();
@@ -83,8 +110,10 @@ test('save to book store when not exists', async () => {
 });
 
 test('read out of range error', async () => {
-    const {shelf} = newShelf();
+    const {shelf, readingStateStore} = newShelf();
     await shelf.open();
+    await shelf.openBooks(['/test/book1.zip']);
+    await readingStateStore.moveCursor(1, 0);
     await expect(() => shelf.readCurrentContent()).rejects.toThrow();
 });
 

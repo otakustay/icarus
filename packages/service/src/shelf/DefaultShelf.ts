@@ -145,6 +145,10 @@ export default class DefaultShelf {
     private async readCurrentBook(): Promise<Book | null> {
         const {bookLocations, cursor: {bookIndex}} = await this.readActiveReadingState();
 
+        if (!bookLocations.length) {
+            return null;
+        }
+
         if (bookIndex < 0 || bookIndex >= bookLocations.length) {
             throw new Error('Current book index out of range');
         }
@@ -167,6 +171,11 @@ export default class DefaultShelf {
 
     private async readCurrentImage(): Promise<Image | null> {
         const {bookLocations, cursor: {bookIndex, imageIndex}} = await this.readActiveReadingState();
+
+        if (!bookLocations.length) {
+            return null;
+        }
+
         const location = bookLocations[bookIndex];
         try {
             const content = await this.extractor.readEntryAt(location, imageIndex);

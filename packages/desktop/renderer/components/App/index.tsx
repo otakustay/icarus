@@ -1,8 +1,9 @@
 import {useCallback} from 'react';
 import styled from 'styled-components';
+import {IoBookOutline} from 'react-icons/io5';
 import DropZone from '@/components/DropZone';
 import ReadingContextProvider, {useSetReadingContent, useTotalBooksCount} from '@/components/ReadingContextProvider';
-import ToastContextProvider from '@/components/ToastContextProvider';
+import ToastContextProvider, {useSetToast} from '@/components/ToastContextProvider';
 import RemoteContextProvider, {useRemote} from '@/components/RemoteContextProvider';
 import ReadingLayout from '@/components/ReadingLayout';
 import Toast from '@/components/Toast';
@@ -19,18 +20,24 @@ const Root = styled.div`
 // TODO: 全屏功能
 // TODO: 打开指定文件
 // TODO: 打开、恢复功能始终有效
-// TODO: 无本子时的界面显示
 
 function AppContent() {
     const totalCount = useTotalBooksCount();
     const setReadingContent = useSetReadingContent();
     const {open: ipc} = useRemote();
+    const setToast = useSetToast();
     const openDirectory = useCallback(
         async (location: string) => {
             const content = await ipc.openDirectory(location);
-            setReadingContent(content);
+
+            if (content.state.totalBooksCount) {
+                setReadingContent(content);
+            }
+            else {
+                setToast(IoBookOutline, '找不到可看的本子呢');
+            }
         },
-        [ipc, setReadingContent]
+        [ipc, setReadingContent, setToast]
     );
     useGlobalShortcut(
         KEY_RESTORE,
