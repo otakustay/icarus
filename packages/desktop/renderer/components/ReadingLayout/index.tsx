@@ -2,8 +2,6 @@ import ReadingLayoutContextProvider from '@/components/ReadingLayoutContextProvi
 import Content from './Content';
 import BookReadableGuard from './BookReadableGuard';
 
-// TODO: 标签列表悬浮显示
-
 export default function ReadingLayout() {
     return (
         <ReadingLayoutContextProvider>

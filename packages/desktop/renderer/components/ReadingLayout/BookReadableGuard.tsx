@@ -19,7 +19,11 @@ import {
 import {useRemote} from '@/components/RemoteContextProvider';
 import BookLayout from './BookLayout';
 
-function BookBroken() {
+interface BrokenProps {
+    description: string;
+}
+
+function BookBroken({description}: BrokenProps) {
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();
     const setReadingContent = useSetReadingContent();
@@ -41,7 +45,7 @@ function BookBroken() {
         }
     );
 
-    return <FullSizeWarn size={160} icon={<IoImagesOutline />} description="当前本子无法访问或已损坏" />;
+    return <FullSizeWarn size={160} icon={<IoImagesOutline />} description={description} />;
 }
 
 interface Props {
@@ -71,10 +75,13 @@ export default function BookReadableGuard({children}: Props) {
         }
     );
 
-    // TODO: 书里没有图片时给特别提示
     return (
         <BookLayout isBookReadable={!!readingBook}>
-            {readingBook ? children : <BookBroken />}
+            {
+                readingBook
+                    ? (readingBook.imagesCount ? children : <BookBroken description="当前本子没有任何图片" />)
+                    : <BookBroken description="当前本子无法访问或已损坏" />
+            }
         </BookLayout>
     );
 }
