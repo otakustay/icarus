@@ -17,3 +17,5 @@ export const KEY_TOGGLE_TAG_LIST = ['T'];
 export const KEY_DISPLAY_TIMING = ['C'];
 
 export const KEY_TOGGLE_FILTER = ['U', 'Z'];
+
+export const KEY_TOGGLE_FULLSCREEN = ['F'];

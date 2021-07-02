@@ -7,7 +7,7 @@ import ReadingLayout from '@/components/ReadingLayout';
 import Toast from '@/components/Toast';
 import PendingIndicator from '@/components/PendingIndicator';
 import {useGlobalShortcut} from '@/hooks/shortcut';
-import {KEY_RESTORE} from '@/dicts/keyboard';
+import {KEY_RESTORE, KEY_TOGGLE_FULLSCREEN} from '@/dicts/keyboard';
 import GlobalStyle from './GlobalStyle';
 import {useDrop, useOpen} from './hooks';
 
@@ -15,8 +15,6 @@ const Root = styled.div`
     width: 100vw;
     height: 100vh;
 `;
-
-// TODO: 全屏功能
 
 function AppContent() {
     const totalCount = useTotalBooksCount();
@@ -29,6 +27,17 @@ function AppContent() {
         async () => {
             const content = await ipc.restore();
             setReadingContent(content);
+        }
+    );
+    useGlobalShortcut(
+        KEY_TOGGLE_FULLSCREEN,
+        () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            else {
+                document.documentElement.requestFullscreen();
+            }
         }
     );
 
