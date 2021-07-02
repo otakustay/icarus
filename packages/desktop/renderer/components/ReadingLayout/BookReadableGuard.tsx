@@ -15,8 +15,9 @@ import {
     useReadingBookUnsafe,
     useReadingImageIndex,
     useSetReadingContent,
-} from '../ReadingContextProvider';
-import {useRemote} from '../RemoteContextProvider';
+} from '@/components/ReadingContextProvider';
+import {useRemote} from '@/components/RemoteContextProvider';
+import BookLayout from './BookLayout';
 
 function BookBroken() {
     const bookIndex = useReadingBookIndex();
@@ -70,5 +71,10 @@ export default function BookReadableGuard({children}: Props) {
         }
     );
 
-    return readingBook ? <>{children}</> : <BookBroken />;
+    // TODO: 书里没有图片时给特别提示
+    return (
+        <BookLayout isBookReadable={!!readingBook}>
+            {readingBook ? children : <BookBroken />}
+        </BookLayout>
+    );
 }

@@ -21,6 +21,7 @@ importers:
       '@huse/document-event': ^1.1.0
       '@huse/element-size': ^1.1.0
       '@huse/intended-lazy': ^1.1.1
+      '@huse/number': ^1.2.1
       '@icarus/layout': 1.0.0
       '@icarus/service': 1.0.0
       '@icarus/shared': 1.0.0
@@ -58,6 +59,7 @@ importers:
       '@huse/document-event': 1.1.0_react@17.0.2
       '@huse/element-size': 1.1.0_react@17.0.2
       '@huse/intended-lazy': 1.1.1_react@17.0.2
+      '@huse/number': 1.2.1_react@17.0.2
       '@icarus/layout': link:../layout
       '@icarus/service': link:../service
       '@icarus/shared': link:../shared
@@ -2289,6 +2291,15 @@ packages:
       immer: 8.0.4
       react: 17.0.2
       use-immer: 0.4.2_immer@8.0.4+react@17.0.2
+    dev: false
+
+  /@huse/number/1.2.1_react@17.0.2:
+    resolution: {integrity: sha512-0s5FrgQS/JgwnV7FEVrokz2O5/Xn8vjcUMdfPEbhviO8vtI9KIdQi4HYw233Yt3cLmh+w3Ido3kMscmGZ1NjDw==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      '@huse/methods': 1.2.1_react@17.0.2
+      react: 17.0.2
     dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:

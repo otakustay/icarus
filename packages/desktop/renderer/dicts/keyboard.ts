@@ -11,3 +11,5 @@ export const KEY_PREVIOUS_IMAGE = ['H', 'W'];
 export const KEY_NEXT_BOOK = ['N', 'E'];
 
 export const KEY_PREVIOUS_BOOK = ['P', 'Q'];
+
+export const KEY_TOGGLE_TAG_LIST = ['T'];

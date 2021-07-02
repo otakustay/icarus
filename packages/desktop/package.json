@@ -21,6 +21,7 @@
     "@huse/document-event": "^1.1.0",
     "@huse/element-size": "^1.1.0",
     "@huse/intended-lazy": "^1.1.1",
+    "@huse/number": "^1.2.1",
     "@icarus/layout": "1.0.0",
     "@icarus/service": "1.0.0",
     "@icarus/shared": "1.0.0",

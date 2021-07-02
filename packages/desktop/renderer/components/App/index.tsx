@@ -16,6 +16,13 @@ const Root = styled.div`
     height: 100vh;
 `;
 
+// TODO: 全屏功能
+// TODO: 打开指定文件
+// TODO: 打开、恢复功能始终有效
+// TODO: 计时器
+// TODO: 本子、图片进度显示
+// TODO: 标签过滤
+
 function AppContent() {
     const totalCount = useTotalBooksCount();
     const setReadingContent = useSetReadingContent();

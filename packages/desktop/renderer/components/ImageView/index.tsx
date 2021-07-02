@@ -27,6 +27,7 @@ export default function ImageView({onNavigate}: Props) {
     useGlobalShortcut(KEY_PREVIOUS_IMAGE, () => onNavigate('backward'));
 
     if (!image) {
+        // TODO: 图片损坏时把前一下、下一步注册到图片移动上去
         return <FullSizeWarn size={100} icon={<IoImageOutline />} description="当前图片已损坏" />;
     }
 

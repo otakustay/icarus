@@ -1,12 +1,13 @@
-import {useEffect, useState, useRef, useMemo, useCallback} from 'react';
+import {useMemo} from 'react';
 import styled from 'styled-components';
 import {IoFileTrayOutline} from 'react-icons/io5';
 import FullSizeWarn from '@/components/FullSizeWarn';
-import {useReadingBook} from '../ReadingContextProvider';
-import {useRemote} from '../RemoteContextProvider';
+import {useReadingBookUnsafe} from '@/components/ReadingContextProvider';
+import StatusContextProvider from './StatusContextProvider';
 import Row from './Row';
 import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
+import {useBookTagData, useToggleTagActive} from './hooks';
 
 const Layout = styled.div`
     overflow: auto;
@@ -20,23 +21,17 @@ interface TagStateGroup {
     tags: TagState[];
 }
 
-export default function TagList() {
-    const book = useReadingBook();
-    const latestBookNameRef = useRef(book.name);
-    const [allTagNames, setAllTagNames] = useState<string[]>([]);
-    const [activeTagNames, setActiveTagNames] = useState(new Set<string>());
-    const {tag: ipc} = useRemote();
-    const request = useCallback(
-        async () => {
-            latestBookNameRef.current = book.name;
-            const [activeTagNames, allTagNames] = await Promise.all([ipc.tagsByBook(book.name), ipc.listAll()]);
-            if (book.name === latestBookNameRef.current) {
-                setAllTagNames(allTagNames);
-                setActiveTagNames(new Set(activeTagNames));
-            }
-        },
-        [book.name, ipc]
-    );
+// TODO: 标签推荐功能
+// TODO: 新建标签
+
+interface Props {
+    disabled: boolean;
+}
+
+export default function TagList({disabled}: Props) {
+    const book = useReadingBookUnsafe();
+    const [{allTagNames, activeTagNames}, reloadTagData, pending] = useBookTagData(book?.name);
+    const toggleTagActive = useToggleTagActive(book?.name, {active: activeTagNames, onComplete: reloadTagData});
     const groups = useMemo(
         () => {
             const groups = groupTagsByLetter(allTagNames);
@@ -50,31 +45,16 @@ export default function TagList() {
         },
         [activeTagNames, allTagNames]
     );
-    const toggleTagActive = useCallback(
-        async (name: string) => {
-            await ipc.applyToBook({bookName: book.name, tagName: name, active: !activeTagNames.has(name)});
-            await request();
-        },
-        [activeTagNames, book.name, ipc, request]
-    );
-    useEffect(
-        () => {
-            request();
-        },
-        [request]
-    );
-
-    if (!allTagNames.length) {
-        return (
-            <Layout>
-                <FullSizeWarn icon={<IoFileTrayOutline />} description="还没有任何标签" />
-            </Layout>
-        );
-    }
 
     return (
         <Layout>
-            {groups.map(v => <Row key={v.letter} {...v} onItemClick={toggleTagActive} />)}
+            <StatusContextProvider disabled={disabled}>
+                {
+                    groups.length || pending
+                        ? groups.map(v => <Row key={v.letter} {...v} onItemClick={toggleTagActive} />)
+                        : <FullSizeWarn icon={<IoFileTrayOutline />} description="还没有任何标签" />
+                }
+            </StatusContextProvider>
         </Layout>
     );
 }

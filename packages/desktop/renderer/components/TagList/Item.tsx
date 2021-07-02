@@ -1,18 +1,20 @@
 import {useCallback} from 'react';
 import styled from 'styled-components';
 import {TagState} from './interface';
+import {useTagListDisabled} from './StatusContextProvider';
 
-interface ActiveProps {
+interface LabelProps {
     active: boolean;
+    disabled: boolean;
 }
 
-const Layout = styled.li<ActiveProps>`
+const Layout = styled.li<LabelProps>`
     padding: 4px 8px;
     font-size: 12px;
     border-radius: 4px;
     background-color: ${({active}) => (active ? '#74a201' : '#444')};
     color: ${({active}) => (active ? '#fff' : '#cacaca')};
-    cursor: pointer;
+    cursor: ${({disabled}) => (disabled ? 'not-allowed' : 'pointer')};
 
     &:hover {
         background-color: #525252;
@@ -26,10 +28,11 @@ interface Props extends TagState {
 }
 
 export default function TagItem({name, active, onClick}: Props) {
+    const disabled = useTagListDisabled();
     const click = useCallback(
         () => onClick(name),
         [name, onClick]
     );
 
-    return <Layout active={active} onClick={click}>{name}</Layout>;
+    return <Layout active={active} disabled={disabled} onClick={disabled ? undefined : click}>{name}</Layout>;
 }
