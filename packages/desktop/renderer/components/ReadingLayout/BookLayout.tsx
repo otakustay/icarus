@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import styled from 'styled-components';
 import {IoTimerOutline} from 'react-icons/io5';
-import TagList from '@/components/TagList';
+import BookTagList from '@/components/BookTagList';
 import {useTagListVisible, useTimingStart, useToggleTagList} from '@/components/ReadingLayoutContextProvider';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_DISPLAY_TIMING, KEY_TOGGLE_TAG_LIST} from '@/dicts/keyboard';
@@ -54,7 +54,7 @@ export default function BookLayout({children, isBookReadable}: Props) {
     return (
         <Grid tagListVisible={tagListVisible}>
             {children}
-            {tagListVisible && <TagList disabled={!isBookReadable} />}
+            {tagListVisible && <BookTagList disabled={!isBookReadable} />}
         </Grid>
     );
 }

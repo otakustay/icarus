@@ -27,14 +27,14 @@ const Letter = styled(FlexCenter)`
 `;
 
 interface Props extends TagStateGroup {
-    onItemClick: (name: string) => void;
+    onTagActiveChange: (tagName: string, active: boolean) => void;
 }
 
-export default function TagRow({letter, tags, onItemClick}: Props) {
+export default function TagRow({letter, tags, onTagActiveChange}: Props) {
     return (
         <Layout>
             <List>
-                {tags.map(v => <Item key={v.name} {...v} onClick={onItemClick} />)}
+                {tags.map(v => <Item key={v.name} {...v} onActiveChange={onTagActiveChange} />)}
             </List>
             <Letter>{letter}</Letter>
         </Layout>

@@ -2,12 +2,10 @@ import {useMemo} from 'react';
 import styled from 'styled-components';
 import {IoFileTrayOutline} from 'react-icons/io5';
 import FullSizeWarn from '@/components/FullSizeWarn';
-import {useReadingBookUnsafe} from '@/components/ReadingContextProvider';
 import StatusContextProvider from './StatusContextProvider';
 import Row from './Row';
 import {groupTagsByLetter, TagGroup} from './utils';
 import {TagState} from './interface';
-import {useBookTagData, useToggleTagActive} from './hooks';
 
 const Layout = styled.div`
     overflow: auto;
@@ -21,37 +19,35 @@ interface TagStateGroup {
     tags: TagState[];
 }
 
-// TODO: 标签推荐功能
-// TODO: 新建标签
-
 interface Props {
     disabled: boolean;
+    showEmpty: boolean;
+    tagNames: string[];
+    activeTagNames: string[];
+    onTagActiveChange: (tagName: string, active: boolean) => void;
 }
 
-export default function TagList({disabled}: Props) {
-    const book = useReadingBookUnsafe();
-    const [{allTagNames, activeTagNames}, reloadTagData, pending] = useBookTagData(book?.name);
-    const toggleTagActive = useToggleTagActive(book?.name, {active: activeTagNames, onComplete: reloadTagData});
+export default function TagList({disabled, showEmpty, tagNames, activeTagNames, onTagActiveChange}: Props) {
     const groups = useMemo(
         () => {
-            const groups = groupTagsByLetter(allTagNames);
+            const groups = groupTagsByLetter(tagNames);
             const injectActiveState = (group: TagGroup): TagStateGroup => {
                 return {
                     letter: group.letter,
-                    tags: group.tagNames.map(name => ({name, active: activeTagNames.has(name)})),
+                    tags: group.tagNames.map(name => ({name, active: activeTagNames.includes(name)})),
                 };
             };
             return groups.map(injectActiveState);
         },
-        [activeTagNames, allTagNames]
+        [activeTagNames, tagNames]
     );
 
     return (
         <Layout>
             <StatusContextProvider disabled={disabled}>
                 {
-                    groups.length || pending
-                        ? groups.map(v => <Row key={v.letter} {...v} onItemClick={toggleTagActive} />)
+                    groups.length || !showEmpty
+                        ? groups.map(v => <Row key={v.letter} {...v} onTagActiveChange={onTagActiveChange} />)
                         : <FullSizeWarn icon={<IoFileTrayOutline />} description="还没有任何标签" />
                 }
             </StatusContextProvider>

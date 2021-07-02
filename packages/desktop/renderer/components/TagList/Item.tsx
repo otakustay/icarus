@@ -24,14 +24,14 @@ const Layout = styled.li<LabelProps>`
 `;
 
 interface Props extends TagState {
-    onClick: (name: string) => void;
+    onActiveChange: (name: string, active: boolean) => void;
 }
 
-export default function TagItem({name, active, onClick}: Props) {
+export default function TagItem({name, active, onActiveChange}: Props) {
     const disabled = useTagListDisabled();
     const click = useCallback(
-        () => onClick(name),
-        [name, onClick]
+        () => onActiveChange(name, !active),
+        [name, active, onActiveChange]
     );
 
     return <Layout active={active} disabled={disabled} onClick={disabled ? undefined : click}>{name}</Layout>;
