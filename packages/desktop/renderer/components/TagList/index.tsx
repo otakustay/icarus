@@ -19,14 +19,14 @@ interface TagStateGroup {
 }
 
 interface Props {
-    disabled: boolean;
+    disabled?: boolean;
     showEmpty: boolean;
     tagNames: string[];
     activeTagNames: string[];
     onTagActiveChange: (tagName: string, active: boolean) => void;
 }
 
-export default function TagList({disabled, showEmpty, tagNames, activeTagNames, onTagActiveChange}: Props) {
+export default function TagList({disabled = false, showEmpty, tagNames, activeTagNames, onTagActiveChange}: Props) {
     const groups = useMemo(
         () => {
             const groups = groupTagsByLetter(tagNames);

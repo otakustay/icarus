@@ -4,18 +4,23 @@ import {ReadingLayout} from '@/interface/layout';
 
 const DEFAULT_VALUE: ReadingLayout = {
     hasTagList: false,
+    hasFilter: false,
     timingStart: Date.now(),
 };
 
 const ReadContext = createContext<ReadingLayout>(DEFAULT_VALUE);
 ReadContext.displayName = 'LayoutContext';
 
+type Toggle = (value?: boolean) => void;
+
 interface WriteContextValue {
-    toggleTagList: (value?: boolean) => void;
+    toggleTagList: Toggle;
+    toggleFilter: Toggle;
 }
 
 const DEFAULT_WRITE_VALUE: WriteContextValue = {
     toggleTagList: R.always(undefined),
+    toggleFilter: R.always(undefined),
 };
 
 const WriteContext = createContext(DEFAULT_WRITE_VALUE);
@@ -35,6 +40,7 @@ export default function LayoutContextProvider({children}: Props) {
             };
             const methods: WriteContextValue = {
                 toggleTagList: toggleBy('hasTagList'),
+                toggleFilter: toggleBy('hasFilter'),
             };
             return methods;
         },
@@ -52,6 +58,10 @@ export default function LayoutContextProvider({children}: Props) {
 
 export const useTagListVisible = () => useContext(ReadContext).hasTagList;
 
+export const useFilterVisible = () => useContext(ReadContext).hasFilter;
+
 export const useTimingStart = () => useContext(ReadContext).timingStart;
 
 export const useToggleTagList = () => useContext(WriteContext).toggleTagList;
+
+export const useToggleFilter = () => useContext(WriteContext).toggleFilter;

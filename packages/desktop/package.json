@@ -23,6 +23,7 @@
     "@huse/element-size": "^1.1.0",
     "@huse/intended-lazy": "^1.1.1",
     "@huse/number": "^1.2.1",
+    "@huse/request": "^1.2.0",
     "@icarus/layout": "1.0.0",
     "@icarus/service": "1.0.0",
     "@icarus/shared": "1.0.0",
@@ -60,7 +61,7 @@
     "node-loader": "^2.0.0",
     "stylelint": "^13.13.1",
     "ts-loader": "^9.2.2",
-    "typescript": "^4.3.4",
+    "typescript": "^4.3.5",
     "webpack": "^5.41.0"
   }
 }

@@ -2,10 +2,11 @@ import {ReactNode} from 'react';
 import {IoTimerOutline} from 'react-icons/io5';
 import BookTagList from '@/components/BookTagList';
 import {useTimingStart, useToggleTagList} from '@/components/ReadingLayoutContextProvider';
+import {useSetToast} from '@/components/ToastContextProvider';
+import Filter from '@/components/Filter';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_DISPLAY_TIMING, KEY_TOGGLE_TAG_LIST} from '@/dicts/keyboard';
 import {formatDuration} from '@/utils/time';
-import {useSetToast} from '../ToastContextProvider';
 
 const useTagList = () => {
     const toggleTagList = useToggleTagList();
@@ -40,6 +41,7 @@ export default function BookLayout({children, isBookReadable}: Props) {
         <>
             {children}
             <BookTagList disabled={!isBookReadable} />
+            <Filter />
         </>
     );
 }

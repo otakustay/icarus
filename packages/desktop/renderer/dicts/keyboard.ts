@@ -15,3 +15,5 @@ export const KEY_PREVIOUS_BOOK = ['P', 'Q'];
 export const KEY_TOGGLE_TAG_LIST = ['T'];
 
 export const KEY_DISPLAY_TIMING = ['C'];
+
+export const KEY_TOGGLE_FILTER = ['U', 'Z'];

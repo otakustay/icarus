@@ -50,6 +50,10 @@ export default class TestShelf implements Shelf {
     }
 
     async applyFilter(filter: ReadingFilter): Promise<void> {
+        if (filter.tagNames.some(v => v.includes('error'))) {
+            throw new Error('Unable to apply filter');
+        }
+
         this.filter = filter;
     }
 

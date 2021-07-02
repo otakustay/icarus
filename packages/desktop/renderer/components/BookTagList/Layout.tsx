@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
 const Layout = styled.div`
-    background-color: #525252;
-    font-size: 24px;
-    color: #fff;
     position: fixed;
-    box-sizing: border-box;
+    background-color: #525252;
+    z-index: 10;
 
     @media (orientation: portrait) {
         bottom: 0;

@@ -3,18 +3,21 @@ import {useIntendedLazyValue} from '@huse/intended-lazy';
 import open from '@/ipc/open';
 import navigate from '@/ipc/navigate';
 import tag from '@/ipc/tag';
+import filter from '@/ipc/filter';
 import {wrapToNotifyPending} from './utils';
 
 interface RemoteContextValue {
     open: typeof open;
     navigate: typeof navigate;
     tag: typeof tag;
+    filter: typeof filter;
 }
 
 const DEFAULT_VALUE: RemoteContextValue = {
     open,
     navigate,
     tag,
+    filter,
 };
 
 const RemotePendingContext = createContext(false);
@@ -40,6 +43,7 @@ export default function RemoteContextProvider({children}: Props) {
                 tag,
                 open: wrapToNotifyPending('open', open, state),
                 navigate: wrapToNotifyPending('navigate', navigate, state),
+                filter: wrapToNotifyPending('filter', filter, state),
             };
             return wrapped;
         },

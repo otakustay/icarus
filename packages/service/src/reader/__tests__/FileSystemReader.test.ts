@@ -15,6 +15,12 @@ test('available forbid non zip', async () => {
     expect(available).toBe(false);
 });
 
+test('available lost', async () => {
+    const reader = new FileSystemReader();
+    const available = await reader.isLocationAvailable(fixture('none-exists'));
+    expect(available).toBe(false);
+});
+
 test('list', async () => {
     const reader = new FileSystemReader();
     const list = await reader.readListAtLocation(path.join(__dirname, 'fixtures'));
