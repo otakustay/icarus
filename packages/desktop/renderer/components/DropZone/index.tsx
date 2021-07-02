@@ -1,8 +1,5 @@
-import {useCallback} from 'react';
 import styled from 'styled-components';
 import {IoBookOutline} from 'react-icons/io5';
-import {useDocumentEvent} from '@huse/document-event';
-import {useSwitch} from '@huse/boolean';
 import FlexCenter from '@/components/FlexCenter';
 
 const Layout = styled(FlexCenter)`
@@ -32,43 +29,15 @@ const Hint = styled(FlexCenter)<HighlightProps>`
 `;
 
 interface Props {
-    onOpenDirectory: (location: string) => void;
+    isDraggingOver: boolean;
 }
 
-export default function DropZone({onOpenDirectory}: Props) {
-    const [accepting, addAccepting, removeAccepting] = useSwitch(false);
-    useDocumentEvent('dragover', e => e.preventDefault());
-    useDocumentEvent('dragenter', addAccepting);
-    useDocumentEvent(
-        'dragleave',
-        e => {
-            if (!e.relatedTarget) {
-                removeAccepting();
-            }
-        }
-    );
-    const drop = useCallback(
-        (e: DragEvent) => {
-            e.stopPropagation();
-            e.preventDefault();
-
-            if (!e.dataTransfer?.files.length) {
-                return;
-            }
-
-            const [file] = e.dataTransfer.files;
-            onOpenDirectory(file.path);
-
-            removeAccepting();
-        },
-        [onOpenDirectory, removeAccepting]
-    );
-    useDocumentEvent('drop', drop);
+export default function DropZone({isDraggingOver}: Props) {
 
     return (
         <Layout>
             <CenterArea>
-                <Hint highlight={accepting}>
+                <Hint highlight={isDraggingOver}>
                     <IoBookOutline />
                     拖动目录或文件至此
                 </Hint>

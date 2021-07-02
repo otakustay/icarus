@@ -1,9 +1,7 @@
-import {useCallback} from 'react';
 import styled from 'styled-components';
-import {IoBookOutline} from 'react-icons/io5';
 import DropZone from '@/components/DropZone';
 import ReadingContextProvider, {useSetReadingContent, useTotalBooksCount} from '@/components/ReadingContextProvider';
-import ToastContextProvider, {useSetToast} from '@/components/ToastContextProvider';
+import ToastContextProvider from '@/components/ToastContextProvider';
 import RemoteContextProvider, {useRemote} from '@/components/RemoteContextProvider';
 import ReadingLayout from '@/components/ReadingLayout';
 import Toast from '@/components/Toast';
@@ -11,6 +9,7 @@ import PendingIndicator from '@/components/PendingIndicator';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_RESTORE} from '@/dicts/keyboard';
 import GlobalStyle from './GlobalStyle';
+import {useDrop, useOpen} from './hooks';
 
 const Root = styled.div`
     width: 100vw;
@@ -18,27 +17,13 @@ const Root = styled.div`
 `;
 
 // TODO: 全屏功能
-// TODO: 打开指定文件
-// TODO: 打开、恢复功能始终有效
 
 function AppContent() {
     const totalCount = useTotalBooksCount();
+    const open = useOpen();
+    const isDraggingOver = useDrop(open);
     const setReadingContent = useSetReadingContent();
     const {open: ipc} = useRemote();
-    const setToast = useSetToast();
-    const openDirectory = useCallback(
-        async (location: string) => {
-            const content = await ipc.openDirectory(location);
-
-            if (content.state.totalBooksCount) {
-                setReadingContent(content);
-            }
-            else {
-                setToast(IoBookOutline, '找不到可看的本子呢');
-            }
-        },
-        [ipc, setReadingContent, setToast]
-    );
     useGlobalShortcut(
         KEY_RESTORE,
         async () => {
@@ -47,9 +32,7 @@ function AppContent() {
         }
     );
 
-    return totalCount
-        ? <ReadingLayout />
-        : <DropZone onOpenDirectory={openDirectory} />;
+    return totalCount ? <ReadingLayout /> : <DropZone isDraggingOver={isDraggingOver} />;
 }
 
 export default function App() {

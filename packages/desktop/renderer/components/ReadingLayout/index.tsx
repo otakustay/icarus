@@ -1,8 +1,9 @@
+import {memo} from 'react';
 import ReadingLayoutContextProvider from '@/components/ReadingLayoutContextProvider';
 import Content from './Content';
 import BookReadableGuard from './BookReadableGuard';
 
-export default function ReadingLayout() {
+function ReadingLayout() {
     return (
         <ReadingLayoutContextProvider>
             <BookReadableGuard>
@@ -11,3 +12,5 @@ export default function ReadingLayout() {
         </ReadingLayoutContextProvider>
     );
 }
+
+export default memo(ReadingLayout);

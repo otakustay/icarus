@@ -1,10 +1,6 @@
 import {ReadingContent} from '@icarus/shared';
-import {urls, OpenByDirectoryBody} from '@icarus/service';
+import {urls, OpenByDirectoryBody, OpenByBooksBody} from '@icarus/service';
 import {createInterface} from './request';
-
-export interface OpenDirectoryRequest {
-    location: string;
-}
 
 export default {
     openDirectory: createInterface<string, ReadingContent>(
@@ -13,6 +9,16 @@ export default {
         {
             processInput: (location: string) => {
                 const params: OpenByDirectoryBody = {location, type: 'directory'};
+                return params;
+            },
+        }
+    ),
+    openBooks: createInterface<string[], ReadingContent>(
+        'POST',
+        urls.shelf,
+        {
+            processInput: (locations: string[]) => {
+                const params: OpenByBooksBody = {locations, type: 'books'};
                 return params;
             },
         }
