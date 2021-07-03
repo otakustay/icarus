@@ -46,13 +46,14 @@ export const createTransition = <T extends StyleProperty>(name: string, definiti
 };
 
 interface DefinedTransitionOverride {
+    name?: string;
     duration?: number;
     timingFunction?: CSSProperties['transitionTimingFunction'];
     defaultToInvisible?: boolean;
 }
 
 export const rightToLeftTransition = (override: DefinedTransitionOverride = {}) => createTransition(
-    'right-to-left',
+    override.name ?? 'right-to-left',
     {
         property: 'transform',
         from: 'translateX(100%)',
@@ -64,7 +65,7 @@ export const rightToLeftTransition = (override: DefinedTransitionOverride = {}) 
 );
 
 export const bottomToTopTransition = (override: DefinedTransitionOverride = {}) => createTransition(
-    'bottom-to-top',
+    override.name ?? 'bottom-to-top',
     {
         property: 'transform',
         from: 'translateY(100%)',
@@ -76,7 +77,7 @@ export const bottomToTopTransition = (override: DefinedTransitionOverride = {}) 
 );
 
 export const topToBottomTransition = (override: DefinedTransitionOverride = {}) => createTransition(
-    'top-to-bottom',
+    override.name ?? 'top-to-bottom',
     {
         property: 'transform',
         from: 'translateY(-100%)',
@@ -88,7 +89,7 @@ export const topToBottomTransition = (override: DefinedTransitionOverride = {}) 
 );
 
 export const fadeTransition = (override: DefinedTransitionOverride = {}) => createTransition(
-    'fade',
+    override.name ?? 'fade',
     {
         property: 'opacity',
         from: 0,

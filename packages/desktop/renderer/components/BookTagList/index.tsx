@@ -31,7 +31,7 @@ export default function BookTagList({disabled}: Props) {
     useClickOutside(ref, () => setTagListVisible(false));
 
     return (
-        <CSSTransition in={tagListVisible} timeout={300} classNames="right-to-left">
+        <CSSTransition in={tagListVisible} timeout={300} classNames="book-tag-list">
             <Layout ref={ref}>
                 <TagList
                     disabled={disabled}

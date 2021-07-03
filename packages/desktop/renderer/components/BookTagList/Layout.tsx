@@ -11,7 +11,7 @@ const Layout = styled.div`
         left: 0;
         right: 0;
         height: 40%;
-        ${bottomToTopTransition()}
+        ${bottomToTopTransition({name: 'book-tag-list'})}
     }
 
     @media (orientation: landscape) {
@@ -19,7 +19,7 @@ const Layout = styled.div`
         bottom: 0;
         right: 0;
         width: 30%;
-        ${rightToLeftTransition()}
+        ${rightToLeftTransition({name: 'book-tag-list'})}
     }
 `;
 
