@@ -26,7 +26,7 @@ function AppContent() {
         KEY_RESTORE,
         async () => {
             const content = await ipc.restore();
-            setReadingContent(content);
+            setReadingContent(content, content.bookNames);
         }
     );
     useGlobalShortcut(

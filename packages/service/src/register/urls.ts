@@ -1,6 +1,6 @@
 const urls = {
     shelf: '/shelf',
-    cursor: '/books/:bookIndex/images/:imageIndex',
+    cursor: '/cursor',
     nextImage: '/books/:bookIndex/images/:imageIndex/siblings/NEXT',
     previousImage: '/books/:bookIndex/images/:imageIndex/siblings/PREVIOUS',
     nextBook: '/books/:bookIndex/siblings/NEXT',

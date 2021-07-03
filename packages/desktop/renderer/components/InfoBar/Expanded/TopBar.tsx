@@ -2,6 +2,7 @@ import {forwardRef, ForwardedRef} from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 import {topToBottomTransition} from '@/utils/transition';
+import BookSelectTrigger from './BookSelectTrigger';
 
 const Layout = styled.aside`
     position: fixed;
@@ -10,17 +11,24 @@ const Layout = styled.aside`
     right: 0;
     z-index: 30;
     height: 30px;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto max-content;
+    grid-auto-flow: column;
+    grid-column-gap: 4px;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
     padding: 0 40px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     background-color: #000;
     color: #ddd;
     ${topToBottomTransition()}
+`;
+
+const BookName = styled.h1`
+    font-size: 14px;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 `;
 
 interface Props {
@@ -31,11 +39,14 @@ interface Props {
 
 function InfoTopBar({forwardedRef, visible, bookName}: Props) {
     return (
-        <CSSTransition in={visible} timeout={300} classNames="top-to-bottom">
-            <Layout ref={forwardedRef}>
-                {bookName}
-            </Layout>
-        </CSSTransition>
+        <>
+            <CSSTransition in={visible} timeout={300} classNames="top-to-bottom">
+                <Layout ref={forwardedRef}>
+                    <BookName>{bookName}</BookName>
+                    <BookSelectTrigger visible={visible} />
+                </Layout>
+            </CSSTransition>
+        </>
     );
 }
 

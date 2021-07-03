@@ -49,12 +49,25 @@ export default class TestShelf implements Shelf {
         this.cursor.bookIndex--;
     }
 
+    async moveCursor(bookIndex: number, imageIndex: number): Promise<void> {
+        if (bookIndex < 0 || imageIndex < 0) {
+            throw new Error('Index out of range');
+        }
+
+        this.cursor.bookIndex = bookIndex;
+        this.cursor.imageIndex = imageIndex;
+    }
+
     async applyFilter(filter: ReadingFilter): Promise<void> {
         if (filter.tagNames.some(v => v.includes('error'))) {
             throw new Error('Unable to apply filter');
         }
 
         this.filter = filter;
+    }
+
+    async listBookNames(): Promise<string[]> {
+        return ['book1', 'book2'];
     }
 
     async listTags(): Promise<string[]> {
@@ -87,11 +100,6 @@ export default class TestShelf implements Shelf {
         const parts = [this.readState(), this.readCurrentBook(), this.readCurrentImage()] as const;
         const [state, book, image] = await Promise.all(parts);
         return {state, book, image};
-    }
-
-    async moveCursor(bookIndex: number, imageIndex: number): Promise<void> {
-        this.cursor.bookIndex = bookIndex;
-        this.cursor.imageIndex = imageIndex;
     }
 
     private async readCurrentBook(): Promise<Book> {

@@ -21,6 +21,7 @@ test('open by directory', async () => {
     expect(context.hasError).toBe(false);
     expect(context.response.book).toBeTruthy();
     expect(context.response.image).toBeTruthy();
+    expect(context.response.bookNames).toEqual(['book1', 'book2']);
 });
 
 test('open by books', async () => {
@@ -29,6 +30,7 @@ test('open by books', async () => {
     expect(context.hasError).toBe(false);
     expect(context.response.book).toBeTruthy();
     expect(context.response.image).toBeTruthy();
+    expect(context.response.bookNames).toEqual(['book1', 'book2']);
 });
 
 test('open by restore', async () => {
@@ -37,6 +39,7 @@ test('open by restore', async () => {
     expect(context.hasError).toBe(false);
     expect(context.response.book).toBeTruthy();
     expect(context.response.image).toBeTruthy();
+    expect(context.response.bookNames).toEqual(['book1', 'book2']);
 });
 
 test('open fail', async () => {

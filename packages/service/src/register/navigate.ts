@@ -1,4 +1,5 @@
 import {noCase} from 'change-case';
+import {ReadingCursor} from '@icarus/shared';
 import {RouteRegistry} from './interface';
 import urls, {ServiceURL} from './urls';
 
@@ -27,4 +28,20 @@ export default (registry: RouteRegistry) => {
     factory(urls.previousImage, 'moveImageBackward');
     factory(urls.nextBook, 'moveBookForward');
     factory(urls.previousBook, 'moveBookBackward');
+
+    registry.post(
+        urls.cursor,
+        async context => {
+            const {bookIndex, imageIndex} = context.body as ReadingCursor;
+
+            try {
+                await context.shelf.moveCursor(bookIndex, imageIndex);
+                const content = await context.shelf.readCurrentContent();
+                context.success(content);
+            }
+            catch {
+                context.error('client', 'MOVE_FAIL', `Cannot move to image ${imageIndex} inside book ${bookIndex}`);
+            }
+        }
+    );
 };

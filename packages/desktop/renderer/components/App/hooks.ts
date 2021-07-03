@@ -2,13 +2,13 @@ import {useCallback} from 'react';
 import {IoBookOutline} from 'react-icons/io5';
 import {useDocumentEvent} from '@huse/document-event';
 import {useSwitch} from '@huse/boolean';
-import {ReadingContent} from '@icarus/shared';
+import {InitialReadingContent} from '@icarus/shared';
 import {useSetReadingContent} from '@/components/ReadingContextProvider';
 import {useRemote} from '@/components/RemoteContextProvider';
 import {useSetToast} from '@/components/ToastContextProvider';
 import ipcOpen from '@/ipc/open';
 
-const openByType = (ipc: typeof ipcOpen, files: string[]): Promise<ReadingContent> => {
+const openByType = (ipc: typeof ipcOpen, files: string[]): Promise<InitialReadingContent> => {
     if (files.length === 1 && !files[0].endsWith('.zip')) {
         const [directory] = files;
         return ipc.openDirectory(directory);
@@ -32,7 +32,7 @@ export const useOpen = () => {
             try {
                 const content = await openByType(ipc, files);
                 if (content.state.totalBooksCount) {
-                    setReadingContent(content);
+                    setReadingContent(content, content.bookNames);
                 }
                 else {
                     throw new Error('No book found');

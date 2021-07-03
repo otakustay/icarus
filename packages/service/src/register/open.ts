@@ -1,4 +1,3 @@
-import {Book, Image, ShelfState} from '@icarus/shared';
 import {RouteRegistry} from './interface';
 import urls from './urls';
 
@@ -16,28 +15,23 @@ export interface OpenByRestoreBody {
     type: 'restore';
 }
 
-export interface OpenResponse {
-    book: Book;
-    image: Image;
-    shelf: ShelfState;
-}
-
 type OpenBody = OpenByDirectoryBody | OpenByBooksBody | OpenByRestoreBody;
 
 export default (registry: RouteRegistry) => registry.post(
     urls.shelf,
     async context => {
+        const shelf = context.shelf;
         const body = context.body as OpenBody;
         if (body.type === 'directory') {
-            await context.shelf.openDirectory(body.location);
+            await shelf.openDirectory(body.location);
         }
         else if (body.type === 'books') {
-            await context.shelf.openBooks(body.locations);
+            await shelf.openBooks(body.locations);
         }
 
         try {
-            const content = await context.shelf.readCurrentContent();
-            await context.success(content);
+            const [content, bookNames] = await Promise.all([shelf.readCurrentContent(), shelf.listBookNames()]);
+            await context.success({...content, bookNames});
         }
         catch (ex) {
             await context.error('client', 'OPEN_FAIL', 'Unable to initialize reading state', ex);

@@ -45,6 +45,10 @@ export interface ReadingContent {
     image: Image | null;
 }
 
+export interface InitialReadingContent extends ReadingContent {
+    bookNames: string[];
+}
+
 export type Direction = 'forward' | 'backward';
 
 export interface TagRelation {

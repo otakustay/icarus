@@ -23,6 +23,7 @@ test('apply tags', async () => {
     expect(context.response.state.filter.tagNames).toEqual(['tag1', 'tag2']);
     expect(context.response.state.cursor.bookIndex).toBe(0);
     expect(context.response.state.cursor.imageIndex).toBe(0);
+    expect(context.response.bookNames).toEqual(['book1', 'book2']);
 });
 
 test('apply filter error', async () => {

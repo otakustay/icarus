@@ -19,4 +19,8 @@ export default {
         'GET',
         urls.previousBook
     ),
+    moveCursor: createInterface<ReadingCursor, ReadingContent>(
+        'POST',
+        urls.cursor
+    ),
 };

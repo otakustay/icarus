@@ -8,9 +8,10 @@ export default (registry: RouteRegistry) => registry.post(
         const body = context.body as ReadingFilter;
 
         try {
-            await context.shelf.applyFilter(body);
-            const content = await context.shelf.readCurrentContent();
-            await context.success(content);
+            const shelf = context.shelf;
+            await shelf.applyFilter(body);
+            const [content, bookNames] = await Promise.all([shelf.readCurrentContent(), shelf.listBookNames()]);
+            await context.success({...content, bookNames});
         }
         catch (ex) {
             await context.error('client', 'OPEN_FAIL', 'Unable to apply filter', ex);

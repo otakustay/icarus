@@ -7,11 +7,11 @@ const DEFAULT_FILTER: ReadingFilter = {
     tagNames: [],
 };
 
+const BookNamesContext = createContext<string[]>([]);
+BookNamesContext.displayName = 'BookNamesContext';
+
 const TotalCountContext = createContext(0);
 TotalCountContext.displayName = 'TotalCountContext';
-
-const ActiveCountContext = createContext(0);
-ActiveCountContext.displayName = 'ActiveCountContext';
 
 const BookIndexContext = createContext(0);
 BookIndexContext.displayName = 'BookIndexContext';
@@ -28,7 +28,7 @@ BookContext.displayName = 'BookContext';
 const ImageContext = createContext<Image | null>(null);
 ImageContext.displayName = 'ImageContext';
 
-const SetContext = createContext<(value: ReadingContent) => void>(R.always(undefined));
+const SetContext = createContext<(value: ReadingContent, bookNames?: string[]) => void>(R.always(undefined));
 SetContext.displayName = 'SetReadingContentContext';
 
 const LayoutTypeContext = createContext<LayoutType>('topBottom');
@@ -43,7 +43,7 @@ interface Props {
 
 export default function ReadingContextProvider({children}: Props) {
     const [totalCount, setTotalCount] = useState(0);
-    const [activeCount, setActiveCount] = useState(0);
+    const [bookNames, setBookNames] = useState<string[]>([]);
     const [bookIndex, setBookIndex] = useState(0);
     const [imageIndex, setImageIndex] = useState(0);
     const [readingFilter, setReadingFilter] = useState(DEFAULT_FILTER);
@@ -51,14 +51,17 @@ export default function ReadingContextProvider({children}: Props) {
     const [image, setImage] = useState<Image | null>(null);
     const [layoutType, setLayoutType] = useState<LayoutType>('topBottom');
     const setReadingContent = useCallback(
-        (content: ReadingContent) => {
+        (content: ReadingContent, bookNames?: string[]) => {
             setTotalCount(content.state.totalBooksCount);
-            setActiveCount(content.state.activeBooksCount);
             setBookIndex(content.state.cursor.bookIndex);
             setImageIndex(content.state.cursor.imageIndex);
             setReadingFilter(content.state.filter);
             setBook(content.book);
             setImage(content.image);
+
+            if (bookNames) {
+                setBookNames(bookNames);
+            }
         },
         []
     );
@@ -68,7 +71,7 @@ export default function ReadingContextProvider({children}: Props) {
             <SetLayoutTypeContext.Provider value={setLayoutType}>
                 <LayoutTypeContext.Provider value={layoutType}>
                     <TotalCountContext.Provider value={totalCount}>
-                        <ActiveCountContext.Provider value={activeCount}>
+                        <BookNamesContext.Provider value={bookNames}>
                             <BookIndexContext.Provider value={bookIndex}>
                                 <ImageIndexContext.Provider value={imageIndex}>
                                     <ReadingFilterContext.Provider value={readingFilter}>
@@ -80,7 +83,7 @@ export default function ReadingContextProvider({children}: Props) {
                                     </ReadingFilterContext.Provider>
                                 </ImageIndexContext.Provider>
                             </BookIndexContext.Provider>
-                        </ActiveCountContext.Provider>
+                        </BookNamesContext.Provider>
                     </TotalCountContext.Provider>
                 </LayoutTypeContext.Provider>
             </SetLayoutTypeContext.Provider>
@@ -90,7 +93,9 @@ export default function ReadingContextProvider({children}: Props) {
 
 export const useTotalBooksCount = () => useContext(TotalCountContext);
 
-export const useActiveBooksCount = () => useContext(ActiveCountContext);
+export const useActiveBooksCount = () => useContext(BookNamesContext).length;
+
+export const useTotalBookNames = () => useContext(BookNamesContext);
 
 export const useReadingBookIndex = () => useContext(BookIndexContext);
 

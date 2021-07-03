@@ -9,6 +9,7 @@ const zoomTransition = createTransition(
         to: 'translate(-50%, -50%) scale(1)',
         duration: 300,
         timingFunction: 'ease-in-out',
+        defaultToInvisible: true,
     }
 );
 

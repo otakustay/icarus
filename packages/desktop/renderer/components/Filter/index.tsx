@@ -23,7 +23,7 @@ const useSubmit = () => {
     const submit = useCallback(
         async (filter: ReadingFilter) => {
             const content = await ipc.applyFilter(filter);
-            setReadingContent(content);
+            setReadingContent(content, content.bookNames);
             toggleFitler(false);
         },
         [ipc, setReadingContent, toggleFitler]

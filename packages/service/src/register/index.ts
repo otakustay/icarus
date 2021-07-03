@@ -6,7 +6,7 @@ import registerFilter from './filter';
 
 export {default as urls, ServiceURL} from './urls';
 export * from './interface';
-export {OpenByBooksBody, OpenByDirectoryBody, OpenByRestoreBody, OpenResponse} from './open';
+export {OpenByBooksBody, OpenByDirectoryBody, OpenByRestoreBody} from './open';
 export {default as DefaultServiceContext} from './DefaultServiceContext';
 
 export const registerService = (registry: RouteRegistry) => {

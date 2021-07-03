@@ -13,7 +13,9 @@ export default interface Shelf {
     moveImageBackward(): Promise<void>;
     moveBookForward(): Promise<void>;
     moveBookBackward(): Promise<void>;
+    moveCursor(bookIndex: number, imageIndex: number): Promise<void>;
     applyFilter(filter: ReadingFilter): Promise<void>;
+    listBookNames(): Promise<string[]>;
     listTags(): Promise<string[]>;
     suggestTags(bookName: string, maxCount: number): Promise<string[]>;
     findTagsByBook(bookName: string): Promise<string[]>;
