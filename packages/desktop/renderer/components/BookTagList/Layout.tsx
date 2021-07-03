@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {bottomToTopTransition, rightToLeftTransition} from '@/utils/transition';
 
 const Layout = styled.div`
     position: fixed;
@@ -10,29 +11,7 @@ const Layout = styled.div`
         left: 0;
         right: 0;
         height: 40%;
-        transform: translateY(100%);
-
-        &.book-tag-list-enter {
-            transform: translateY(100%);
-        }
-
-        &.book-tag-list-enter-active {
-            transform: translateY(0);
-            transition: transform 300ms ease-in-out;
-        }
-
-        &.book-tag-list-enter-done {
-            transform: translateY(0);
-        }
-
-        &.book-tag-list-exit {
-            transform: translateY(0);
-            transition: transform 300ms ease-in-out;
-        }
-
-        &.book-tag-list-exit-active {
-            transform: translateY(100%);
-        }
+        ${bottomToTopTransition()}
     }
 
     @media (orientation: landscape) {
@@ -40,29 +19,7 @@ const Layout = styled.div`
         bottom: 0;
         right: 0;
         width: 30%;
-        transform: translateX(100%);
-
-        &.book-tag-list-enter {
-            transform: translateX(100%);
-        }
-
-        &.book-tag-list-enter-active {
-            transform: translateX(0);
-            transition: transform 300ms ease-in-out;
-        }
-
-        &.book-tag-list-enter-done {
-            transform: translateX(0);
-        }
-
-        &.book-tag-list-exit {
-            transform: translateX(0);
-            transition: transform 300ms ease-in-out;
-        }
-
-        &.book-tag-list-exit-active {
-            transform: translateX(100%);
-        }
+        ${rightToLeftTransition()}
     }
 `;
 

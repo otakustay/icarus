@@ -3,7 +3,7 @@ import {Direction} from '@icarus/shared';
 import ImageView from '@/components/ImageView';
 import {useRemote} from '@/components/RemoteContextProvider';
 import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '@/components/ReadingContextProvider';
-import ReadingProgress from '@/components/ReadingProgress';
+import InfoBar from '@/components/InfoBar';
 
 export default function Content() {
     const bookIndex = useReadingBookIndex();
@@ -29,7 +29,7 @@ export default function Content() {
     return (
         <>
             <ImageView onNavigate={navigateImage} />
-            <ReadingProgress />
+            <InfoBar />
         </>
     );
 }

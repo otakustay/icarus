@@ -18,7 +18,7 @@ const Layout = styled.aside`
     color: #ddd;
 `;
 
-export default function ReadingProgress() {
+export default function InfoBar() {
     const totalBooksCount = useActiveBooksCount();
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();

@@ -40,7 +40,7 @@ export default function Filter() {
     const submitFilter = useSubmit();
 
     return (
-        <CSSTransition mountOnEnter in={filterVisible} timeout={300} classNames="filter">
+        <CSSTransition mountOnEnter in={filterVisible} timeout={300} classNames="zoom">
             <Layout>
                 <Content
                     key={stringifyFilter(readingFilter)}

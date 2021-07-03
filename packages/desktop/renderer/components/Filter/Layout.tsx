@@ -1,4 +1,17 @@
 import styled from 'styled-components';
+import {createTransition} from '@/utils/transition';
+
+const zoomTransition = createTransition(
+    'zoom',
+    {
+        property: 'transform',
+        from: 'translate(-50%, -50%) scale(0)',
+        to: 'translate(-50%, -50%) scale(1)',
+        duration: 300,
+        timingFunction: 'ease-in-out',
+    }
+);
+
 
 const Layout = styled.div`
     position: fixed;
@@ -10,32 +23,10 @@ const Layout = styled.div`
     display: grid;
     grid-row-gap: 12px;
     grid-template-rows: 1fr 30px;
-    transform: translate(-50%, -50%) scale(0);
     background-color: #525252;
     border-radius: 12px;
     z-index: 30;
-
-    &.filter-enter {
-        transform: translate(-50%, -50%) scale(0);
-    }
-
-    &.filter-enter-active {
-        transform: translate(-50%, -50%) scale(1);
-        transition: transform 300ms ease-in-out;
-    }
-
-    &.filter-enter-done {
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    &.filter-exit {
-        transform: translate(-50%, -50%) scale(1);
-        transition: transform 300ms ease-in-out;
-    }
-
-    &.filter-exit-active {
-        transform: translate(-50%, -50%) scale(0);
-    }
+    ${zoomTransition}
 `;
 
 export default Layout;
