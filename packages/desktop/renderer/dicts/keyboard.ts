@@ -30,3 +30,6 @@ export const KEY_TOGGLE_FILTER = ['U', 'Z'];
 
 // 进入、退出全屏
 export const KEY_TOGGLE_FULLSCREEN = ['F'];
+
+// 打开、关闭详细信息面板
+export const KEY_TOGGLE_INFO = ['I'];
