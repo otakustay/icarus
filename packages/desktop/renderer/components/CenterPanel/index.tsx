@@ -2,13 +2,14 @@ import {
     useCenterContent,
     useCenterPanelVisible,
     useCloseCenterPanel,
+    useToggleBookList,
     useToggleFilter,
 } from '@/components/ReadingLayoutContextProvider';
 import Filter from '@/components/Filter';
 import BookSelect from '@/components/BookSelect';
 import {CenterContent} from '@/interface/layout';
 import {useGlobalShortcut} from '@/hooks/shortcut';
-import {KEY_TOGGLE_FILTER} from '@/dicts/keyboard';
+import {KEY_TOGGLE_BOOK_LIST, KEY_TOGGLE_FILTER} from '@/dicts/keyboard';
 import Panel from './Panel';
 
 const renderTitle = (contentType: CenterContent) => {
@@ -36,6 +37,8 @@ const renderContent = (contentType: CenterContent, onComplete: () => void) => {
 const useShortcuts = () => {
     const toggleFilter = useToggleFilter();
     useGlobalShortcut(KEY_TOGGLE_FILTER, toggleFilter);
+    const toggleBookList = useToggleBookList();
+    useGlobalShortcut(KEY_TOGGLE_BOOK_LIST, toggleBookList);
 };
 
 export default function CenterPanelContent() {

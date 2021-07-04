@@ -33,3 +33,6 @@ export const KEY_TOGGLE_FULLSCREEN = ['F'];
 
 // 打开、关闭详细信息面板
 export const KEY_TOGGLE_INFO = ['I'];
+
+// 打开、关闭本子选择界面
+export const KEY_TOGGLE_BOOK_LIST = ['B'];
