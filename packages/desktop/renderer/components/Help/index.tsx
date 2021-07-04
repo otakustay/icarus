@@ -34,7 +34,11 @@ export default function Filter() {
                     tooltip="如果图片分多步查看就移动图片，也有可能转到上一页、上一本漫画的最后一页"
                     keys={K.KEY_PREVIOUS_STEP}
                 />
-                <ShortcutRow description="查看下一张图片" tooltip="可能转到下一本漫画的第一页" keys={K.KEY_NEXT_IMAGE} />
+                <ShortcutRow
+                    description="查看下一张图片"
+                    tooltip="可能转到下一本漫画的第一页"
+                    keys={K.KEY_NEXT_IMAGE}
+                />
                 <ShortcutRow
                     description="查看上一张图片"
                     tooltip="可能转到上一本漫画的最后一页"
@@ -61,6 +65,16 @@ export default function Filter() {
                 <ShortcutRow description="打开、关闭详细信息面板" keys={K.KEY_TOGGLE_INFO} />
                 <ShortcutRow description="打开、关闭本子选择界面" keys={K.KEY_TOGGLE_BOOK_LIST} />
                 <ShortcutRow description="打开、关闭帮助面板" keys={K.KEY_TOGGLE_HELP} />
+                <ShortcutRow
+                    description="切换到上下两步阅读布局"
+                    tooltip="将图片尽量缩放到合适阅读的尺寸，适合多数本子的情况"
+                    keys={K.KEY_LAYOUT_TOP_BOTTOM}
+                />
+                <ShortcutRow
+                    description="切换到一步阅读布局"
+                    tooltip="一屏完整阅读一张图片，适合横版本子"
+                    keys={K.KEY_LAYOUT_ONE_STEP}
+                />
             </ShortcutDescription>
             <Title>项目信息</Title>
             <p>GitHub：https://github.com/otakustay/icarus</p>

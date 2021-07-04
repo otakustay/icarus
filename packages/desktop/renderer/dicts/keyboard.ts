@@ -39,3 +39,9 @@ export const KEY_TOGGLE_BOOK_LIST = ['B'];
 
 // 打开、关闭帮助面板
 export const KEY_TOGGLE_HELP = ['/'];
+
+// 切换到上下两步阅读布局
+export const KEY_LAYOUT_TOP_BOTTOM = ['1'];
+
+// 切换到一步阅读布局
+export const KEY_LAYOUT_ONE_STEP = ['2'];
