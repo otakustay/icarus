@@ -36,3 +36,6 @@ export const KEY_TOGGLE_INFO = ['I'];
 
 // 打开、关闭本子选择界面
 export const KEY_TOGGLE_BOOK_LIST = ['B'];
+
+// 打开、关闭帮助面板
+export const KEY_TOGGLE_HELP = ['/'];

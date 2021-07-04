@@ -55,6 +55,7 @@ const Layout = styled.div`
     background-color: var(--color-panel-background);
     border-radius: 12px;
     z-index: 30;
+    color: var(--color-panel-text);
     ${zoomTransition}
 `;
 
