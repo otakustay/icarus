@@ -1,5 +1,6 @@
 import {createGlobalStyle} from 'styled-components';
 
+// TODO: 管理全局颜色
 const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;

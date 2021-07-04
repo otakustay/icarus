@@ -19,6 +19,7 @@ const Outer = styled.div`
     height: 4px;
 `;
 
+// TODO: 用渐变色
 const Inner = styled.div`
     background-color: #abc600;
     height: 100%;

@@ -28,9 +28,9 @@ const BookName = styled.span`
 
 const Layout = styled.li`
     display: grid;
-    grid-template-columns: 40px 1fr;
+    grid-template-columns: 32px 1fr;
     grid-auto-flow: column;
-    grid-column: 4px;
+    grid-column-gap: 4px;
     padding: 4px;
     align-items: center;
     font-size: 12px;

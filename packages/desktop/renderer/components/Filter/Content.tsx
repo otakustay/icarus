@@ -1,8 +1,19 @@
 import {useState, useCallback} from 'react';
+import styled from 'styled-components';
 import {ReadingFilter} from '@icarus/shared';
 import TagList from '@/components/TagList';
 import {useReadingFilter} from '@/components/ReadingContextProvider';
 import Submit from './Submit';
+
+const Layout = styled.div`
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100%;
+`;
+
+const List = styled(TagList)`
+    overflow: auto;
+`;
 
 const useSubmit = (selected: string[], onSubmit: (filter: ReadingFilter) => void) => {
     const submit = useCallback(
@@ -40,14 +51,15 @@ export default function FilterContent({allTagNames, showTagEmpty, onSubmit}: Pro
     const {submit, clear} = useSubmit(selected, onSubmit);
 
     return (
-        <>
-            <TagList
+        <Layout>
+            <List
+                noPadding
                 showEmpty={showTagEmpty}
                 tagNames={allTagNames}
                 activeTagNames={selected}
                 onTagActiveChange={toggleTagActive}
             />
             <Submit onSubmit={submit} onClear={clear} />
-        </>
+        </Layout>
     );
 }

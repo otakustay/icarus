@@ -11,8 +11,6 @@ import {INITIAL_LETTER_BACKGROUND_COLOR, INITIAL_LETTER_WIDTH} from './dicts';
 // 背景色保持和`Row`右边放首字母的一条一样的背景色和宽度
 const Layout = styled.div`
     width: 100%;
-    height: 100%;
-    overflow: auto;
     background-image: linear-gradient(
         to left,
         ${INITIAL_LETTER_BACKGROUND_COLOR},
@@ -27,7 +25,9 @@ interface TagStateGroup {
 }
 
 interface Props {
+    className?: string;
     disabled?: boolean;
+    noPadding?: boolean;
     showEmpty: boolean;
     tagNames: string[];
     activeTagNames: string[];
@@ -36,7 +36,16 @@ interface Props {
 }
 
 export default function TagList(props: Props) {
-    const {disabled = false, showEmpty, tagNames, activeTagNames, suggestedTagNames = [], onTagActiveChange} = props;
+    const {
+        className,
+        disabled = false,
+        noPadding = false,
+        showEmpty,
+        tagNames,
+        activeTagNames,
+        suggestedTagNames = [],
+        onTagActiveChange,
+    } = props;
     const groups = useMemo(
         () => {
             const groups = groupTagsByLetter(tagNames);
@@ -59,8 +68,8 @@ export default function TagList(props: Props) {
     );
 
     return (
-        <Layout>
-            <StatusContextProvider disabled={disabled}>
+        <Layout className={className}>
+            <StatusContextProvider disabled={disabled} noPadding={noPadding}>
                 {
                     groups.length || !showEmpty
                         ? groups.map(v => <Row key={v.letter} {...v} onTagActiveChange={onTagActiveChange} />)

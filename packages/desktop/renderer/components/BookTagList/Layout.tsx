@@ -5,6 +5,7 @@ const Layout = styled.div`
     position: fixed;
     background-color: #525252;
     z-index: 20;
+    overflow: auto;
 
     @media (orientation: portrait) {
         bottom: 0;

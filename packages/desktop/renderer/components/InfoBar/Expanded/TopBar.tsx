@@ -2,7 +2,6 @@ import {forwardRef, ForwardedRef} from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 import {topToBottomTransition} from '@/utils/transition';
-import BookSelectTrigger from './BookSelectTrigger';
 
 const Layout = styled.aside`
     position: fixed;
@@ -43,7 +42,6 @@ function InfoTopBar({forwardedRef, visible, bookName}: Props) {
             <CSSTransition in={visible} timeout={300} classNames="top-to-bottom">
                 <Layout ref={forwardedRef}>
                     <BookName>{bookName}</BookName>
-                    <BookSelectTrigger visible={visible} />
                 </Layout>
             </CSSTransition>
         </>
