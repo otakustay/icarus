@@ -6,7 +6,7 @@ const Layout = styled(FlexCenter)`
     width: 100%;
     height: 100%;
     flex-direction: column;
-    color: #ddd;
+    color: var(--color-panel-text);
 `;
 
 interface Props {

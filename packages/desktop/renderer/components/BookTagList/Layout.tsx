@@ -3,7 +3,7 @@ import {bottomToTopTransition, rightToLeftTransition} from '@/utils/transition';
 
 const Layout = styled.div`
     position: fixed;
-    background-color: #525252;
+    background-color: var(--color-panel-background);
     z-index: 20;
     overflow: auto;
 

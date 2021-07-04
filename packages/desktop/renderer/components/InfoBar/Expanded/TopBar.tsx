@@ -17,8 +17,8 @@ const Layout = styled.aside`
     align-items: center;
     justify-content: center;
     padding: 0 40px;
-    background-color: #000;
-    color: #ddd;
+    background-color: var(--color-app-background);
+    color: var(--color-panel-text);
     ${topToBottomTransition()}
 `;
 

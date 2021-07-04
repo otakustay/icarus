@@ -16,11 +16,11 @@ const Layout = styled.aside`
     font-size: 14px;
     padding: 0 12px;
     display: grid;
-    grid-template-columns: repeat(4, auto) 1fr max-content;
+    grid-template-columns: repeat(2, auto) 1fr max-content;
     grid-column-gap: 20px;
     align-items: center;
-    background-color: #525252;
-    color: #ddd;
+    background-color: var(--color-panel-background);
+    color: var(--color-panel-text);
     ${bottomToTopTransition()}
 `;
 

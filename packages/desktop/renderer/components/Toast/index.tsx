@@ -15,8 +15,8 @@ const Layout = styled.aside`
     padding: 0 24px;
     font-size: 16px;
     border-radius: 8px;
-    background-color: rgba(53, 53, 53, .7);
-    color: #fff;
+    background-color: var(--color-transparent-panel-background);
+    color: var(--color-panel-text);
     transition: opacity .6s linear;
 `;
 

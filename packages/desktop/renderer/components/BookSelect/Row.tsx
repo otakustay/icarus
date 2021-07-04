@@ -9,7 +9,7 @@ const ActiveSign = styled.i`
     text-align: center;
     justify-self: center;
     border-radius: 50%;
-    background-color: #abc600;
+    background-color: var(--color-primary-element-background);
 `;
 
 const RelativeSign = styled.span`
@@ -28,7 +28,7 @@ const BookName = styled.span`
 
 const Layout = styled.li`
     display: grid;
-    grid-template-columns: 32px 1fr;
+    grid-template-columns: 1fr 32px;
     grid-auto-flow: column;
     grid-column-gap: 4px;
     padding: 4px;
@@ -37,7 +37,7 @@ const Layout = styled.li`
     cursor: pointer;
 
     &:hover {
-        color: #fff;
+        color: var(--color-panel-contrast-text);
 
         ${RelativeSign} {
             visibility: initial;
@@ -64,8 +64,8 @@ export default function BookSelectRow({bookName, bookIndex, relativeIndex, onSel
 
     return (
         <Layout ref={ref} onClick={select}>
-            {relativeIndex ? <RelativeSign>{formatRelativeIndex(relativeIndex)}</RelativeSign> : <ActiveSign />}
             <BookName>{bookName}</BookName>
+            {relativeIndex ? <RelativeSign>{formatRelativeIndex(relativeIndex)}</RelativeSign> : <ActiveSign />}
         </Layout>
     );
 }

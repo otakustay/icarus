@@ -7,7 +7,6 @@ const Layout = styled.div`
     flex-direction: row-reverse;
     justify-content: flex-start;
     cursor: pointer;
-    background-color: #525252;
     padding-top: 12px;
 `;
 

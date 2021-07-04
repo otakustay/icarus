@@ -1,5 +1,6 @@
 import {useCallback} from 'react';
 import styled from 'styled-components';
+import {backgroundColor, textColor, twoStopLinear} from '@/utils/style';
 import {TagState} from './interface';
 import {useTagListDisabled} from './StatusContextProvider';
 
@@ -9,51 +10,35 @@ interface LabelProps {
     disabled: boolean;
 }
 
-const COLOR_DEFAULT = '#444';
-
-const COLOR_ACTIVE = '#74a201';
-
-const COLOR_DEFAULT_CONTRAST = '#525252';
-
-const COLOR_ACTIVE_CONTRAST = '#abc600';
-
-type ColorState = 'default' | 'contrast';
-
-const backgroundColorOf = (state: ColorState) => ({active}: LabelProps) => (
-    active
-        ? (state === 'default' ? COLOR_ACTIVE : COLOR_ACTIVE_CONTRAST)
-        : (state === 'default' ? COLOR_DEFAULT : COLOR_DEFAULT_CONTRAST)
+const background = (active: boolean, contrast: boolean) => backgroundColor(
+    active ? 'primary' : 'default',
+    contrast ? 'contrast' : 'default'
 );
 
-const linearColorOf = (state: ColorState) => ({suggested}: LabelProps) => (
-    suggested
-        ? (state === 'default' ? COLOR_ACTIVE : COLOR_ACTIVE_CONTRAST)
-        : 'transparent'
+const linear = (suggested: boolean, contrast: boolean) => twoStopLinear(
+    'top',
+    4,
+    background(suggested, contrast)
+);
+
+const text = (active: boolean, contrast: boolean) => textColor(
+    active ? 'primary' : 'default',
+    contrast ? 'contrast' : 'default'
 );
 
 const Layout = styled.li<LabelProps>`
     padding: 4px 8px;
     font-size: 12px;
     border-radius: 4px;
-    background-color: ${backgroundColorOf('default')};
-    background-image: linear-gradient(
-        to top,
-        ${linearColorOf('default')},
-        ${linearColorOf('default')} 4px,
-        transparent 4px
-    );
-    color: ${({active}) => (active ? '#fff' : '#cacaca')};
+    background-color: ${({active}) => background(active, false)};
+    background-image: ${({active, suggested}) => linear(active || suggested, false)};
+    color: ${({active}) => text(active, false)};
     cursor: ${({disabled}) => (disabled ? 'not-allowed' : 'pointer')};
 
     &:hover {
-        background-color: ${backgroundColorOf('contrast')};
-        background-image: linear-gradient(
-            to top,
-            ${linearColorOf('contrast')},
-            ${linearColorOf('contrast')} 8px,
-            transparent 8px
-        );
-        color: #fff;
+        background-color: ${({active}) => background(active, true)};
+        background-image: ${({active, suggested}) => linear(active || suggested, true)};
+        color: ${({active}) => text(active, true)};
     }
 `;
 

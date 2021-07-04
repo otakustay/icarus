@@ -11,9 +11,13 @@ interface Props {
     onClick: () => void;
 }
 
-const COLOR_PRIMARY = '#1d90ff';
+const COLOR_PRIMARY = 'var(--color-primary-element-background)';
 
-const COLOR_CONTRAST = '#43a9ff';
+const COLOR_CONTRAST = 'var(--color-primary-element-contrast-background)';
+
+const COLOR_TEXT = 'var(--color-primary-element-text)';
+
+const COLOR_TEXT_CONTRAST = 'var(--color-primary-element-contrast-text)';
 
 const ButtonWrapper = styled.button<NativeProps>`
     display: flex;
@@ -25,13 +29,14 @@ const ButtonWrapper = styled.button<NativeProps>`
     border: 0;
     border: 1px solid ${COLOR_PRIMARY};
     background-color: ${({themeType}: NativeProps) => (themeType === 'primary' ? COLOR_PRIMARY : 'transparent')};
-    color: ${({themeType}) => (themeType === 'primary' ? '#fff' : COLOR_PRIMARY)};
+    color: ${({themeType}) => (themeType === 'primary' ? COLOR_TEXT : COLOR_PRIMARY)};
+    border-radius: 8px;
     cursor: pointer;
 
     &:hover {
         border-color: ${COLOR_CONTRAST};
         background-color: ${({themeType}: NativeProps) => (themeType === 'primary' ? COLOR_CONTRAST : 'transparent')};
-        color: ${({themeType}) => (themeType === 'primary' ? '#fff' : COLOR_CONTRAST)};
+        color: ${({themeType}) => (themeType === 'primary' ? COLOR_TEXT_CONTRAST : COLOR_CONTRAST)};
     }
 `;
 

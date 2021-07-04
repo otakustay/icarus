@@ -1,3 +1,1 @@
 export const INITIAL_LETTER_WIDTH = '30px';
-
-export const INITIAL_LETTER_BACKGROUND_COLOR = '#4b545d';

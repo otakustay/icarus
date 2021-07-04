@@ -19,18 +19,18 @@ const zoomTransition = createTransition(
 const Title = styled.header`
     grid-area: title;
     font-size: 18px;
-    color: #ddd;
+    color: var(--color-panel-text);
 `;
 
 const Close = styled(IoClose)`
     grid-area: close;
     width: 100%;
     height: 100%;
-    color: #ddd;
+    color: var(--color-panel-text);
     cursor: pointer;
 
     &:hover {
-        color: #fff;
+        color: var(--color-panel-contrast-text);
     }
 `;
 
@@ -52,7 +52,7 @@ const Layout = styled.div`
         "title close" 20px
         "content content" 1fr / 1fr 20px;
     grid-row-gap: 20px;
-    background-color: #525252;
+    background-color: var(--color-panel-background);
     border-radius: 12px;
     z-index: 30;
     ${zoomTransition}
@@ -65,7 +65,6 @@ interface Props {
     onClose: () => void;
 }
 
-// TODO: 直接关闭功能
 export default function Panel({visible, title, children, onClose}: Props) {
     return (
         <CSSTransition mountOnEnter in={visible} timeout={300} classNames="zoom">

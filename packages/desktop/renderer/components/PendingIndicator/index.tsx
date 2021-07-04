@@ -19,9 +19,12 @@ const Outer = styled.div`
     height: 4px;
 `;
 
-// TODO: 用渐变色
 const Inner = styled.div`
-    background-color: #abc600;
+    background-image: linear-gradient(
+        to right,
+        var(--color-primary-element-background),
+        var(--color-primary-element-contrast-background)
+    );
     height: 100%;
     animation: .5s linear 0s infinite alternate ${loadingKeyframes};
 `;

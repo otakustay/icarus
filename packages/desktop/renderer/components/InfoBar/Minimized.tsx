@@ -18,8 +18,8 @@ const Layout = styled.aside<VisibleProps>`
     gap: 4px;
     padding: 4px 8px;
     border-radius: 8px;
-    background-color: rgba(53, 53, 53, .7);
-    color: #ddd;
+    background-color: var(--color-transparent-panel-background);
+    color: var(--color-panel-text);
     opacity: ${({visible}) => (visible ? 1 : 0)};
     ${fadeTransition({defaultToInvisible: false})}
 `;
@@ -29,7 +29,7 @@ const ExpandIcon = styled(IoInformationCircleOutline)`
     font-size: 14px;
 
     &:hover {
-        color: #fff;
+        color: var(--color-panel-contrast-text);
     }
 `;
 

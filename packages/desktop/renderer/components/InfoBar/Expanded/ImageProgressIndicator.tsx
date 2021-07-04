@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import {twoStopLinear} from '@/utils/style';
 
 const Bar = styled.div`
     position: relative;
     height: 4px;
     border-radius: 2px;
-    background-color: #666;
+    background-color: var(--color-panel-text);
     overflow: visible;
 `;
 
@@ -15,7 +16,7 @@ const Indicator = styled.i`
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #ddd;
+    background-color: var(--color-panel-contrast-text);
 `;
 
 interface Props {
@@ -25,15 +26,17 @@ interface Props {
 
 export default function ImageProgressIndicator({total, current}: Props) {
     const stop = `${current / total * 100}%`;
-    const gradient = `
-        to right,
-        #74a201,
-        #abc600 ${stop},
-        transparent ${stop}
-    `;
+    const gradient = twoStopLinear(
+        'right',
+        stop,
+        {
+            start: 'var(--color-primary-element-background)',
+            end: 'var(--color-primary-element-contrast-background)',
+        }
+    );
 
     return (
-        <Bar style={{backgroundImage: `linear-gradient(${gradient})`}}>
+        <Bar style={{backgroundImage: gradient}}>
             <Indicator style={{left: stop}} />
         </Bar>
     );
