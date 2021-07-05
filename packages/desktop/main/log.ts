@@ -1,6 +1,5 @@
 import winston, {Logger, LoggerOptions} from 'winston';
 import 'winston-daily-rotate-file';
-// import Logger, {LoggerOptions, createLogger as createNativeLogger} from 'bunyan';
 
 interface AppLogger {
     trace: (args: Record<string, unknown>) => void;

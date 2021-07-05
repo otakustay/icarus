@@ -16,7 +16,7 @@ interface Props {
 export default function InfoBarExpanded(props: Props) {
     const {visible, bookName, booksCount, imagesCount, bookIndex, imageIndex, onCollapse} = props;
     const topRef = useRef<HTMLElement>(null);
-    const bottomRef = useRef<HTMLElement>(null);
+    const bottomRef = useRef<HTMLDivElement>(null);
     useDocumentEvent(
         'mouseup',
         e => {

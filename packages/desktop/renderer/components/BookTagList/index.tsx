@@ -6,8 +6,7 @@ import TagList from '@/components/TagList';
 import {useTagListVisible, useToggleTagList} from '@/components/ReadingLayoutContextProvider';
 import {useBookTagData, useSuggestedTagNames, useToggleTagActive} from './hooks';
 import Layout from './Layout';
-
-// TODO: 新建标签
+import NewInput from './NewInput';
 
 interface Props {
     disabled: boolean;
@@ -28,11 +27,16 @@ export default function BookTagList({disabled}: Props) {
         [reloadSuggestedTagNames, reloadTagData]
     );
     const toggleTagActive = useToggleTagActive(book?.name, reloadAfterTagUpdate);
+    const attachNewTag = useCallback(
+        (tagName: string) => toggleTagActive(tagName, true),
+        [toggleTagActive]
+    );
     useClickOutside(ref, () => setTagListVisible(false));
 
     return (
         <CSSTransition in={tagListVisible} timeout={300} classNames="book-tag-list">
             <Layout ref={ref}>
+                <NewInput onSubmit={attachNewTag} />
                 <TagList
                     disabled={disabled}
                     showEmpty={!pending}

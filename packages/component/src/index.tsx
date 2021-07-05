@@ -6,5 +6,6 @@ export {default as Toast} from './components/Toast';
 export {default as Progress} from './components/Progress';
 export {default as Modal} from './components/Modal';
 export {default as Loading} from './components/Loading';
+export {default as Input} from './components/Input';
 export * from './utils/style';
 export * from './utils/transition';

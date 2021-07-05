@@ -24,6 +24,7 @@ export interface Props {
     current: number;
 }
 
+// TODO: 鼠标拖动功能
 export default function ImageProgressIndicator({total, current}: Props) {
     const stop = `${current / total * 100}%`;
     const gradient = twoStopLinear(

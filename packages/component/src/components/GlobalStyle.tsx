@@ -20,8 +20,8 @@ const GlobalStyle = createGlobalStyle`
     :root {
         --color-app-background: #000;
 
-        --color-panel-background-value: 38, 38, 38;
-        --color-panel-background: rgb(var(--color-panel-background-value));
+        --color-panel-background-rgb: 38, 38, 38;
+        --color-panel-background: rgb(var(--color-panel-background-rgb));
         --color-panel-text: #f4f4f4;
         --color-panel-text-hover: #fff;
         --color-panel-text-secondary: #c6c6c6;

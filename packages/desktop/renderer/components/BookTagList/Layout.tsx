@@ -4,6 +4,9 @@ import {Panel, bottomToTopTransition, rightToLeftTransition} from '@icarus/compo
 const Layout = styled(Panel)`
     position: fixed;
     z-index: 20;
+    display: grid;
+    grid-template-rows: 40px 1fr;
+    grid-row-gap: 8px;
     overflow: auto;
 
     @media (orientation: portrait) {

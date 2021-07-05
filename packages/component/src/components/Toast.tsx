@@ -59,7 +59,7 @@ export default function Toast({icon, children, onExit}: Props) {
     }
 
     return (
-        <Layout opacity ref={ref}>
+        <Layout translucent ref={ref}>
             {icon}
             <span>{children}</span>
         </Layout>

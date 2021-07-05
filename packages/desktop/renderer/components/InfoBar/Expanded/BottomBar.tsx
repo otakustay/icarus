@@ -23,7 +23,7 @@ const Layout = styled(Panel)`
 `;
 
 interface Props {
-    forwardedRef: ForwardedRef<HTMLElement>;
+    forwardedRef: ForwardedRef<HTMLDivElement>;
     visible: boolean;
     booksCount: number;
     imagesCount: number;
@@ -35,7 +35,7 @@ interface Props {
 function InfoBottomBar({forwardedRef, visible, booksCount, imagesCount, bookIndex, imageIndex}: Props) {
     return (
         <CSSTransition in={visible} timeout={300} classNames="bottom-to-top">
-            <Layout as="aside" ref={forwardedRef}>
+            <Layout ref={forwardedRef}>
                 <BookSelectTrigger />
                 <FilterTrigger />
                 <HelpTrigger />
@@ -46,6 +46,6 @@ function InfoBottomBar({forwardedRef, visible, booksCount, imagesCount, bookInde
     );
 }
 
-type ExportedProps = Omit<Props, 'forwardedRef'>;
+type Exported = Omit<Props, 'forwardedRef'>;
 
-export default forwardRef<HTMLElement, ExportedProps>((props, ref) => <InfoBottomBar {...props} forwardedRef={ref} />);
+export default forwardRef<HTMLDivElement, Exported>((props, ref) => <InfoBottomBar {...props} forwardedRef={ref} />);

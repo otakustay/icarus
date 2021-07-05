@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export interface Props {
-    opacity?: boolean;
+    translucent?: boolean;
 }
 
 const Panel = styled.div<Props>`
-    background-color: ${({opacity}) => `rgba(var(--color-panel-background-value, ${opacity ? '.7' : '1'}))`};
+    background-color: ${({translucent}) => `rgba(var(--color-panel-background-rgb), ${translucent ? '.7' : '1'})`};
     color: var(--color-panel-text);
 `;
 

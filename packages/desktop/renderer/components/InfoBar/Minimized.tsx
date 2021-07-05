@@ -43,7 +43,7 @@ interface Props {
 export default function InfoBarMinimized({visible, booksCount, imagesCount, bookIndex, imageIndex, onExpand}: Props) {
     return (
         <CSSTransition in={visible} timeout={300} classNames="fade">
-            <Layout opacity as="aside" visible={visible}>
+            <Layout translucent as="aside" visible={visible}>
                 第 {bookIndex + 1}/{booksCount} 本 {imageIndex + 1}/{imagesCount} 页
                 <ExpandIcon onClick={onExpand} />
             </Layout>
