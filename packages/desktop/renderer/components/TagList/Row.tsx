@@ -27,8 +27,8 @@ const List = styled.ol<PaddingProps>`
 const Letter = styled(FlexCenter)`
     height: 100%;
     font-size: 20px;
-    background-color: var(--color-active-element-background);
-    color: var(--color-active-element-text);
+    background-color: var(--color-secondary-background-active);
+    color: var(--color-secondary-text);
 `;
 
 interface Props extends TagStateGroup {

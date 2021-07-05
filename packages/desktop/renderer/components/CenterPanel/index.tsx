@@ -1,3 +1,4 @@
+import {Modal} from '@icarus/component';
 import {
     useCenterContent,
     useCenterPanelVisible,
@@ -12,7 +13,6 @@ import Help from '@/components/Help';
 import {CenterContent} from '@/interface/layout';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_TOGGLE_BOOK_LIST, KEY_TOGGLE_FILTER, KEY_TOGGLE_HELP} from '@/dicts/keyboard';
-import Panel from './Panel';
 
 const renderTitle = (contentType: CenterContent) => {
     switch (contentType) {
@@ -56,8 +56,8 @@ export default function CenterPanelContent() {
     useShortcuts();
 
     return (
-        <Panel visible={visible} title={renderTitle(centerContent)} onClose={close}>
+        <Modal visible={visible} title={renderTitle(centerContent)} onClose={close}>
             {renderContent(centerContent, close)}
-        </Panel>
+        </Modal>
     );
 }

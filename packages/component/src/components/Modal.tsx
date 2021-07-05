@@ -2,7 +2,7 @@ import {ReactNode} from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 import {IoClose} from 'react-icons/io5';
-import {createTransition} from '@/utils/transition';
+import {createTransition} from '../utils/transition';
 
 const zoomTransition = createTransition(
     'zoom',
@@ -60,13 +60,13 @@ const Layout = styled.div`
 `;
 
 interface Props {
-    visible: boolean;
+    visible?: boolean;
     title: string;
     children: ReactNode;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
-export default function Panel({visible, title, children, onClose}: Props) {
+export default function Panel({visible = false, title, children, onClose}: Props) {
     return (
         <CSSTransition mountOnEnter in={visible} timeout={300} classNames="zoom">
             <Layout>

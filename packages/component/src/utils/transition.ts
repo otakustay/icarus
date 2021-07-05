@@ -3,7 +3,7 @@ import {css} from 'styled-components';
 
 type StyleProperty = keyof CSSProperties;
 
-interface TransitionDefinition<T extends StyleProperty> {
+export interface TransitionDefinition<T extends StyleProperty> {
     property: T;
     from: Exclude<CSSProperties[T], undefined>;
     to: Exclude<CSSProperties[T], undefined>;
@@ -45,7 +45,7 @@ export const createTransition = <T extends StyleProperty>(name: string, definiti
     `;
 };
 
-interface DefinedTransitionOverride {
+export interface DefinedTransitionOverride {
     name?: string;
     duration?: number;
     timingFunction?: CSSProperties['transitionTimingFunction'];

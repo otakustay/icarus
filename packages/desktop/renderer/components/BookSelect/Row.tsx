@@ -9,7 +9,7 @@ const ActiveSign = styled.i`
     text-align: center;
     justify-self: center;
     border-radius: 50%;
-    background-color: var(--color-primary-element-background);
+    background-color: var(--color-primary-background);
 `;
 
 const RelativeSign = styled.span`
@@ -37,7 +37,7 @@ const Layout = styled.li`
     cursor: pointer;
 
     &:hover {
-        color: var(--color-panel-contrast-text);
+        color: var(--color-panel-text-hover);
 
         ${RelativeSign} {
             visibility: initial;

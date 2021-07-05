@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {GlobalStyle} from '@icarus/component';
 import DropZone from '@/components/DropZone';
 import ReadingContextProvider, {useSetReadingContent, useTotalBooksCount} from '@/components/ReadingContextProvider';
 import ToastContextProvider from '@/components/ToastContextProvider';
@@ -8,7 +9,6 @@ import Toast from '@/components/Toast';
 import PendingIndicator from '@/components/PendingIndicator';
 import {useGlobalShortcut} from '@/hooks/shortcut';
 import {KEY_RESTORE, KEY_TOGGLE_FULLSCREEN} from '@/dicts/keyboard';
-import GlobalStyle from './GlobalStyle';
 import {useDrop, useOpen} from './hooks';
 
 const Root = styled.div`

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 import {IoInformationCircleOutline} from 'react-icons/io5';
-import {fadeTransition} from '@/utils/transition';
+import {Panel, fadeTransition} from '@icarus/component';
 
 interface VisibleProps {
     visible: boolean;
 }
 
-const Layout = styled.aside<VisibleProps>`
+const Layout = styled(Panel)<VisibleProps>`
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -18,8 +18,6 @@ const Layout = styled.aside<VisibleProps>`
     gap: 4px;
     padding: 4px 8px;
     border-radius: 8px;
-    background-color: var(--color-transparent-panel-background);
-    color: var(--color-panel-text);
     opacity: ${({visible}) => (visible ? 1 : 0)};
     ${fadeTransition({defaultToInvisible: false})}
 `;
@@ -29,7 +27,7 @@ const ExpandIcon = styled(IoInformationCircleOutline)`
     font-size: 14px;
 
     &:hover {
-        color: var(--color-panel-contrast-text);
+        color: var(--color-panel-text-hover);
     }
 `;
 
@@ -45,7 +43,7 @@ interface Props {
 export default function InfoBarMinimized({visible, booksCount, imagesCount, bookIndex, imageIndex, onExpand}: Props) {
     return (
         <CSSTransition in={visible} timeout={300} classNames="fade">
-            <Layout visible={visible}>
+            <Layout opacity as="aside" visible={visible}>
                 第 {bookIndex + 1}/{booksCount} 本 {imageIndex + 1}/{imagesCount} 页
                 <ExpandIcon onClick={onExpand} />
             </Layout>

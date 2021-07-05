@@ -26,7 +26,7 @@ const Tooltip = styled.div`
     grid-area: tooltip;
     font-size: 12px;
     line-height: 1.5;
-    color: var(--color-panel-text);
+    color: var(--color-panel-text-secondary);
 `;
 
 const Layout = styled.div`
@@ -36,7 +36,7 @@ const Layout = styled.div`
         "tooltip keys" auto / 1fr auto;
     align-items: center;
     justify-content: space-between;
-    color: var(--color-panel-contrast-text);
+    color: var(--color-panel-text-hover);
 `;
 
 interface Props {

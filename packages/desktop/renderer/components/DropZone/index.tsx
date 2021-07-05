@@ -12,7 +12,7 @@ interface HighlightProps {
 }
 
 const CenterArea = styled(FlexCenter)`
-    border: 6px dashed var(--color-panel-text);
+    border: 6px dashed var(--color-secondary-background);
     background-color: var(--color-panel-background);
     border-radius: 20px;
     width: 60%;
@@ -23,9 +23,9 @@ const Hint = styled(FlexCenter)<HighlightProps>`
     padding: 20px 40px;
     font-size: 24px;
     gap: 12px;
-    background-color:var(--color-element-background);
+    background-color:var(--color-primary-background-active);
     border-radius: 12px;
-    color: ${({highlight}) => (highlight ? 'var(--color-element-contrast-text)' : 'var(--color-element-text)')};
+    color: ${({highlight}) => (highlight ? 'var(--color-panel-text-secondary)' : 'var(--color-panel-text-hover)')};
 `;
 
 interface Props {

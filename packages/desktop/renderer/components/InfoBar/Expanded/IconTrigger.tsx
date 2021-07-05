@@ -8,8 +8,8 @@ const Layout = styled(FlexCenter)`
     cursor: pointer;
 
     &:hover {
-        background-color: var(--color-element-contrast-background);
-        color: var(--color-element-contrast-text);
+        background-color: var(--color-secondary-background-hover);
+        color: var(--color-secondary-text-hover);
     }
 `;
 

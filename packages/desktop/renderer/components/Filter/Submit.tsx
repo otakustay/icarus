@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from '@/components/Button';
+import {Button} from '@icarus/component';
 
 const Layout = styled.div`
     display: flex;

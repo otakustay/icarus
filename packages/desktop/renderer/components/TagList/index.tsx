@@ -1,8 +1,8 @@
 import {useMemo} from 'react';
 import styled from 'styled-components';
 import {IoFileTrayOutline} from 'react-icons/io5';
+import {twoStopLinear} from '@icarus/component';
 import FullSizeWarn from '@/components/FullSizeWarn';
-import {twoStopLinear} from '@/utils/style';
 import StatusContextProvider from './StatusContextProvider';
 import Row from './Row';
 import {groupTagsByLetter, TagGroup} from './utils';
@@ -12,7 +12,7 @@ import {INITIAL_LETTER_WIDTH} from './dicts';
 // 背景色保持和`Row`右边放首字母的一条一样的背景色和宽度
 const Layout = styled.div`
     width: 100%;
-    background-image: ${twoStopLinear('left', INITIAL_LETTER_WIDTH, 'var(--color-active-element-background)')}
+    background-image: ${twoStopLinear('left', INITIAL_LETTER_WIDTH, 'var(--color-secondary-background-active)')}
 `;
 
 interface TagStateGroup {

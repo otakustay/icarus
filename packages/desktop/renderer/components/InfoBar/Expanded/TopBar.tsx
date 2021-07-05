@@ -1,7 +1,7 @@
 import {forwardRef, ForwardedRef} from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
-import {topToBottomTransition} from '@/utils/transition';
+import {topToBottomTransition} from '@icarus/component';
 
 const Layout = styled.aside`
     position: fixed;
@@ -9,25 +9,21 @@ const Layout = styled.aside`
     left: 0;
     right: 0;
     z-index: 30;
-    height: 30px;
     display: grid;
     grid-template-columns: auto max-content;
     grid-auto-flow: column;
     grid-column-gap: 4px;
     align-items: center;
     justify-content: center;
-    padding: 0 40px;
-    background-color: var(--color-app-background);
-    color: var(--color-panel-text);
-    ${topToBottomTransition()}
-`;
-
-const BookName = styled.h1`
-    font-size: 14px;
     margin: 0;
+    padding: 36px 40px 16px;
+    font-size: 16px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    background-color: var(--color-app-background);
+    color: var(--color-panel-text);
+    ${topToBottomTransition()}
 `;
 
 interface Props {
@@ -41,7 +37,7 @@ function InfoTopBar({forwardedRef, visible, bookName}: Props) {
         <>
             <CSSTransition in={visible} timeout={300} classNames="top-to-bottom">
                 <Layout ref={forwardedRef}>
-                    <BookName>{bookName}</BookName>
+                    {bookName}
                 </Layout>
             </CSSTransition>
         </>

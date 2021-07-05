@@ -25,6 +25,7 @@
     "@huse/number": "^1.2.1",
     "@huse/request": "^1.2.0",
     "@huse/scroll-into-view": "^1.1.0",
+    "@icarus/component": "1.0.0",
     "@icarus/layout": "1.0.0",
     "@icarus/service": "1.0.0",
     "@icarus/shared": "1.0.0",

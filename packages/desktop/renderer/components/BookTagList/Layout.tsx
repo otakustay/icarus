@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import {bottomToTopTransition, rightToLeftTransition} from '@/utils/transition';
+import {Panel, bottomToTopTransition, rightToLeftTransition} from '@icarus/component';
 
-const Layout = styled.div`
+const Layout = styled(Panel)`
     position: fixed;
-    background-color: var(--color-panel-background);
     z-index: 20;
     overflow: auto;
 

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import {twoStopLinear} from '@/utils/style';
+import {twoStopLinear} from '../utils/style';
 
 const Bar = styled.div`
     position: relative;
     height: 4px;
     border-radius: 2px;
-    background-color: var(--color-panel-text);
+    background-color: var(--color-panel-text-secondary);
     overflow: visible;
 `;
 
@@ -16,7 +16,7 @@ const Indicator = styled.i`
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: var(--color-panel-contrast-text);
+    background-color: var(--color-panel-text);
 `;
 
 interface Props {
@@ -30,8 +30,8 @@ export default function ImageProgressIndicator({total, current}: Props) {
         'right',
         stop,
         {
-            start: 'var(--color-primary-element-background)',
-            end: 'var(--color-primary-element-contrast-background)',
+            start: 'var(--color-vivid-dark)',
+            end: 'var(--color-vivid-light)',
         }
     );
 

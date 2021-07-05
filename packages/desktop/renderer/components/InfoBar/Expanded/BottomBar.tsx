@@ -1,13 +1,12 @@
 import {forwardRef, ForwardedRef} from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
-import {bottomToTopTransition} from '@/utils/transition';
+import {Progress, Panel, bottomToTopTransition} from '@icarus/component';
 import BookSelectTrigger from './BookSelectTrigger';
 import FilterTrigger from './FilterTrigger';
 import HelpTrigger from './HelpTrigger';
-import ImageProgressIndicator from './ImageProgressIndicator';
 
-const Layout = styled.aside`
+const Layout = styled(Panel)`
     position: fixed;
     bottom: 0;
     left: 0;
@@ -20,8 +19,6 @@ const Layout = styled.aside`
     grid-template-columns: repeat(3, auto) 1fr max-content;
     grid-column-gap: 20px;
     align-items: center;
-    background-color: var(--color-panel-background);
-    color: var(--color-panel-text);
     ${bottomToTopTransition()}
 `;
 
@@ -38,11 +35,11 @@ interface Props {
 function InfoBottomBar({forwardedRef, visible, booksCount, imagesCount, bookIndex, imageIndex}: Props) {
     return (
         <CSSTransition in={visible} timeout={300} classNames="bottom-to-top">
-            <Layout ref={forwardedRef}>
+            <Layout as="aside" ref={forwardedRef}>
                 <BookSelectTrigger />
                 <FilterTrigger />
                 <HelpTrigger />
-                <ImageProgressIndicator total={imagesCount} current={imageIndex} />
+                <Progress total={imagesCount} current={imageIndex} />
                 <span>第 {bookIndex + 1}/{booksCount} 本 {imageIndex + 1}/{imagesCount} 页</span>
             </Layout>
         </CSSTransition>
