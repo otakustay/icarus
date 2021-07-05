@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {twoStopLinear} from '../utils/style';
 import InteractiveElement from './InteractiveElement';
 
-interface Props {
+export interface Props {
     active?: boolean;
     suggested?: boolean;
     disabled?: boolean;

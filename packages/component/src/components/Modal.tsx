@@ -59,7 +59,7 @@ const Layout = styled.div`
     ${zoomTransition}
 `;
 
-interface Props {
+export interface Props {
     visible?: boolean;
     title: string;
     children: ReactNode;

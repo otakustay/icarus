@@ -23,7 +23,7 @@ const Inner = styled.div`
     animation: .5s linear 0s infinite alternate ${loadingKeyframes};
 `;
 
-interface Props {
+export interface Props {
     className?: string;
 }
 

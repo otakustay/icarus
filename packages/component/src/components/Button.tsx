@@ -15,7 +15,7 @@ const ButtonWrapper = styled(InteractiveElement)`
     cursor: pointer;
 `;
 
-interface Props {
+export interface Props {
     type?: 'primary' | 'default';
     children: ReactNode;
     onClick?: () => void;

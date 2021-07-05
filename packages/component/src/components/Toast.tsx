@@ -18,7 +18,7 @@ const Layout = styled(Panel)`
     transition: opacity .6s linear;
 `;
 
-interface Props {
+export interface Props {
     icon: ReactElement;
     children: ReactNode;
     onExit?: () => void;

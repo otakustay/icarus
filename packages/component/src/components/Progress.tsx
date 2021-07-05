@@ -19,7 +19,7 @@ const Indicator = styled.i`
     background-color: var(--color-panel-text);
 `;
 
-interface Props {
+export interface Props {
     total: number;
     current: number;
 }
