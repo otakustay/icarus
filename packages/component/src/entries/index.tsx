@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {render} from 'react-dom';
 import {createGlobalStyle} from 'styled-components';
 import {IoChatbubblesOutline} from 'react-icons/io5';
@@ -22,6 +23,7 @@ function App() {
     const [toastVisible, showToast, hideToast] = useSwitch();
     const [modalVisible, openModal, closeModal] = useSwitch();
     const [loadingVisible, toggleLoading] = useToggle();
+    const [progress, setProgress] = useState(13);
 
     return (
         <>
@@ -45,13 +47,13 @@ function App() {
                     </div>
                     <h2 style={{color: 'var(--color-panel-text-secondary)'}}>输入框</h2>
                     <div style={{display: 'flex', gap: 16}}>
-                        <Input placeholder="等待输入……" />
+                        <Input bordered placeholder="等待输入……" />
                         <Input placeholder="无边框输入" />
                     </div>
                     <h2 style={{color: 'var(--color-panel-text-secondary)'}}>提示</h2>
                     <Button onClick={showToast}>显示提示信息</Button>
                     <h2 style={{color: 'var(--color-panel-text-secondary)'}}>进度条</h2>
-                    <Progress total={24} current={13} />
+                    <Progress total={24} current={progress} onChange={setProgress} />
                     <h2 style={{color: 'var(--color-panel-text-secondary)'}}>加载指示</h2>
                     <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
                         <Button onClick={toggleLoading}>切换加载指示</Button>

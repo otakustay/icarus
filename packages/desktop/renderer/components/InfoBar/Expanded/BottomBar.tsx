@@ -1,10 +1,25 @@
-import {forwardRef, ForwardedRef} from 'react';
+import {useCallback, forwardRef, ForwardedRef} from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 import {Progress, Panel, bottomToTopTransition} from '@icarus/component';
+import {useSetReadingContent} from '@/components/ReadingContextProvider';
+import {useRemote} from '@/components/RemoteContextProvider';
 import BookSelectTrigger from './BookSelectTrigger';
 import FilterTrigger from './FilterTrigger';
 import HelpTrigger from './HelpTrigger';
+
+const useMoveImage = (bookIndex: number) => {
+    const setReadingContent = useSetReadingContent();
+    const {navigate: ipc} = useRemote();
+    const moveToImage = useCallback(
+        async (imageIndex: number) => {
+            const content = await ipc.moveCursor({bookIndex, imageIndex});
+            setReadingContent(content);
+        },
+        [bookIndex, ipc, setReadingContent]
+    );
+    return moveToImage;
+};
 
 const Layout = styled(Panel)`
     position: fixed;
@@ -33,13 +48,15 @@ interface Props {
 
 // TODO: 配置设置 <IconTrigger icon={<IoSettingsOutline />} />
 function InfoBottomBar({forwardedRef, visible, booksCount, imagesCount, bookIndex, imageIndex}: Props) {
+    const moveToImage = useMoveImage(bookIndex);
+
     return (
         <CSSTransition in={visible} timeout={300} classNames="bottom-to-top">
             <Layout ref={forwardedRef}>
                 <BookSelectTrigger />
                 <FilterTrigger />
                 <HelpTrigger />
-                <Progress total={imagesCount} current={imageIndex} />
+                <Progress total={imagesCount} current={imageIndex} onChange={moveToImage} />
                 <span>第 {bookIndex + 1}/{booksCount} 本 {imageIndex + 1}/{imagesCount} 页</span>
             </Layout>
         </CSSTransition>
