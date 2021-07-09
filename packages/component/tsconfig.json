@@ -17,6 +17,10 @@
       "paths": {
         "@/*": ["./src/*"]
       },
+      "types": [
+        "react/next",
+        "react-dom/next"
+      ]
     },
     "include": ["src"]
 }

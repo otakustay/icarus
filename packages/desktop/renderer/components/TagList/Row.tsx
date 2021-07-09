@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import FlexCenter from '@/components/FlexCenter';
 import {TagStateGroup} from './interface';
 import Item from './Item';

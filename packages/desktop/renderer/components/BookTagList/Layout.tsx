@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {Panel, bottomToTopTransition, rightToLeftTransition} from '@icarus/component';
 
 const Layout = styled(Panel)`

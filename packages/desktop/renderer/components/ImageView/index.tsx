@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {IoImageOutline} from 'react-icons/io5';
 import {Direction} from '@icarus/shared';
 import {useElementSize} from '@huse/element-size';

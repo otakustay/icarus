@@ -34,7 +34,7 @@ export default function BookTagList({disabled}: Props) {
     useClickOutside(ref, () => setTagListVisible(false));
 
     return (
-        <CSSTransition in={tagListVisible} timeout={300} classNames="book-tag-list">
+        <CSSTransition nodeRef={ref} in={tagListVisible} timeout={300} classNames="book-tag-list">
             <Layout ref={ref}>
                 <NewInput onSubmit={attachNewTag} />
                 <TagList

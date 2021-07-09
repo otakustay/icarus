@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import {useRef} from 'react';
+import styled from '@emotion/styled';
 import {CSSTransition} from 'react-transition-group';
 import {IoInformationCircleOutline} from 'react-icons/io5';
 import {Panel, fadeTransition} from '@icarus/component';
@@ -41,9 +42,11 @@ interface Props {
 }
 
 export default function InfoBarMinimized({visible, booksCount, imagesCount, bookIndex, imageIndex, onExpand}: Props) {
+    const ref = useRef<HTMLDivElement>(null);
+
     return (
-        <CSSTransition in={visible} timeout={300} classNames="fade">
-            <Layout translucent as="aside" visible={visible}>
+        <CSSTransition nodeRef={ref} in={visible} timeout={300} classNames="fade">
+            <Layout translucent ref={ref} as="aside" visible={visible}>
                 第 {bookIndex + 1}/{booksCount} 本 {imageIndex + 1}/{imagesCount} 页
                 <ExpandIcon onClick={onExpand} />
             </Layout>

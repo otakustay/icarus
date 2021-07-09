@@ -16,6 +16,10 @@
         "paths": {
           "@/*": ["./renderer/*"]
         },
+        "types": [
+          "react/next",
+          "react-dom/next"
+        ]
     },
     "include": ["renderer", "main"]
 }

@@ -1,5 +1,5 @@
 import {forwardRef, ForwardedRef} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {CSSTransition} from 'react-transition-group';
 import {topToBottomTransition} from '@icarus/component';
 
@@ -35,7 +35,7 @@ interface Props {
 function InfoTopBar({forwardedRef, visible, bookName}: Props) {
     return (
         <>
-            <CSSTransition in={visible} timeout={300} classNames="top-to-bottom">
+            <CSSTransition nodeRef={forwardedRef} in={visible} timeout={300} classNames="top-to-bottom">
                 <Layout ref={forwardedRef}>
                     {bookName}
                 </Layout>

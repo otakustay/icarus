@@ -1,5 +1,5 @@
 import {ReactElement, CSSProperties} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import FlexCenter from '@/components/FlexCenter';
 
 const Layout = styled(FlexCenter)`

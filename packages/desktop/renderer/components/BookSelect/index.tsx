@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {useReadingBookIndex, useSetReadingContent, useTotalBookNames} from '@/components/ReadingContextProvider';
 import {useRemote} from '@/components/RemoteContextProvider';
 import Row from './Row';

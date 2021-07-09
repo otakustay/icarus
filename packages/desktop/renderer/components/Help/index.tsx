@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import * as K from '@/dicts/keyboard';
 import ShortcutRow from './ShortcutRow';
 

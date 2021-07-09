@@ -1,5 +1,5 @@
-import {ReactNode} from 'react';
-import styled from 'styled-components';
+import {useRef, ReactNode} from 'react';
+import styled from '@emotion/styled';
 import {CSSTransition} from 'react-transition-group';
 import {IoClose} from 'react-icons/io5';
 import {createTransition} from '../utils/transition';
@@ -67,9 +67,11 @@ export interface Props {
 }
 
 export default function Panel({visible = false, title, children, onClose}: Props) {
+    const ref = useRef<HTMLDivElement>(null);
+
     return (
-        <CSSTransition mountOnEnter in={visible} timeout={300} classNames="zoom">
-            <Layout>
+        <CSSTransition nodeRef={ref} mountOnEnter in={visible} timeout={300} classNames="zoom">
+            <Layout ref={ref}>
                 <Title>{title}</Title>
                 <Close onClick={onClose} />
                 <Content>

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {twoStopLinear} from '../utils/style';
 import InteractiveElement from './InteractiveElement';
 

@@ -22,11 +22,11 @@
     "treeify": "^1.1.0"
   },
   "devDependencies": {
-    "@reskript/cli": "^1.6.2",
-    "@reskript/cli-lint": "^1.6.2",
-    "@reskript/config-lint": "^1.6.2",
-    "@types/inquirer": "^7.3.2",
-    "@types/node": "^16.0.0",
+    "@reskript/cli": "^1.8.0",
+    "@reskript/cli-lint": "^1.8.0",
+    "@reskript/config-lint": "^1.8.0",
+    "@types/inquirer": "^7.3.3",
+    "@types/node": "^16.3.0",
     "@types/treeify": "^1.0.0",
     "eslint": "^7.30.0",
     "ts-jest": "^27.0.3",

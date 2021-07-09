@@ -1,5 +1,5 @@
 import {useCallback, forwardRef, ForwardedRef} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {CSSTransition} from 'react-transition-group';
 import {Progress, Panel, bottomToTopTransition} from '@icarus/component';
 import {useSetReadingContent} from '@/components/ReadingContextProvider';
@@ -20,6 +20,10 @@ const useMoveImage = (bookIndex: number) => {
     );
     return moveToImage;
 };
+
+const ProgressBar = styled.div`
+    margin-left: 20px;
+`;
 
 const Layout = styled(Panel)`
     position: fixed;
@@ -51,12 +55,14 @@ function InfoBottomBar({forwardedRef, visible, booksCount, imagesCount, bookInde
     const moveToImage = useMoveImage(bookIndex);
 
     return (
-        <CSSTransition in={visible} timeout={300} classNames="bottom-to-top">
+        <CSSTransition nodeRef={forwardedRef} in={visible} timeout={300} classNames="bottom-to-top">
             <Layout ref={forwardedRef}>
                 <BookSelectTrigger />
                 <FilterTrigger />
                 <HelpTrigger />
-                <Progress total={imagesCount} current={imageIndex} onChange={moveToImage} />
+                <ProgressBar>
+                    <Progress total={imagesCount} current={imageIndex} onChange={moveToImage} />
+                </ProgressBar>
                 <span>第 {bookIndex + 1}/{booksCount} 本 {imageIndex + 1}/{imagesCount} 页</span>
             </Layout>
         </CSSTransition>

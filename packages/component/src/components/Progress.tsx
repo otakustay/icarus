@@ -1,5 +1,5 @@
-import {useState, useCallback, HTMLAttributes} from 'react';
-import styled from 'styled-components';
+import {useState, useCallback, useRef, forwardRef, HTMLAttributes} from 'react';
+import styled from '@emotion/styled';
 import {useSwitch} from '@huse/boolean';
 import {useElementSize} from '@huse/element-size';
 import Draggable, {DraggableEvent, DraggableData} from 'react-draggable';
@@ -43,13 +43,13 @@ interface IndicatorProps extends HTMLAttributes<HTMLElement> {
     current: number;
 }
 
-function CurrentIndicator({currentLabelVisible, current, ...props}: IndicatorProps) {
-    return (
-        <IndicatorDot {...props}>
+const CurrentIndicator = forwardRef<HTMLElement, IndicatorProps>(
+    ({currentLabelVisible, current, ...props}, ref) => (
+        <IndicatorDot ref={ref} {...props}>
             {currentLabelVisible && <ValueHint>{current}</ValueHint>}
         </IndicatorDot>
-    );
-}
+    )
+);
 
 export interface Props {
     total: number;
@@ -59,6 +59,7 @@ export interface Props {
 
 function ProgressIndicator({total, current, onChange}: Props) {
     const [barRef, barSize] = useElementSize();
+    const indicatorRef = useRef<HTMLElement>(null);
     const [isDragging, startDrag, endDrag] = useSwitch();
     const [currentHint, setCurrentHint] = useState(current + 1);
     const snapGridSize = barSize ? Math.round(barSize.width / (total - 1)) : 0;
@@ -90,6 +91,7 @@ function ProgressIndicator({total, current, onChange}: Props) {
         <Wrapper style={{cursor: isDragging ? 'grabbing' : 'initial'}}>
             <Bar ref={barRef} style={{backgroundImage: gradient}}>
                 <Draggable
+                    nodeRef={indicatorRef}
                     axis="x"
                     grid={[snapGridSize, 0]}
                     bounds="parent"
@@ -100,6 +102,7 @@ function ProgressIndicator({total, current, onChange}: Props) {
                     onStop={notifyChange}
                 >
                     <CurrentIndicator
+                        ref={indicatorRef}
                         style={{cursor: isDragging ? 'grabbing' : 'grab'}}
                         currentLabelVisible={isDragging}
                         current={currentHint}

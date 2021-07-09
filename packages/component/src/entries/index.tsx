@@ -1,6 +1,6 @@
-import {useState} from 'react';
-import {render} from 'react-dom';
-import {createGlobalStyle} from 'styled-components';
+import {useState, StrictMode} from 'react';
+import {createRoot} from 'react-dom';
+import {Global, css} from '@emotion/react';
 import {IoChatbubblesOutline} from 'react-icons/io5';
 import {useSwitch, useToggle} from '@huse/boolean';
 import GlobalStyle from '@/components/GlobalStyle';
@@ -13,12 +13,6 @@ import Loading from '@/components/Loading';
 import Modal from '@/components/Modal';
 import Input from '@/components/Input';
 
-const DemoStyle = createGlobalStyle`
-    body {
-        overflow: auto;
-    }
-`;
-
 function App() {
     const [toastVisible, showToast, hideToast] = useSwitch();
     const [modalVisible, openModal, closeModal] = useSwitch();
@@ -26,9 +20,15 @@ function App() {
     const [progress, setProgress] = useState(13);
 
     return (
-        <>
+        <StrictMode>
             <GlobalStyle />
-            <DemoStyle />
+            <Global
+                styles={css`
+                    body {
+                        overflow: auto;
+                    }
+                `}
+            />
             <div style={{padding: 40}}>
                 <Panel as="main" style={{minHeight: 400, padding: 12}}>
                     <h1 style={{color: 'var(--color-panel-text-secondary)'}}>Icarus - 小薄本</h1>
@@ -76,11 +76,9 @@ function App() {
             <Modal visible={modalVisible} title="模态对话框" onClose={closeModal}>
                 <p>模态对话框内可以放置需要用户专注配制的内容</p>
             </Modal>
-        </>
+        </StrictMode>
     );
 }
 
-render(
-    <App />,
-    document.body.appendChild(document.createElement('div'))
-);
+const root = createRoot(document.body.appendChild(document.createElement('div')));
+root.render(<App />);

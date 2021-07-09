@@ -1,5 +1,5 @@
 import {useEffect, useRef, ReactElement, ReactNode} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Panel from './Panel';
 
 const FAILURE_NOTIFY_TIME_MS = 1000 * 3;

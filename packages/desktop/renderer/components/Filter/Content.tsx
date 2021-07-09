@@ -1,5 +1,5 @@
 import {useState, useCallback} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {ReadingFilter} from '@icarus/shared';
 import TagList from '@/components/TagList';
 import {useReadingFilter} from '@/components/ReadingContextProvider';

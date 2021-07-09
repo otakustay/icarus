@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {Loading} from '@icarus/component';
 import {useRemotePending} from '@/components/RemoteContextProvider';
 
