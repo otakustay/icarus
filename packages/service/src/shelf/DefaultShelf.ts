@@ -131,7 +131,6 @@ export default class DefaultShelf {
         await this.readingStateStore.moveCursor(bookIndex, imageIndex);
     }
 
-    // TODO: 好像多个tag不是交集而是并集了
     async applyFilter(filter: ReadingFilter): Promise<void> {
         await this.readingStateStore.applyFilter(filter);
     }

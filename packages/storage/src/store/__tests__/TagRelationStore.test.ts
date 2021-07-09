@@ -70,7 +70,7 @@ test('find books single tag', async () => {
     await store.close();
 });
 
-test('find books duplicate', async () => {
+test('find books multiple tag intersection', async () => {
     const relations: TagRelation[] = [
         {tagName: 'tag1', bookName: 'book1'},
         {tagName: 'tag1', bookName: 'book2'},
@@ -79,7 +79,8 @@ test('find books duplicate', async () => {
     const store = newStore(relations);
     await store.open();
     const books = await store.listBooksByTags(['tag1', 'tag2']);
-    expect(books.length).toBe(2);
+    expect(books.length).toBe(1);
+    expect(books[0]).toBe('book1');
     await store.close();
 });
 
