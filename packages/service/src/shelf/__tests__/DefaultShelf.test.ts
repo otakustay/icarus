@@ -114,6 +114,16 @@ test('save to book store when not exists', async () => {
     await shelf.close();
 });
 
+test('skip save when book empty', async () => {
+    const {shelf, bookStore} = newShelf();
+    await shelf.open();
+    await shelf.openBooks(['/test/book-null-empty.zip']);
+    const {book: currentBook} = await shelf.readCurrentContent();
+    expect(currentBook?.imagesCount).toBe(0);
+    expect(bookStore.saved.length).toBe(0);
+    await shelf.close();
+});
+
 test('read out of range error', async () => {
     const {shelf, readingStateStore} = newShelf();
     await shelf.open();

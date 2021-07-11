@@ -242,7 +242,10 @@ export default class DefaultShelf {
         }
 
         const info = await this.reader.readBookInfo(location);
-        await this.bookStore.save(info);
+        // 空的本子往往是解压没处理好，保存到数据库里会导致修复压缩包以后还是打不开，所以先不存
+        if (info.imagesCount) {
+            await this.bookStore.save(info);
+        }
         return info;
     }
 
