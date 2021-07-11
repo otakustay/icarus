@@ -22,9 +22,10 @@ import BookLayout from './BookLayout';
 
 interface BrokenProps {
     description: string;
+    detail?: string;
 }
 
-function BookBroken({description}: BrokenProps) {
+function BookBroken({description, detail}: BrokenProps) {
     const bookIndex = useReadingBookIndex();
     const imageIndex = useReadingImageIndex();
     const setReadingContent = useSetReadingContent();
@@ -46,7 +47,7 @@ function BookBroken({description}: BrokenProps) {
         }
     );
 
-    return <FullSizeWarn size={160} icon={<IoImagesOutline />} description={description} />;
+    return <FullSizeWarn size={160} icon={<IoImagesOutline />} description={description} detail={detail} />;
 }
 
 interface Props {
@@ -81,7 +82,11 @@ export default function BookReadableGuard({children}: Props) {
         <BookLayout isBookReadable={!!readingBook && !!activeBooksCount}>
             {
                 readingBook
-                    ? (readingBook.imagesCount ? children : <BookBroken description="当前本子没有任何图片" />)
+                    ? (
+                        readingBook.imagesCount
+                            ? children
+                            : <BookBroken description="当前本子没有任何图片" detail={readingBook.name} />
+                    )
                     : <BookBroken description={activeBooksCount ? '当前本子无法访问或已损坏' : '没有任何可看的本子'} />
             }
         </BookLayout>

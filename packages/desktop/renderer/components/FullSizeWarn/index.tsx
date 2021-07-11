@@ -13,13 +13,15 @@ interface Props {
     size?: number;
     icon: ReactElement<{style: CSSProperties}>;
     description: string;
+    detail?: string;
 }
 
-export default function FullSizeWarn({size = 48, icon, description}: Props) {
+export default function FullSizeWarn({size = 48, icon, description, detail}: Props) {
     return (
         <Layout style={{fontSize: size}}>
             {icon}
             <p style={{fontSize: size / 3}}>{description}</p>
+            <p style={{fontSize: 12, color: 'var(--color-panel-text-secondary)'}}>{detail}</p>
         </Layout>
     );
 }
