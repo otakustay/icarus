@@ -1,7 +1,7 @@
 import {useCallback} from 'react';
 import {ReadingFilter} from '@icarus/shared';
-import {useRequest} from '@huse/request';
 import {useRemote} from '@/components/RemoteContextProvider';
+import {useRequest} from '@/hooks/request';
 import {useReadingFilter, useSetReadingContent} from '@/components/ReadingContextProvider';
 import Content from './Content';
 import {stringifyFilter} from './utils';
@@ -26,7 +26,7 @@ interface Props {
 
 export default function Filter({onComplete}: Props) {
     const {tag: ipc} = useRemote();
-    const {pending, data: allTagNames = []} = useRequest(ipc.listAll, undefined);
+    const {state, data: allTagNames} = useRequest(ipc.listAll, undefined, {defaultValue: [], throwError: true});
     const readingFilter = useReadingFilter();
     const submitFilter = useSubmit(onComplete);
 
@@ -34,7 +34,7 @@ export default function Filter({onComplete}: Props) {
         <Content
             key={stringifyFilter(readingFilter)}
             allTagNames={allTagNames}
-            showTagEmpty={!pending}
+            showTagEmpty={state === 'hasValue'}
             onSubmit={submitFilter}
         />
     );

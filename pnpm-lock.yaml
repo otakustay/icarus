@@ -67,7 +67,7 @@ importers:
       '@huse/element-size': ^1.1.0
       '@huse/intended-lazy': ^1.1.1
       '@huse/number': ^1.2.1
-      '@huse/request': ^1.2.0
+      '@huse/previous-value': ^1.1.0
       '@huse/scroll-into-view': ^1.1.0
       '@icarus/component': 1.0.0
       '@icarus/layout': 1.0.0
@@ -88,6 +88,7 @@ importers:
       electron: 13.1.4
       electron-devtools-installer: ^3.2.0
       eslint: ^7.30.0
+      fast-json-stable-stringify: ^2.1.0
       node-loader: ^2.0.0
       path-to-regexp: ^6.2.0
       ramda: ^0.27.1
@@ -110,7 +111,7 @@ importers:
       '@huse/element-size': 1.1.0_2809a9cb067487d57565c7f65c527eaf
       '@huse/intended-lazy': 1.1.1_2809a9cb067487d57565c7f65c527eaf
       '@huse/number': 1.2.1_2809a9cb067487d57565c7f65c527eaf
-      '@huse/request': 1.2.0_2809a9cb067487d57565c7f65c527eaf
+      '@huse/previous-value': 1.1.0_2809a9cb067487d57565c7f65c527eaf
       '@huse/scroll-into-view': 1.1.0_2809a9cb067487d57565c7f65c527eaf
       '@icarus/component': link:../component
       '@icarus/layout': link:../layout
@@ -118,6 +119,7 @@ importers:
       '@icarus/shared': link:../shared
       '@icarus/storage': link:../storage
       electron-devtools-installer: 3.2.0
+      fast-json-stable-stringify: 2.1.0
       path-to-regexp: 6.2.0
       ramda: 0.27.1
       react: 18.0.0-alpha-ed6c091fe-20210701
@@ -2550,27 +2552,8 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /@huse/request/1.2.0_2809a9cb067487d57565c7f65c527eaf:
-    resolution: {integrity: sha512-m+M1JhWKv7oxObFn2DCfth+6Wv+DiEP1pLL1N9SndXCd8LSoZcz92yhJ4kHHhs9BRGGsdh5KQC74Q9R+fforOA==}
-    peerDependencies:
-      react: '>=16.8.0'
-    dependencies:
-      '@huse/previous-value': 1.1.0_2809a9cb067487d57565c7f65c527eaf
-      '@huse/update': 1.1.0_2809a9cb067487d57565c7f65c527eaf
-      query-shape: 1.0.2
-      react: 18.0.0-alpha-ed6c091fe-20210701
-    dev: false
-
   /@huse/scroll-into-view/1.1.0_2809a9cb067487d57565c7f65c527eaf:
     resolution: {integrity: sha512-bKvsGt2SvOcjjKn1eYWHv70TXxey34FxJQdbF9Cj8bKj3Kogd/u2gDZuzYfilAwlQbjEBEfpTiCeXquXmx2cFw==}
-    peerDependencies:
-      react: '>=16.8.0'
-    dependencies:
-      react: 18.0.0-alpha-ed6c091fe-20210701
-    dev: false
-
-  /@huse/update/1.1.0_2809a9cb067487d57565c7f65c527eaf:
-    resolution: {integrity: sha512-E95N7GW9Sd0BkZVmFkO2DoLvaK+wociwsO8pAG2W929qHhRcxoHU0iBLEu4ZTRBmN/k5jJA735W27W5hbOrPNg==}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
@@ -7262,7 +7245,6 @@ packages:
 
   /fast-json-stable-stringify/2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
-    dev: true
 
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=}
@@ -12167,10 +12149,6 @@ packages:
     resolution: {integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==}
     engines: {node: '>=0.6'}
     dev: true
-
-  /query-shape/1.0.2:
-    resolution: {integrity: sha512-6p5K0EABPhrc4GpoE7D6zQgiJs59hk3GzFoHOUGXuZi8tOaX2KlMB7EFmH9hxowRVg8Rxmu4BkMuGxljjTqrIQ==}
-    dev: false
 
   /querystring/0.2.0:
     resolution: {integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=}
