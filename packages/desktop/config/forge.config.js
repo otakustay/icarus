@@ -1,6 +1,7 @@
 module.exports = {
     packagerConfig: {
         name: 'Icarus Comic Reader',
+        icon: './config/icon.icns',
     },
     makers: [
         {
