@@ -35,11 +35,12 @@ export default class FileSystemReader implements ShelfReader {
         const [stat, contentBuffer] = await Promise.all([fs.stat(location), fs.readFile(location)]);
         const zip = new Zip(contentBuffer);
         const images = zip.getEntries().filter(e => isImageExtension(path.extname(e.entryName)));
+        const createTimeMs = Math.min(stat.ctimeMs, stat.atimeMs, stat.mtimeMs);
         return {
             name: extractName(location),
             size: stat.size,
             imagesCount: images.length,
-            createTime: stat.ctime.toISOString(),
+            createTime: (new Date(createTimeMs)).toISOString(),
         };
     }
 }
