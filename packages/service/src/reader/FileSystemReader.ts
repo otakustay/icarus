@@ -6,7 +6,7 @@ import Zip from 'adm-zip';
 import {Book} from '@icarus/shared';
 import {isBookExtension} from '../utils/book';
 import {extractName} from '../utils/path';
-import {isImageExtension} from '../utils/image';
+import {isReadableImage} from '../utils/image';
 import ShelfReader from './ShelfReader';
 
 export default class FileSystemReader implements ShelfReader {
@@ -34,7 +34,7 @@ export default class FileSystemReader implements ShelfReader {
 
         const [stat, contentBuffer] = await Promise.all([fs.stat(location), fs.readFile(location)]);
         const zip = new Zip(contentBuffer);
-        const images = zip.getEntries().filter(e => isImageExtension(path.extname(e.entryName)));
+        const images = zip.getEntries().filter(v => isReadableImage(v.entryName));
         const createTimeMs = Math.min(stat.ctimeMs, stat.atimeMs, stat.mtimeMs);
         return {
             name: extractName(location),

@@ -1,9 +1,8 @@
-import path from 'path';
 import fs from 'fs/promises';
 import {cached} from '@icarus/shared';
 import stringNaturalCompare from 'string-natural-compare';
 import Zip, {IZipEntry} from 'adm-zip';
-import {isImageExtension} from '../utils/image';
+import {isReadableImage} from '../utils/image';
 import {extractName} from '../utils/path';
 import Extractor, {Entry} from './Extractor';
 
@@ -26,7 +25,7 @@ export default class ZipExtractor implements Extractor {
 
     async readEntryAt(file: string, index: number): Promise<Entry> {
         const zip = await this.readZip(file);
-        const images = zip.getEntries().filter(v => isImageExtension(path.extname(v.entryName))).sort(compareEntry);
+        const images = zip.getEntries().filter(v => isReadableImage(v.entryName)).sort(compareEntry);
 
         if (index < 0 || index >= images.length) {
             throw new Error('Image index out of range');

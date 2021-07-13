@@ -1,16 +1,20 @@
 import path from 'path';
 import fs from 'fs/promises';
-import {isImageExtension, constructImageInfo} from '../image';
+import {isReadableImage, constructImageInfo} from '../image';
 
 test('image extension allow', () => {
-    expect(isImageExtension('.jpg')).toBe(true);
-    expect(isImageExtension('.jpeg')).toBe(true);
-    expect(isImageExtension('.JPG')).toBe(true);
-    expect(isImageExtension('.JPEG')).toBe(true);
-    expect(isImageExtension('.png')).toBe(true);
-    expect(isImageExtension('.PNG')).toBe(true);
-    expect(isImageExtension('.bmp')).toBe(true);
-    expect(isImageExtension('.BMP')).toBe(true);
+    expect(isReadableImage('foo.jpg')).toBe(true);
+    expect(isReadableImage('foo.jpeg')).toBe(true);
+    expect(isReadableImage('foo.JPG')).toBe(true);
+    expect(isReadableImage('foo.JPEG')).toBe(true);
+    expect(isReadableImage('foo.png')).toBe(true);
+    expect(isReadableImage('foo.PNG')).toBe(true);
+    expect(isReadableImage('foo.bmp')).toBe(true);
+    expect(isReadableImage('foo.BMP')).toBe(true);
+});
+
+test('image exclude __MACOSX', () => {
+    expect(isReadableImage('__MACOSX/foo.jpg')).toBe(false);
 });
 
 test('construct image', () => {

@@ -1,7 +1,12 @@
+import path from 'path';
 import sizeOf from 'image-size';
 import {Image} from '@icarus/shared';
 
-export const isImageExtension = (extension: string) => {
+const isUnwantedImage = (filename: string) => {
+    return filename.includes('__MACOSX');
+};
+
+const isImageExtension = (extension: string) => {
     const lowerCased = extension.toLowerCase();
 
     return lowerCased === '.jpg'
@@ -9,6 +14,11 @@ export const isImageExtension = (extension: string) => {
         || lowerCased === '.bmp'
         || lowerCased === '.png'
         || lowerCased === '.tiff';
+};
+
+export const isReadableImage = (filename: string) => {
+    const extension = path.extname(filename);
+    return isImageExtension(extension) && !isUnwantedImage(filename);
 };
 
 export const constructImageInfo = (name: string, contentBuffer: Buffer): Image => {
