@@ -1,6 +1,5 @@
-import {useRef, useCallback} from 'react';
+import {useRef, useEffect, useCallback} from 'react';
 import styled from '@emotion/styled';
-import {useScrollIntoView} from '@huse/scroll-into-view';
 
 const ActiveSign = styled.i`
     display: inline-block;
@@ -56,7 +55,22 @@ interface Props {
 
 export default function BookSelectRow({bookName, bookIndex, relativeIndex, onSelect}: Props) {
     const ref = useRef<HTMLLIElement>(null);
-    useScrollIntoView(ref, !relativeIndex, {block: 'center'});
+    useEffect(
+        () => {
+            const element = ref.current;
+            if (element && !relativeIndex) {
+                // `Modal`本身有一个动画，所以太早动没用
+                const timer = setTimeout(
+                    () => element.scrollIntoView({block: 'center', behavior: 'smooth'}),
+                    300
+                );
+                return () => {
+                    clearTimeout(timer);
+                };
+            }
+        },
+        [relativeIndex]
+    );
     const select = useCallback(
         () => onSelect(bookIndex),
         [bookIndex, onSelect]

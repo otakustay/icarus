@@ -16,11 +16,11 @@
     "ramda": "^0.27.1"
   },
   "devDependencies": {
-    "@reskript/cli": "^1.8.0",
-    "@reskript/cli-lint": "^1.8.0",
-    "@reskript/config-lint": "^1.8.0",
+    "@reskript/cli": "^1.9.0",
+    "@reskript/cli-lint": "^1.9.0",
+    "@reskript/config-lint": "^1.9.0",
     "@types/jest": "^26.0.24",
-    "@types/node": "^16.3.0",
+    "@types/node": "^16.3.2",
     "@types/ramda": "^0.27.44",
     "eslint": "^7.30.0",
     "jest": "^27.0.6",
