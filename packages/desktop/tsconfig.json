@@ -1,25 +1,16 @@
 {
-    "compilerOptions": {
-        "module": "ESNext",
-        "target": "ES2020",
-        "allowJs": false,
-        "esModuleInterop": true,
-        "moduleResolution": "node",
-        "strict": true,
-        "noFallthroughCasesInSwitch": true,
-        "skipLibCheck": true,
-        "declaration": true,
-        "baseUrl": ".",
-        "rootDir": ".",
-        "noEmit": true,
-        "jsx": "react-jsx",
-        "paths": {
-          "@/*": ["./renderer/*"]
-        },
-        "types": [
-          "react/next",
-          "react-dom/next"
-        ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "paths": {
+      "@/*": ["./renderer/*"]
     },
-    "include": ["renderer", "main"]
+    "types": [
+      "react/next",
+      "react-dom/next"
+    ]
+  },
+  "include": ["renderer", "main"]
 }

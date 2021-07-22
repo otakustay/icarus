@@ -63,3 +63,4 @@ typings/
 .DS_Store
 /packages/*/dist
 /packages/*/coverage
+/build-cache

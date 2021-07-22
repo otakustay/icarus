@@ -11,9 +11,11 @@
     ]
   },
   "scripts": {
-    "lint": "pnpm run --recursive lint",
-    "build": "pnpm run --recursive build",
-    "test": "pnpm run --recursive test"
+    "lint": "pnpm run -r lint",
+    "build": "pnpm run -r build",
+    "build-clean": "pnpm run -r --parallel clean && npm run build",
+    "releast": "pnpm run -r clean && pnpm run -r --filter=!@icarus/desktop build && pnpm run -r --filter=@icarus/desktop release",
+    "test": "pnpm run -r test"
   },
   "repository": {
     "type": "git",

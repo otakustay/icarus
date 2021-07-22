@@ -1,26 +1,17 @@
 {
-    "compilerOptions": {
-      "module": "ESNext",
-      "target": "ES2020",
-      "allowJs": false,
-      "esModuleInterop": true,
-      "moduleResolution": "node",
-      "strict": true,
-      "noFallthroughCasesInSwitch": true,
-      "skipLibCheck": true,
-      "declaration": true,
-      "baseUrl": ".",
-      "rootDir": "src",
-      "outDir": "dist",
-      "noEmit": true,
-      "jsx": "react-jsx",
-      "paths": {
-        "@/*": ["./src/*"]
-      },
-      "types": [
-        "react/next",
-        "react-dom/next"
-      ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src/*"]
     },
-    "include": ["src"]
+    "types": [
+      "react/next",
+      "react-dom/next"
+    ]
+  },
+  "include": ["src"]
 }

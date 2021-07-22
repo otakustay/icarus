@@ -4,7 +4,8 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsc --project tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
     "lint": "skr lint",
     "start": "skr dev"
   },

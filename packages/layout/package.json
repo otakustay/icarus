@@ -4,7 +4,8 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "clean": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
     "test": "jest",
     "lint": "skr lint"
   },

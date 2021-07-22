@@ -1,18 +1,19 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "target": "ES2020",
+        "target": "ESNext",
         "allowJs": false,
         "esModuleInterop": true,
         "moduleResolution": "node",
         "strict": true,
         "noFallthroughCasesInSwitch": true,
         "skipLibCheck": true,
-        "declaration": true,
-        "baseUrl": ".",
+        "declaration": true
     },
-    "include": [
-        "packages/*/src/**/*.ts",
-        "packages/*/src/**/*.tsx"
+    "exclude": [
+        "node_modules",
+        "dist",
+        "output",
+        "out"
     ]
 }

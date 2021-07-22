@@ -5,9 +5,10 @@
   "description": "小薄本 - 单手看漫画",
   "main": ".webpack/main",
   "scripts": {
+    "clean": "rm -rf out dist .webpack",
     "start": "NODE_ENV=development electron-forge start",
     "build": "NODE_ENV=production electron-forge package",
-    "release": "NODE_ENV=production electron-forge make",
+    "release": "npm run clean && NODE_ENV=production electron-forge make",
     "lint": "skr lint config main renderer"
   },
   "keywords": [],

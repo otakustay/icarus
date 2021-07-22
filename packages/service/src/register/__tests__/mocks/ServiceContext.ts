@@ -1,4 +1,4 @@
-import {Shelf} from 'packages/service/src';
+import Shelf from '../../../shelf/Shelf';
 import {ErrorCode, ErrorType, ServiceContext} from '../../interface';
 
 export default class TestServiceContext implements ServiceContext {
