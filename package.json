@@ -14,7 +14,7 @@
     "lint": "pnpm run -r lint",
     "build": "pnpm run -r build",
     "build-clean": "pnpm run -r --parallel clean && npm run build",
-    "releast": "pnpm run -r clean && pnpm run -r --filter=!@icarus/desktop build && pnpm run -r --filter=@icarus/desktop release",
+    "release": "pnpm run -r clean && pnpm run -r --filter=!@icarus/desktop build && pnpm run -r --filter=@icarus/desktop release",
     "test": "pnpm run -r test"
   },
   "repository": {

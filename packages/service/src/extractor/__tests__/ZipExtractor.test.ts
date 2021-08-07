@@ -3,6 +3,7 @@ import FileType from 'file-type';
 import ZipExtractor from '../ZipExtractor';
 
 const fixture = path.join(__dirname, 'fixtures', 'nested.zip');
+const nextFixture = path.join(__dirname, 'fixtures', 'next.zip');
 
 test('image sorted', async () => {
     const extractor = new ZipExtractor();
@@ -25,4 +26,11 @@ test('out of range', async () => {
     const extractor = new ZipExtractor();
     await expect(() => extractor.readEntryAt(fixture, 3)).rejects.toThrow();
     await expect(() => extractor.readEntryAt(fixture, -1)).rejects.toThrow();
+});
+
+test('predict cache', async () => {
+    const extractor = new ZipExtractor(2, () => Promise.resolve([nextFixture]));
+    await extractor.readEntryAt(fixture, 0);
+    const entry = await extractor.readEntryAt(nextFixture, 0);
+    expect(entry.entryName).toBe('1.png');
 });

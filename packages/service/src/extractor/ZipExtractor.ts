@@ -6,6 +6,8 @@ import {isReadableImage} from '../utils/image';
 import {extractName} from '../utils/path';
 import Extractor, {Entry} from './Extractor';
 
+type Predict = (current: string) => Promise<string[]>;
+
 const compareEntry = (x: IZipEntry, y: IZipEntry) => {
     const xName = extractName(x.entryName);
     const yName = extractName(y.entryName);
@@ -14,13 +16,15 @@ const compareEntry = (x: IZipEntry, y: IZipEntry) => {
 
 export default class ZipExtractor implements Extractor {
     private readonly readZip: (filename: string) => Promise<Zip>;
+    private readonly predict?: Predict;
 
-    constructor() {
+    constructor(cacheCapacity?: number, predict?: Predict) {
         const readZip = async (filename: string) => {
             const contentBuffer = await fs.readFile(filename);
             return new Zip(contentBuffer);
         };
-        this.readZip = cached(readZip);
+        this.readZip = cached(readZip, cacheCapacity);
+        this.predict = predict;
     }
 
     async readEntryAt(file: string, index: number): Promise<Entry> {
@@ -31,10 +35,20 @@ export default class ZipExtractor implements Extractor {
             throw new Error('Image index out of range');
         }
 
+        this.prepareCache(file).catch(() => undefined);
+
         const entry = images[index];
         return {
             entryName: entry.entryName,
             contentBuffer: images[index].getData(),
         };
+    }
+
+    private async prepareCache(file: string) {
+        // 缓存可预测的内容
+        const prediction = await this.predict?.(file);
+        if (prediction) {
+            return Promise.all(prediction.map(v => this.readZip(v)));
+        }
     }
 }

@@ -20,3 +20,14 @@ test('cahce by key', async () => {
     const secondRead = await read(2);
     expect(firstRead).not.toBe(secondRead);
 });
+
+test('capacity expire', async () => {
+    const read = cached(value => Promise.resolve({value}), 2);
+    const old = await read(1);
+    await read(2);
+    const future = await read(3);
+    const oldAgain = await read(1);
+    const futureAgain = await read(3);
+    expect(oldAgain).not.toBe(old);
+    expect(futureAgain).toBe(future);
+});

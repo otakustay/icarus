@@ -1,19 +1,26 @@
-const EMPTY = Symbol('LazyEmpty');
+type Async<K, T> = (key: K) => Promise<T>;
 
 interface Container<K, T> {
-    key: K | typeof EMPTY;
-    value: T | typeof EMPTY;
+    key: K;
+    value: T;
 }
 
-export default <K, T extends Exclude<any, symbol>>(factory: (key: K) => Promise<T>): (key: K) => Promise<T> => {
-    const container: Container<K, T> = {key: EMPTY, value: EMPTY};
+export default <K, T extends Exclude<any, symbol>>(factory: Async<K, T>, capacity: number = 1): Async<K, T> => {
+    const cache: Array<Container<K, Promise<T>>> = [];
 
     return async (key: K): Promise<T> => {
-        if (container.value === EMPTY || container.key !== key) {
-            const value = await factory(key);
-            container.key = key;
-            container.value = value;
+        const cached = cache.find(v => v.key === key);
+
+        if (cached) {
+            return cached.value;
         }
-        return container.value;
+
+        const value = factory(key);
+
+        if (cache.length === capacity) {
+            cache.shift();
+        }
+        cache.push({key, value});
+        return value;
     };
 };

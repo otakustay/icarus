@@ -367,6 +367,15 @@ test('list tags', async () => {
     await shelf.close();
 });
 
+test('list books locations', async () => {
+    const {shelf} = newShelf();
+    await shelf.open();
+    await shelf.openDirectory('/test');
+    const bookNames = await shelf.listBookLocations();
+    expect(bookNames).toEqual(['/test/book1.zip', '/test/book2.zip']);
+    await shelf.close();
+});
+
 test('list books', async () => {
     const {shelf} = newShelf();
     await shelf.open();

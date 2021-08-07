@@ -5,12 +5,13 @@ import Extractor from '../extractor/Extractor';
 import {extractName} from '../utils/path';
 import {constructImageInfo} from '../utils/image';
 import CollabrativeMatrix from './CollabrativeMatrix';
+import Shelf from './Shelf';
 
 interface ActiveReadingState extends ReadingState {
     originalBookLocations: string[];
 }
 
-export default class DefaultShelf {
+export default class DefaultShelf implements Shelf {
     private readonly bookStore: BookStore;
     private readonly tagRelationStore: TagRelationStore;
     private readonly readingStateStore: ReadingStateStore;
@@ -135,8 +136,13 @@ export default class DefaultShelf {
         await this.readingStateStore.applyFilter(filter);
     }
 
-    async listBookNames(): Promise<string[]> {
+    async listBookLocations(): Promise<string[]> {
         const {bookLocations} = await this.readActiveReadingState();
+        return bookLocations;
+    }
+
+    async listBookNames(): Promise<string[]> {
+        const bookLocations = await this.listBookLocations();
         return bookLocations.map(extractName);
     }
 

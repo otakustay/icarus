@@ -66,6 +66,10 @@ export default class TestShelf implements Shelf {
         this.filter = filter;
     }
 
+    async listBookLocations(): Promise<string[]> {
+        return ['/test/book1', '/test/book2'];
+    }
+
     async listBookNames(): Promise<string[]> {
         return ['book1', 'book2'];
     }

@@ -45,7 +45,19 @@ export const setup = async (options: ShelfSetupOptions) => {
             )
         ),
         new FileSystemReader(),
-        new ZipExtractor()
+        new ZipExtractor(
+            2,
+            async current => {
+                if (!shelf.current) {
+                    return [];
+                }
+
+                const bookLocations = await shelf.current.listBookLocations();
+                const index = bookLocations.indexOf(current);
+                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                return (index < 0 || index >= bookLocations.length - 1) ? [] : [bookLocations[index + 1]];
+            }
+        )
     );
     await shelf.current.open();
 };
