@@ -1,4 +1,3 @@
-/* eslint-disable init-declarations */
 declare module '*.less' {
     const content: {
         [className: string]: string;
