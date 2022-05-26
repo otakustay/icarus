@@ -35,7 +35,7 @@ export const useTakeLatest = <I, O>(task: Async<I, O>): [State<O>, Async<I, void
             }
             catch (ex) {
                 if (latestKey.current === key) {
-                    setState({state: 'hasError', error: ex});
+                    setState({state: 'hasError', error: ex instanceof Error ? ex : new Error(`${ex}`)});
                 }
             }
         },

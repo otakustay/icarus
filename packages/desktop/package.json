@@ -64,7 +64,7 @@
     "node-loader": "^2.0.0",
     "stylelint": "^13.13.1",
     "ts-loader": "^9.2.5",
-    "typescript": "^4.3.5",
-    "webpack": "^5.49.0"
+    "typescript": "^4.7.2",
+    "webpack": "^5.72.1"
   }
 }

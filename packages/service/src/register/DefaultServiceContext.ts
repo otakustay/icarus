@@ -42,12 +42,12 @@ export default class DefaultServiceContext implements ServiceContext {
         };
     }
 
-    async error(type: ErrorType, code: ErrorCode, message: string, cause?: Error) {
+    async error(type: ErrorType, code: ErrorCode, message: string, cause?: unknown) {
         this.response = {
             type,
             code,
             message,
-            cause,
+            cause: cause instanceof Error ? cause : new Error(`${cause}`),
             state: 'hasError',
         };
     }

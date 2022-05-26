@@ -11,7 +11,7 @@ export interface ServiceContext {
     body: unknown;
     cacheable(this: ServiceContext, maxAge: number): Promise<void>;
     success(this: ServiceContext, data?: any): Promise<void>;
-    error(this: ServiceContext, type: ErrorType, code: ErrorCode, message: string, error?: Error): Promise<void>;
+    error(this: ServiceContext, type: ErrorType, code: ErrorCode, message: string, error?: unknown): Promise<void>;
 }
 
 export type RouteExecute = (context: ServiceContext) => Promise<void>;

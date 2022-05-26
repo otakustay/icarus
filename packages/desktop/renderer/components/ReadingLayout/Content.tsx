@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {Direction} from '@icarus/shared';
+import {Direction, stringifyError} from '@icarus/shared';
 import ImageView from '@/components/ImageView';
 import {useRemote} from '@/components/RemoteContextProvider';
 import {useReadingBookIndex, useReadingImageIndex, useSetReadingContent} from '@/components/ReadingContextProvider';
@@ -20,7 +20,7 @@ export default function Content() {
             catch (ex) {
                 // TODO: 需要错误处理
                 // eslint-disable-next-line no-console
-                console.log(ex.message);
+                console.log(stringifyError(ex));
             }
         },
         [bookIndex, imageIndex, ipc.nextImage, ipc.previousImage, setReadingContent]
