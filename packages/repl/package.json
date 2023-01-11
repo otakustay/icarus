@@ -23,14 +23,15 @@
     "treeify": "^1.1.0"
   },
   "devDependencies": {
-    "@reskript/cli": "^1.13.1",
-    "@reskript/cli-lint": "^1.13.1",
-    "@reskript/config-lint": "^1.13.1",
-    "@types/inquirer": "^7.3.3",
-    "@types/node": "^16.4.13",
+    "@reskript/cli": "5.7.4",
+    "@reskript/cli-lint": "5.7.4",
+    "@reskript/config-lint": "5.7.4",
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.11.18",
     "@types/treeify": "^1.0.0",
-    "eslint": "^7.32.0",
-    "ts-jest": "^27.0.4",
+    "eslint": "^8.31.0",
+    "stylelint": "^14.16.1",
+    "ts-jest": "^29.0.3",
     "ts-node": "^10.8.0",
     "typescript": "^4.7.2"
   }

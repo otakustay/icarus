@@ -1,4 +1,4 @@
-import {urls} from '@icarus/service';
+import urls from '@icarus/service/urls';
 import {createInterface} from './request';
 
 interface TagApply {

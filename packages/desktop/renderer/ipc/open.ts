@@ -1,4 +1,4 @@
-import {urls, OpenByDirectoryBody, OpenByBooksBody} from '@icarus/service';
+import urls from '@icarus/service/urls';
 import {InitialReadingContent} from '@icarus/shared';
 import {createInterface} from './request';
 
@@ -8,7 +8,7 @@ export default {
         urls.shelf,
         {
             processInput: (location: string) => {
-                const params: OpenByDirectoryBody = {location, type: 'directory'};
+                const params = {location, type: 'directory'};
                 return params;
             },
         }
@@ -18,7 +18,7 @@ export default {
         urls.shelf,
         {
             processInput: (locations: string[]) => {
-                const params: OpenByBooksBody = {locations, type: 'books'};
+                const params = {locations, type: 'books'};
                 return params;
             },
         }

@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "jsx": "react-jsx",
     "noEmit": true,
+    "moduleResolution": "NodeNext",
     "paths": {
       "@/*": ["./renderer/*"]
     },

@@ -1,5 +1,5 @@
 import {useState, StrictMode} from 'react';
-import {createRoot} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {Global, css} from '@emotion/react';
 import {IoChatbubblesOutline} from 'react-icons/io5';
 import {useSwitch, useToggle} from '@huse/boolean';

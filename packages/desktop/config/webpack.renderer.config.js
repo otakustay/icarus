@@ -1,39 +1,51 @@
-const path = require('path');
-const {createWebpackConfig, createRuntimeBuildEnv} = require('@reskript/config-webpack');
-const {readProjectSettings} = require('@reskript/settings');
+const path = require('node:path');
 
-const cwd = process.cwd();
-
-const createBaseConfig = () => {
-    const projectSettings = readProjectSettings({cwd}, 'build');
-    const entry = {
-        file: path.join(cwd, 'renderer', 'entries', 'index.ts'),
-        name: 'index',
-        template: null,
-        config: {},
-    };
-    const buildEnv = {
-        hostPackageName: 'icarus',
-        projectSettings,
-        usage: 'build',
-        mode: process.env.NODE_ENV || 'production',
-        cwd,
+module.exports = async (env, args) => {
+    const options = {
+        cwd: path.resolve(__dirname, '..'),
+        commandName: args.mode === 'production' ? 'build' : 'dev',
+        mode: args.mode,
         srcDirectory: 'renderer',
+        entriesDirectory: 'entries',
+        entriesOnly: ['index'],
+        strict: false,
+        analyze: false,
+        clean: false,
+        profile: false,
+        sourceMaps: true,
+        watch: false,
     };
-    const runtimeBuildEnv = createRuntimeBuildEnv(buildEnv);
+    const {readProjectSettings} = await import('@reskript/settings');
+    const entryLocation = {
+        cwd: options.cwd,
+        srcDirectory: options.srcDirectory,
+        entryDirectory: options.entriesDirectory,
+        only: options.entriesOnly,
+    };
+    const {collectEntries, createWebpackConfig} = await import('@reskript/config-webpack');
+    const settings = await readProjectSettings(options);
+    const entries = await collectEntries(entryLocation);
+    const buildEnv = {
+        hostPackageName: '@icarus/desktop',
+        projectSettings: settings,
+        usage: args.mode === 'production' ? 'build' : 'dev',
+        mode: options.mode,
+        cwd: options.cwd,
+        srcDirectory: options.srcDirectory,
+        cache: 'transient',
+    };
+    const {createRuntimeBuildEnv} = await import('@reskript/build-utils');
+    const runtimeBuildEnv = await createRuntimeBuildEnv(buildEnv);
     const buildContext = {
         ...runtimeBuildEnv,
-        entries: [entry],
+        entries,
         features: {},
         buildTarget: 'stable',
         isDefaultTarget: true,
     };
-    const configuration = createWebpackConfig(buildContext);
-    delete configuration.entry;
-    delete configuration.output;
-    return configuration;
+    const config = await createWebpackConfig(buildContext);
+    delete config.entry;
+    delete config.output;
+    config.target = 'electron-renderer';
+    return config;
 };
-
-const base = createBaseConfig();
-
-module.exports = {...base, target: 'electron-renderer'};
