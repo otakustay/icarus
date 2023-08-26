@@ -4,14 +4,11 @@
     "baseUrl": ".",
     "jsx": "react-jsx",
     "noEmit": true,
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
       "@/*": ["./renderer/*"]
-    },
-    "types": [
-      "react/next",
-      "react-dom/next"
-    ]
+    }
   },
   "include": ["renderer", "main"]
 }
