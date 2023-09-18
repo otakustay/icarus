@@ -59,7 +59,7 @@
     "@types/react-transition-group": "^4.4.2",
     "@vercel/webpack-asset-relocator-loader": "^1.6.0",
     "core-js": "^3.27.1",
-    "electron": "22.0.0",
+    "electron": "22.3.24",
     "eslint": "^8.31.0",
     "node-loader": "^2.0.0",
     "original-fs": "^1.2.0",
