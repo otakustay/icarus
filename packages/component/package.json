@@ -4,7 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "build": "tsc --project tsconfig.build.json",
     "lint": "skr lint",
     "start": "skr dev"
@@ -22,6 +22,7 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-transition-group": "^4.4.6",
     "eslint": "^8.48.0",
+    "rimraf": "^5.0.1",
     "stylelint": "^15.10.3",
     "typescript": "^5.2.2"
   },
@@ -36,6 +37,6 @@
     "react-transition-group": "^4.4.5"
   },
   "peerDependencies": {
-    "react": "^18.0.0-alpha-b9934d6db-20210805"
+    "react": "^18.0.0"
   }
 }

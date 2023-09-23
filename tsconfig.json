@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "target": "ESNext",
+        "target": "ES2022",
         "allowJs": false,
         "esModuleInterop": true,
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "strict": true,
         "noFallthroughCasesInSwitch": true,
         "skipLibCheck": true,
